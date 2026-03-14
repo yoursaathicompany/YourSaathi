@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      # Note: Pass these in via a .env file when running docker-compose up
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+      - SUPABASE_URL=${SUPABASE_URL}
+      - SUPABASE_ANON_KEY=${SUPABASE_ANON_KEY}
+    restart: always
+
+# Note: A full local Supabase stack relies on multiple containers 
+# (postgres, realtime, storage, auth, rest, studio). 
+# We recommend using Supabase CLI `supabase start` natively locally 
+# or connecting the web container above to a hosted Supabase project.

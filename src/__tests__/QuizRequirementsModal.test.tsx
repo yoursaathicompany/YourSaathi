@@ -11,6 +11,13 @@ jest.mock('next/navigation', () => ({
   },
 }));
 
+// Mock useSession from next-auth
+jest.mock('next-auth/react', () => ({
+  useSession() {
+    return { data: null, status: 'unauthenticated' };
+  },
+}));
+
 describe('QuizRequirementsModal', () => {
   it('renders without crashing', () => {
     render(<QuizRequirementsModal isOpen={true} onClose={() => {}} />);

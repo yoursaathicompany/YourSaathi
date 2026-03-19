@@ -18,6 +18,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "YourSaathi | AI-Powered Learning",
   description: "YourSaathi is an AI-powered quiz generation platform that helps you create and take quizzes on any topic and earn coins while you learn.",
+  other: {
+    "google-adsense-account": "ca-pub-4043118352636472",
+  },
 };
 
 export default function RootLayout({
@@ -27,14 +30,6 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="dark">
-      <head>
-        <Script
-          async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4043118352636472"
-          crossOrigin="anonymous"
-          strategy="beforeInteractive"
-        />
-      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-[#09090b] text-white min-h-screen`}
       >
@@ -44,6 +39,12 @@ export default function RootLayout({
             {children}
           </main>
         </SessionProvider>
+        <Script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4043118352636472"
+          crossOrigin="anonymous"
+          strategy="afterInteractive"
+        />
       </body>
     </html>
   );

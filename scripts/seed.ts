@@ -1,80 +1,90 @@
-const { createClient } = require('@supabase/supabase-js');
-const fs = require('fs');
-const path = require('path');
-require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
+import { createClient } from '@supabase/supabase-js';
+import * as dotenv from 'dotenv';
+import { v4 as uuidv4 } from 'uuid';
 
-const supabaseUrl = process.env.SUPABASE_URL || 'http://127.0.0.1:54321';
-const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+dotenv.config();
+
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL || 'http://127.0.0.1:54321';
+const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || '';
 
 if (!supabaseKey) {
-  console.error("Please provide SUPABASE_SERVICE_ROLE_KEY in .env");
+  console.error('Missing SUPABASE_SERVICE_ROLE_KEY');
   process.exit(1);
 }
 
 const supabase = createClient(supabaseUrl, supabaseKey);
 
-const sampleQuestions = Array.from({ length: 100 }).map((_, i) => ({
-  type: i % 5 === 0 ? 'mcq_multi' : 'mcq_single',
-  content: `Sample unique question content ${i + 1} regarding an educational topic.`,
-  options: ['Option A', 'Option B', 'Option C', 'Option D'],
-  correct_answer: i % 5 === 0 ? ['Option A', 'Option C'] : 'Option B',
-  explanation: `This is a sample explanation for question ${i + 1} which is less than 60 words.`,
-  hints: ['Hint 1', 'Hint 2'],
-  sources: [],
-  tags: ['sample', 'education'],
-  metadata: {
-    estimated_time_seconds: 30,
-    difficulty_score: 0.5,
-    media: i % 10 === 0 ? { type: 'image', url: 'https://placehold.co/600x400' } : null
-  },
-  order_index: i
-}));
-
 async function seed() {
-  console.log("Starting seed process...");
+  console.log('🌱 Seeding QuizFlow database...');
 
-  // 1. Create a dummy public profile for a teacher
-  const { data: profile, error: profileErr } = await supabase.from('profiles').insert({
-    id: '00000000-0000-0000-0000-000000000000', // Need proper auth user normally, assuming this works with disabled RLS seed
-    full_name: 'Seed Teacher Admin',
-    role: 'teacher'
-  }).select().single();
+  // 1. Categories
+  const categories = [
+    { name: 'Mathematics & Logic', slug: 'math', icon: 'Calculator', color: 'from-blue-500 to-cyan-400' },
+    { name: 'Science & Nature', slug: 'science', icon: 'Beaker', color: 'from-emerald-500 to-green-400' },
+    { name: 'Computer Science', slug: 'cs', icon: 'Code2', color: 'from-purple-500 to-indigo-500' },
+    { name: 'World History', slug: 'history', icon: 'Globe', color: 'from-orange-500 to-yellow-500' },
+    { name: 'Literature', slug: 'lit', icon: 'Book', color: 'from-pink-500 to-rose-400' },
+    { name: 'Competitive Exams', slug: 'comp', icon: 'Target', color: 'from-red-500 to-orange-500' },
+  ];
 
-  const profileId = profile?.id || null;
+  const { data: catData, error: catErr } = await supabase.from('categories').upsert(categories, { onConflict: 'slug' }).select();
+  if (catErr) console.error('Cat Seed Error:', catErr);
+  console.log(`✅ Seeded ${catData?.length} categories`);
 
-  // 2. Create a generic public quiz
-  const { data: quiz, error: quizErr } = await supabase.from('quizzes').insert({
-    title: '100 Question Comprehensive Sample Quiz',
-    description: 'A pre-seeded quiz containing diverse topics and question types to verify the system works.',
+  // 2. Demo User (Teacher) in next_auth schema first
+  const teacherId = '00000000-0000-0000-0000-000000000001';
+  await supabase.from('users').delete().eq('id', teacherId); // Clear old app row
+  
+  // Note: Handle NextAuth triggers sync, but to be safe we insert into both or rely on trigger
+  // Since we have a trigger on next_auth.users -> public.users, we just need the next_auth row
+  const { error: authUserErr } = await supabase.schema('next_auth').from('users').upsert({
+    id: teacherId,
+    name: 'Seed Teacher Admin',
+    email: 'teacher@quizflow.dev',
+    image: null,
+    emailVerified: new Date().toISOString()
+  });
+
+  if (authUserErr) console.error('Auth User Seed Error:', authUserErr);
+
+  // The trigger handle_next_auth_user will auto-create the public.users row.
+  // We just update the role to admin afterward.
+  await supabase.from('users').update({ role: 'admin', coins_balance: 1000 }).eq('id', teacherId);
+
+  // 3. Quiz & 100 Questions
+  console.log('Generating 100 questions...');
+  
+  const { data: quiz } = await supabase.from('quizzes').upsert({
+    title: 'General Knowledge Mega Quiz',
     topic: 'General Knowledge',
     difficulty: 'medium',
     student_level: 'college',
+    creator_id: teacherId,
     is_public: true,
-    creator_id: profileId,
-    meta: { count: 100, estimated_time: 3000 }
   }).select().single();
 
-  if (quizErr) {
-    console.error("Failed to seed quiz:", quizErr);
-    // Ignore error if RLS or foreign key is an issue for initial dummy setup without real auth users
+  if (quiz) {
+    const questions = [];
+    for (let i = 1; i <= 100; i++) {
+      questions.push({
+        quiz_id: quiz.id,
+        type: 'mcq_single',
+        content: `Sample Question #${i}: What is the result of ${i} + ${i}?`,
+        options: [String(i * 2), String(i * 2 + 1), String(i * 2 - 1), String(i + 1)],
+        correct_answer: String(i * 2),
+        explanation: `The sum of ${i} and ${i} is exactly ${i * 2}. This is a basic arithmetic question for demonstration.`,
+        hints: ['Try adding the numbers.', 'It is an even number.'],
+        order_index: i,
+        metadata: { estimated_time_seconds: 30, difficulty_score: 1 }
+      });
+    }
+
+    const { error: qErr } = await supabase.from('questions').insert(questions);
+    if (qErr) console.error('Question Seed Error:', qErr);
+    else console.log('✅ Seeded 100 questions into "General Knowledge Mega Quiz"');
   }
 
-  const quizId = quiz?.id || null;
-
-  // 3. Insert questions mapped to the quiz
-  if (quizId) {
-    const questionsToInsert = sampleQuestions.map(q => ({ ...q, quiz_id: quizId }));
-    const { error: qErr } = await supabase.from('questions').insert(questionsToInsert);
-    if (qErr) console.error("Error inserting questions:", qErr.message);
-    else console.log("Successfully inserted 100 sample questions linked to quiz", quizId);
-  } else {
-    // Insert just as floating questions if quiz failed
-    const { error: qErr } = await supabase.from('questions').insert(sampleQuestions);
-    if (qErr) console.error("Error inserting questions:", qErr.message);
-    else console.log("Successfully inserted 100 floating sample questions.");
-  }
-
-  console.log("Seed completed.");
+  console.log('🏁 Seeding complete!');
 }
 
 seed();

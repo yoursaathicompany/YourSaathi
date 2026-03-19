@@ -1,63 +1,44 @@
-# ZQuiz - AI Generated Quizzes
+# QuizFlow 🪙
 
-A production-grade Next.js (App Router) full-stack application that dynamically generates rigorous, highly-typed quizzes using Google Gemini 2.5 and Supabase.
+QuizFlow is a production-ready, AI-powered quiz generation platform. It uses Google's Gemini 1.5 Flash to generate rigorous, verified quizzes on any topic and rewards students with coins for correct answers.
 
-## Tech Stack
-- **Framework:** Next.js 15 (App Router, React 19)
-- **Styling:** Tailwind CSS + Framer Motion (Glassmorphism & Gradients)
-- **Database & Auth:** Supabase + NextAuth.js
-- **Generative AI:** Google Gen AI SDK (`gemini-2.5-flash`)
-- **Validation:** Zod
-
-## Local Setup & Development
-
-1. **Clone the repository and install dependencies:**
-   \`\`\`bash
-   npm install
-   \`\`\`
-
-2. **Environment Setup:**
-   Copy the example environment file and fill in your keys (You MUST provide a valid Gemini API Key):
-   \`\`\`bash
-   cp .env.example .env
-   # Edit .env file with your valid GEMINI_API_KEY
-   \`\`\`
-
-3. **Supabase Local (Optional Docker Emulation) or Cloud**
-   You can link to a cloud Supabase database or run locally. To use the included seed script:
-   \`\`\`bash
-   # Make sure SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY are set in .env
-   npm run seed
-   \`\`\`
-
-4. **Start the Development Server:**
-   \`\`\`bash
-   npm run dev
-   \`\`\`
-   Open [http://localhost:3000](http://localhost:3000)
-
-## Docker Deployment (Compose)
-
-A `docker-compose.yml` is provided for running this alongside a mock Supabase stack or isolated web container.
-
+## 🚀 One-Line Dev Command
 \`\`\`bash
-docker-compose up --build -d
+cp .env.example .env && npm install && npm run seed && npm run dev
 \`\`\`
-*Access the app at `http://localhost:3000`*
 
-## Features Implemented
-- **Landing Page Grid:** Explore interactive categories.
-- **AI Generation Forms:** Pre-configured prompts matching topic, difficulty, and depth.
-- **Strict JSON Enforcement:** AI responses are strictly validated via Zod on the backend.
-- **Interactive Quiz Player:** Realtime feedback, animated progress, timer, and end-of-game score screen.
-- **Dashboard & Settings:** Extensible layouts for teachers and students.
+## 🛠️ Tech Stack
+- **Framework**: Next.js 16 (App Router) + TypeScript
+- **Styling**: Tailwind CSS 4 + Framer Motion
+- **Database & Auth**: Supabase (PostgreSQL) + NextAuth
+- **AI**: Google Gemini 1.5 Flash
+- **Testing**: Jest (Unit) + Cypress (E2E)
 
-### Documentation
-- Review the core AI prompts in `antigravity/prompt_templates.md`
-- Database migrations are in `supabase/migrations/`
+## 📦 Features
+- **AI Generation**: Instant quizzes based on topic, difficulty, and student level.
+- **Coin Reward System**: 1 coin per correct answer, awarded server-side with idempotency guards.
+- **Interactive Player**: Immersive quiz-taking experience with timers and progress tracking.
+- **Coin UX**: Animated coin balances, flying coin reward animations, and confetti.
+- **Admin Dashboard**: Monitor AI logs and manually adjust user balances.
+- **Accessibility**: Support for \`prefers-reduced-motion\` and keyboard navigation.
 
-*(Agent output instructions below)*
+## ⚙️ Setup & Environment
+Ensure you have the following environment variables in \`.env\`:
+- \`SUPABASE_URL\`, \`SUPABASE_ANON_KEY\`, \`SUPABASE_SERVICE_ROLE_KEY\`
+- \`GEMINI_API_KEY\`
+- \`NEXTAUTH_SECRET\`
+- \`DATABASE_URL\` (for direct DB access/seed)
+
+## 🧪 Testing
+\`\`\`bash
+npm test          # Run unit tests
+npm run test:e2e  # Run Cypress E2E tests
+\`\`\`
+
+## 🐳 Docker
+\`\`\`bash
+docker-compose up --build
+\`\`\`
+
 ---
-\`cp .env.example .env && fill env\`
-\`npm run seed && npm run dev\`
-\`open http://localhost:3000\`
+*Built with Antigravity.*

@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { CheckCircle2, ChevronRight, AlertCircle, Clock, SkipForward, ArrowRight, Home } from 'lucide-react';
+import { CheckCircle2, ChevronRight, AlertCircle, Clock, SkipForward, ArrowRight, Home, Sparkles } from 'lucide-react';
 import { GeneratedQuizResponse, GeneratedQuestion } from '@/types/quiz';
 import { useRouter } from 'next/navigation';
 
@@ -58,7 +58,7 @@ export default function QuizPlayer() {
 
   const handleSelectOption = (option: string) => {
     if (showExplanation) return; // Prevent changing after confirmed
-    
+
     setAnswers(prev => ({ ...prev, [question.id]: option }));
   };
 
@@ -86,7 +86,7 @@ export default function QuizPlayer() {
   const formatTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60);
     const secs = seconds % 60;
-    return \`\${mins}:\${secs.toString().padStart(2, '0')}\`;
+    return `${mins}:${secs.toString().padStart(2, '0')}`;
   };
 
   const progress = ((currentIndex) / quizData.questions.length) * 100;
@@ -95,7 +95,7 @@ export default function QuizPlayer() {
     const scorePct = Math.round((score / quizData.questions.length) * 100);
     return (
       <div className="min-h-[80vh] flex flex-col items-center justify-center p-4">
-        <motion.div 
+        <motion.div
           initial={{ scale: 0.9, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           className="bg-[#18181B] border border-white/10 rounded-2xl p-10 max-w-lg w-full text-center glass-panel shadow-2xl"
@@ -105,11 +105,11 @@ export default function QuizPlayer() {
           </div>
           <h2 className="text-3xl font-bold mb-2">Quiz Complete!</h2>
           <p className="text-gray-400 mb-8">Topic: {quizData.topic}</p>
-          
+
           <div className="grid grid-cols-2 gap-4 mb-8">
             <div className="bg-black/40 rounded-xl p-4 border border-white/5">
               <p className="text-sm text-gray-500 mb-1">Score</p>
-              <p className="text-3xl font-bold gradient-text">{scorePct}%</p>
+              <p className="text-3xl font-bold gradient-text text-white">{scorePct}%</p>
             </div>
             <div className="bg-black/40 rounded-xl p-4 border border-white/5">
               <p className="text-sm text-gray-500 mb-1">Correct</p>
@@ -136,16 +136,16 @@ export default function QuizPlayer() {
         </div>
         <div className="flex items-center gap-4 bg-[#18181B] border border-white/10 px-4 py-2 rounded-full glass-panel">
           <Clock className="w-5 h-5 text-purple-400" />
-          <span className="font-mono text-lg font-medium">{formatTime(timeLeft)}</span>
+          <span className="font-mono text-lg font-medium text-purple-400">{formatTime(timeLeft)}</span>
         </div>
       </div>
 
       {/* Progress Bar */}
       <div className="w-full bg-gray-800 rounded-full h-2 mb-8 overflow-hidden">
-        <motion.div 
+        <motion.div
           className="bg-gradient-to-r from-purple-500 to-pink-500 h-2 rounded-full"
           initial={{ width: 0 }}
-          animate={{ width: \`\${progress}%\` }}
+          animate={{ width: `${progress}%` }}
           transition={{ duration: 0.5 }}
         />
       </div>
@@ -165,36 +165,36 @@ export default function QuizPlayer() {
               <span className="bg-purple-500/20 px-2 py-1 rounded text-xs">Question {currentIndex + 1} of {quizData.questions.length}</span>
               {question.metadata?.difficulty_score > 0.7 && <span className="bg-red-500/20 text-red-400 px-2 py-1 rounded text-xs">Hard</span>}
             </div>
-            
+
             <h2 className="text-2xl md:text-3xl font-medium leading-relaxed mb-8">{question.question}</h2>
 
             {/* Options */}
             <div className="space-y-3">
               {question.options?.map((opt, idx) => {
                 const isSelected = currentAnswer === opt;
-                
+
                 // Show Correct / Incorrect states only if explanation is shown
-                let optionClass = "border-white/10 bg-[#18181B] hover:border-purple-500/50 hover:bg-purple-500/5";
+                let optionClass = "border-white/10 bg-[#e1e1e6] hover:border-purple-500/50 hover:bg-purple-500/5";
                 let icon = null;
 
                 if (showExplanation) {
-                  const isCorrectAnswer = (question.correct_answer === opt) || 
-                                          (Array.isArray(question.correct_answer) && question.correct_answer.includes(opt));
-                  
+                  const isCorrectAnswer = (question.correct_answer === opt) ||
+                    (Array.isArray(question.correct_answer) && question.correct_answer.includes(opt));
+
                   if (isSelected && isCorrectAnswer) {
-                    optionClass = "border-green-500/50 bg-green-500/10 text-green-100";
+                    optionClass = "border-green-500/50 bg-green-500/10 text-green-600";
                     icon = <CheckCircle2 className="w-5 h-5 text-green-400" />;
                   } else if (isSelected && !isCorrectAnswer) {
-                    optionClass = "border-red-500/50 bg-red-500/10 text-red-100";
+                    optionClass = "border-red-500/50 bg-red-500/10 text-red-400";
                     icon = <AlertCircle className="w-5 h-5 text-red-400" />;
                   } else if (!isSelected && isCorrectAnswer) {
-                    optionClass = "border-green-500/50 bg-green-500/10 text-green-100"; // Highlight correct
+                    optionClass = "border-green-500/50 bg-green-500/10 text-black"; // Highlight correct
                     icon = <CheckCircle2 className="w-5 h-5 text-green-400" />;
                   } else {
-                     optionClass = "border-white/5 opacity-50 bg-[#18181B]"; // Dim others
+                    optionClass = "border-white/5 opacity-50 bg-[#18181B] text-white"; // Dim others
                   }
                 } else if (isSelected) {
-                   optionClass = "border-purple-500 bg-purple-500/20 shadow-[0_0_15px_rgba(168,85,247,0.2)]";
+                  optionClass = "border-purple-500 bg-purple-500/20 shadow-[0_0_15px_rgba(168,85,247,0.2)]";
                 }
 
                 return (
@@ -202,7 +202,7 @@ export default function QuizPlayer() {
                     key={idx}
                     onClick={() => handleSelectOption(opt)}
                     disabled={showExplanation}
-                    className={\`w-full text-left p-5 rounded-2xl border-2 transition-all flex items-center justify-between group \${optionClass}\`}
+                    className={`w-full text-left p-5 rounded-2xl border-2 transition-all flex items-center justify-between group ${optionClass}`}
                   >
                     <span className="text-lg">{opt}</span>
                     {icon && <span>{icon}</span>}
@@ -223,7 +223,7 @@ export default function QuizPlayer() {
                   <h4 className="text-blue-400 font-bold mb-2 text-sm uppercase tracking-wider flex items-center gap-2">
                     <Sparkles className="w-4 h-4" /> Explanation
                   </h4>
-                  <p className="text-blue-100 leading-relaxed text-sm">{question.explanation}</p>
+                  <p className="text-blue-500 leading-relaxed text-sm">{question.explanation}</p>
                 </motion.div>
               )}
             </AnimatePresence>
@@ -232,13 +232,13 @@ export default function QuizPlayer() {
 
         {/* Footer Actions */}
         <div className="mt-8 pt-6 border-t border-white/10 flex justify-between items-center">
-          <button 
+          <button
             onClick={() => confirm("Are you sure you want to exit?") && router.push('/')}
             className="text-gray-500 hover:text-white transition-colors text-sm font-medium"
           >
             Quit
           </button>
-          
+
           <div className="flex gap-4">
             {!showExplanation && currentAnswer && (
               <motion.button
@@ -249,7 +249,7 @@ export default function QuizPlayer() {
                 Submit Answer
               </motion.button>
             )}
-            
+
             {showExplanation && (
               <motion.button
                 initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }}
@@ -262,7 +262,7 @@ export default function QuizPlayer() {
             )}
 
             {!currentAnswer && !showExplanation && (
-              <button 
+              <button
                 onClick={nextQuestion}
                 className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors border border-white/10 px-6 py-3 rounded-xl hover:bg-white/5"
               >

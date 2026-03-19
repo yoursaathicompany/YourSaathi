@@ -1,3 +1,4 @@
+/// <reference types="cypress" />
 describe('Quiz Generation Flow', () => {
   it('should navigate from home to quiz play securely', () => {
     cy.visit('http://localhost:3000');

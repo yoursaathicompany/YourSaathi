@@ -1,161 +1,243 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { GoogleGenAI } from '@google/genai';
+import { GoogleGenerativeAI, SchemaType, Schema } from '@google/generative-ai';
+import { auth } from '@/lib/auth';
+import { supabaseAdmin } from '@/lib/supabase/server';
 import { z } from 'zod';
-import { GenerateQuizRequest } from '@/types/quiz';
+import { v4 as uuidv4 } from 'uuid';
 
-const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY }); // Initializes from env GEMINI_API_KEY
-
-// Validate the GenerateQuizRequest body
+// ─── Request Schema ───────────────────────────────────────────────────────
 const quizRequestSchema = z.object({
   topic: z.string().min(1),
   difficulty: z.enum(['easy', 'medium', 'hard']),
   student_level: z.enum(['class6', 'class10', 'college', 'upsc', 'custom']),
-  number_of_questions: z.number().int().min(1).max(50),
-  question_types: z.array(z.enum(['mcq_single', 'mcq_multi', 'assertion', 'short_answer', 'code'])).min(1),
+  number_of_questions: z.number().min(1).max(25),
+  question_types: z.array(z.enum(['mcq_single', 'mcq_multi', 'assertion', 'short_answer', 'code'])),
   language: z.string().default('English'),
-  include_hints: z.boolean().default(false),
+  include_hints: z.boolean().default(true),
   include_sources: z.boolean().default(false),
   allow_media: z.boolean().default(false),
   advanced_options: z.object({
-    shuffle_choices: z.boolean().default(false),
+    shuffle_choices: z.boolean().default(true),
     include_explanations: z.boolean().default(true),
-    strict_scoring: z.boolean().default(false)
-  }).default({ shuffle_choices: false, include_explanations: true, strict_scoring: false })
+    strict_scoring: z.boolean().default(false),
+  }),
+  request_id: z.string().optional(),
 });
 
-// We expect Gemini to return exactly this JSON
-const RESPONSE_SCHEMA = {
-  type: "OBJECT",
+// ─── Response Schema (for Gemini) ─────────────────────────────────────────
+const responseSchema: Schema = {
+  type: SchemaType.OBJECT,
   properties: {
-    request_id: { type: "STRING" },
-    topic: { type: "STRING" },
-    difficulty: { type: "STRING", enum: ["easy", "medium", "hard"] },
-    student_level: { type: "STRING" },
-    generated_at: { type: "STRING" },
+    request_id: { type: SchemaType.STRING },
+    topic: { type: SchemaType.STRING },
+    generated_at: { type: SchemaType.STRING },
     meta: {
-      type: "OBJECT",
+      type: SchemaType.OBJECT,
       properties: {
-        num_questions_requested: { type: "INTEGER" },
-        num_questions_returned: { type: "INTEGER" },
-        estimated_total_time_seconds: { type: "INTEGER" },
-        uniqueness_score: { type: "NUMBER" },
-        confidence_score: { type: "NUMBER" }
+        num_questions_returned: { type: SchemaType.NUMBER },
+        estimated_total_time_seconds: { type: SchemaType.NUMBER },
       },
-      required:["num_questions_requested", "num_questions_returned", "estimated_total_time_seconds", "uniqueness_score", "confidence_score"]
+      required: ['num_questions_returned', 'estimated_total_time_seconds'],
     },
     questions: {
-      type: "ARRAY",
+      type: SchemaType.ARRAY,
       items: {
-        type: "OBJECT",
+        type: SchemaType.OBJECT,
         properties: {
-          id: { type: "STRING" },
-          type: { type: "STRING" },
-          question: { type: "STRING" },
-          options: { type: "ARRAY", items: { type: "STRING" } },
-          correct_answer: { }, // Flexible
-          explanation: { type: "STRING" },
-          hints: { type: "ARRAY", items: { type: "STRING" } },
-          sources: { type: "ARRAY", items: { type: "OBJECT", properties: { text: { type: "STRING" }, url: { type: "STRING"} } } },
-          tags: { type: "ARRAY", items: { type: "STRING" } },
+          type: { type: SchemaType.STRING },
+          question: { type: SchemaType.STRING },
+          options: {
+            type: SchemaType.ARRAY,
+            items: { type: SchemaType.STRING },
+            description: "Exactly 4 options for MCQs",
+          },
+          correct_answer: { 
+            type: SchemaType.STRING, 
+            description: "The correct option or string answer" 
+          },
+          explanation: { type: SchemaType.STRING },
+          hints: {
+            type: SchemaType.ARRAY,
+            items: { type: SchemaType.STRING },
+          },
+          sources: {
+            type: SchemaType.ARRAY,
+            items: {
+              type: SchemaType.OBJECT,
+              properties: {
+                text: { type: SchemaType.STRING },
+                url: { type: SchemaType.STRING },
+              },
+              required: ['text', 'url'],
+            },
+          },
+          tags: {
+            type: SchemaType.ARRAY,
+            items: { type: SchemaType.STRING },
+          },
           metadata: {
-            type: "OBJECT",
+            type: SchemaType.OBJECT,
             properties: {
-              estimated_time_seconds: { type: "INTEGER" },
-              difficulty_score: { type: "NUMBER" },
-              media: { type: "OBJECT", properties: { type: { type: "STRING" }, url: { type: "STRING" } }, nullable: true }
-            }
-          }
+              estimated_time_seconds: { type: SchemaType.NUMBER },
+              difficulty_score: { type: SchemaType.NUMBER },
+            },
+            required: ['estimated_time_seconds', 'difficulty_score'],
+          },
         },
-        required: ["id", "type", "question", "explanation", "metadata"]
-      }
+        required: ['type', 'question', 'explanation', 'metadata'],
+      },
     },
-    summary: {
-      type: "OBJECT",
-      properties: {
-        question_count: { type: "INTEGER" },
-        estimated_total_time_seconds: { type: "INTEGER" },
-        difficulty_profile: {
-          type: "OBJECT",
-          properties: {
-            easy: { type: "INTEGER" },
-            medium: { type: "INTEGER" },
-            hard: { type: "INTEGER" }
-          }
-        }
-      }
-    }
   },
-  required: ["request_id", "topic", "difficulty", "student_level", "generated_at", "meta", "questions", "summary"]
+  required: ['request_id', 'topic', 'questions', 'meta'],
 };
 
-const buildPrompt = (data: z.infer<typeof quizRequestSchema>, uniqueId: string) => `
-You are an expert educator and exam creator. 
-Generate a comprehensive, rigorous quiz based on the following parameters. 
-Your primary goal is to return a strict JSON object that exactly matches the provided schema. 
-
-PARAMETERS:
-- Topic: ${data.topic}
-- Student Level: ${data.student_level}
-- Difficulty: ${data.difficulty}
-- Required Questions: ${data.number_of_questions}
-- Allowed Question Types: ${data.question_types.join(', ')}
-- Language: ${data.language}
-- Include Hints: ${data.include_hints}
-- Include Sources: ${data.include_sources}
-- Allow Media: ${data.allow_media}
-- Include Explanations: ${data.advanced_options.include_explanations}
-
-RULES:
-1. All generated text MUST be in ${data.language}.
-2. For multiple choice questions, provide exactly 4 options.
-3. Explanations must be strictly under 60 words.
-4. If include_hints is false, provide empty arrays for hints. Otherwise, Max 2 hints per question, 20 words each.
-5. Do not hallucinate URLs; include sources only if extremely confident.
-6. Progress difficulty across questions and avoid repeating core facts. Ensure at least one applied/real-world question.
-7. Request ID is: ${uniqueId}.
-`;
-
+// ─── POST /api/antigravity/generate-quiz ──────────────────────────────────
 export async function POST(req: NextRequest) {
   try {
-    const rawData = await req.json();
-    const validatedData = quizRequestSchema.parse(rawData);
-    
-    const maxRetries = 2;
-    let attempt = 0;
-    const uniqueId = crypto.randomUUID();
-    const prompt = buildPrompt(validatedData, uniqueId);
+    const session = await auth();
+    if (!session?.user?.id) {
+      console.warn('[generate-quiz] Unauthorized request attempt. Session:', session);
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+    console.log('[generate-quiz] Authorized request by user:', session.user.id);
 
-    while (attempt <= maxRetries) {
+    const body = await req.json();
+    const validatedRequest = quizRequestSchema.parse(body);
+    const requestId = validatedRequest.request_id || uuidv4();
+
+    const apiKey = process.env.GEMINI_API_KEY;
+    if (!apiKey) {
+      return NextResponse.json({ error: 'AI key not configured' }, { status: 500 });
+    }
+
+    const prompt = `
+      You are an expert educator and exam creator. 
+      Generate a comprehensive, rigorous quiz based on the following parameters. 
+      Your primary goal is to return a strict JSON object that exactly matches the provided schema. 
+
+      PARAMETERS:
+      - Topic: ${validatedRequest.topic}
+      - Student Level: ${validatedRequest.student_level}
+      - Difficulty: ${validatedRequest.difficulty}
+      - Required Questions: ${validatedRequest.number_of_questions}
+      - Allowed Question Types: ${validatedRequest.question_types.join(', ')}
+      - Language: ${validatedRequest.language}
+      - Include Hints: ${validatedRequest.include_hints}
+      - Include Sources: ${validatedRequest.include_sources}
+      - Allow Media: ${validatedRequest.allow_media}
+      - Include Explanations: ${validatedRequest.advanced_options.include_explanations}
+
+      RULES:
+      1. All generated text MUST be in ${validatedRequest.language}.
+      2. For multiple choice questions (mcq_single, mcq_multi), provide exactly 4 options.
+      3. Explanations must be strictly under 60 words.
+      4. If include_hints is false, provide empty arrays for hints. Otherwise, Max 2 hints per question, 20 words each.
+      5. Include sources only if extremely confident.
+      6. Request ID is: ${requestId}.
+
+      REQUIRED JSON SCHEMA:
+      ${JSON.stringify(responseSchema, null, 2)}
+    `;
+
+    let attempts = 0;
+    let quizData: any = null;
+
+    while (attempts < 3) {
       try {
-        const response = await ai.models.generateContent({
-          model: 'gemini-2.5-flash',
-          contents: prompt,
-          config: {
-            temperature: 0.2, // Factual correctness over creativity
-            responseMimeType: 'application/json',
-            responseSchema: RESPONSE_SCHEMA as any,
-          }
+        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            contents: [{ parts: [{ text: prompt }] }],
+            generationConfig: {
+              responseMimeType: 'application/json'
+            }
+          })
         });
 
-        const jsonText = response.text || "{}";
-        const parsedJson = JSON.parse(jsonText);
-        
-        // At this point we can also save this to Supabase DB
-        // e.g., using a service role key: adminSupabase.from('quizzes').insert({...})
-        // For now, we will just return the successfully generated strict JSON to frontend.
+        if (!response.ok) {
+           const errorText = await response.text();
+           throw new Error(`API HTTP error: ${response.status} ${errorText}`);
+        }
 
-        return NextResponse.json(parsedJson);
-      } catch (genError: any) {
-        console.error(\`Generation Attempt \${attempt} failed\`, genError);
-        attempt++;
-        if (attempt > maxRetries) throw new Error("Max retries exceeded while calling Gemini.");
+        const data = await response.json();
+        
+        if (!data.candidates?.[0]?.content?.parts?.[0]?.text) {
+           throw new Error('Invalid response structure from Gemini API');
+        }
+
+        let responseText = data.candidates[0].content.parts[0].text;
+        
+        // Strip out markdown code block if present
+        responseText = responseText.replace(/^```json\s*/, '').replace(/\s*```$/, '');
+        
+        quizData = JSON.parse(responseText);
+        
+        // Basic validation: ensure questions count is correct or at least not zero
+        if (quizData.questions && quizData.questions.length > 0) {
+          break;
+        }
+      } catch (err) {
+        console.error(`Attempt ${attempts + 1} failed:`, err);
+        attempts++;
+        if (attempts === 3) throw err;
       }
     }
-  } catch (error: any) {
-    console.error("Quiz Generation API Error:", error);
-    if (error instanceof z.ZodError) {
-      return NextResponse.json({ error: "Validation failed", details: error.errors }, { status: 400 });
+
+    // Persist to DB
+    const { data: quizRow, error: quizError } = await supabaseAdmin
+      .from('quizzes')
+      .insert({
+        title: `${validatedRequest.topic} - ${validatedRequest.difficulty}`,
+        topic: validatedRequest.topic,
+        difficulty: validatedRequest.difficulty,
+        student_level: validatedRequest.student_level,
+        language: validatedRequest.language,
+        creator_id: session.user.id,
+        request_id: requestId,
+        meta: quizData.meta,
+        ai_raw: quizData,
+      })
+      .select('id')
+      .single();
+
+    if (quizError || !quizRow) {
+      console.error('Failed to persist quiz:', quizError);
+      return NextResponse.json({ error: 'Failed to save quiz' }, { status: 500 });
     }
-    return NextResponse.json({ error: "Internal Server Error", message: error.message }, { status: 500 });
+
+    const questionInserts = quizData.questions.map((q: any, index: number) => ({
+      quiz_id: quizRow.id,
+      type: q.type,
+      content: q.question,
+      options: q.options,
+      correct_answer: q.correct_answer,
+      explanation: q.explanation,
+      hints: q.hints || [],
+      sources: q.sources || [],
+      tags: q.tags || [],
+      metadata: q.metadata,
+      order_index: index,
+    }));
+
+    const { error: questionsError } = await supabaseAdmin
+      .from('questions')
+      .insert(questionInserts);
+
+    if (questionsError) {
+      console.error('Failed to persist questions:', questionsError);
+    }
+
+    return NextResponse.json({
+      ...quizData,
+      quiz_id: quizRow.id,
+    });
+
+  } catch (err) {
+    if (err instanceof z.ZodError) {
+      return NextResponse.json({ error: 'Invalid request', details: err.issues }, { status: 400 });
+    }
+    console.error('Unexpected error in generate-quiz:', err);
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }

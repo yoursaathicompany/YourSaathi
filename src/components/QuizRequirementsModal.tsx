@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Loader2, Sparkles, BookOpen } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import { useSession } from 'next-auth/react';
 
 export default function QuizRequirementsModal({ 
   isOpen, 
@@ -15,6 +16,7 @@ export default function QuizRequirementsModal({
   initialTopic?: string;
 }) {
   const router = useRouter();
+  const { data: session, status } = useSession();
   const [topic, setTopic] = useState(initialTopic || '');
   const [difficulty, setDifficulty] = useState('medium');
   const [studentLevel, setStudentLevel] = useState('class10');
@@ -25,6 +27,12 @@ export default function QuizRequirementsModal({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    if (status !== 'authenticated') {
+      router.push('/login?callbackUrl=' + encodeURIComponent(window.location.href));
+      return;
+    }
+
     setIsLoading(true);
 
     try {
@@ -52,10 +60,11 @@ export default function QuizRequirementsModal({
       if (!res.ok) throw new Error('Failed to generate');
       const data = await res.json();
       
-      // Navigate to play area (using local storage to pass the large JSON purely for demo)
-      // Ideally this goes to DB and we navigate to /quiz/[id]
-      localStorage.setItem('temp_quiz', JSON.stringify(data));
-      router.push('/quiz/play');
+      if (data.quiz_id) {
+        router.push(`/quiz/${data.quiz_id}`);
+      } else {
+        throw new Error('No quiz ID returned');
+      }
       
     } catch (err) {
       console.error(err);
@@ -153,6 +162,8 @@ export default function QuizRequirementsModal({
             >
               {isLoading ? (
                 <><Loader2 className="w-5 h-5 animate-spin mr-2" /> Generating AI Quiz...</>
+              ) : status === 'unauthenticated' ? (
+                'Sign in to Generate'
               ) : (
                 'Generate Magic'
               )}

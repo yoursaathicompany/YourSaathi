@@ -1,0 +1,20 @@
+﻿cypress/e2e/quiz_flow.cy.ts(3,5): error TS2304: Cannot find name 'cy'.
+cypress/e2e/quiz_flow.cy.ts(6,5): error TS2304: Cannot find name 'cy'.
+cypress/e2e/quiz_flow.cy.ts(9,5): error TS2304: Cannot find name 'cy'.
+cypress/e2e/quiz_flow.cy.ts(12,5): error TS2304: Cannot find name 'cy'.
+cypress/e2e/quiz_flow.cy.ts(15,5): error TS2304: Cannot find name 'cy'.
+cypress/e2e/quiz_flow.cy.ts(43,5): error TS2304: Cannot find name 'cy'.
+cypress/e2e/quiz_flow.cy.ts(44,5): error TS2304: Cannot find name 'cy'.
+cypress/e2e/quiz_flow.cy.ts(47,5): error TS2304: Cannot find name 'cy'.
+cypress/e2e/quiz_flow.cy.ts(48,5): error TS2304: Cannot find name 'cy'.
+cypress/e2e/quiz_flow.cy.ts(49,5): error TS2304: Cannot find name 'cy'.
+cypress/e2e/quiz_flow.cy.ts(52,5): error TS2304: Cannot find name 'cy'.
+cypress/e2e/quiz_flow.cy.ts(55,5): error TS2304: Cannot find name 'cy'.
+cypress/e2e/quiz_flow.cy.ts(58,5): error TS2304: Cannot find name 'cy'.
+cypress/e2e/quiz_flow.cy.ts(61,5): error TS2304: Cannot find name 'cy'.
+cypress/e2e/quiz_flow.cy.ts(64,5): error TS2304: Cannot find name 'cy'.
+cypress/e2e/quiz_flow.cy.ts(65,5): error TS2304: Cannot find name 'cy'.
+cypress/e2e/quiz_flow.cy.ts(66,5): error TS2304: Cannot find name 'cy'.
+src/__tests__/QuizRequirementsModal.test.tsx(16,47): error TS2339: Property 'toBeInTheDocument' does not exist on type 'JestMatchers<HTMLElement>'.
+src/__tests__/QuizRequirementsModal.test.tsx(25,19): error TS2339: Property 'toHaveValue' does not exist on type 'JestMatchers<HTMLElement>'.
+src/__tests__/QuizRequirementsModal.test.tsx(30,23): error TS2339: Property 'toBeEmptyDOMElement' does not exist on type 'JestMatchers<HTMLElement>'.

@@ -1,0 +1,38 @@
+{
+  "users": {
+    "data": null,
+    "error": {
+      "code": "PGRST205",
+      "details": null,
+      "hint": "Perhaps you meant the table 'public.questions'",
+      "message": "Could not find the table 'public.users' in the schema cache"
+    }
+  },
+  "profiles": {
+    "data": [
+      {
+        "id": "393868e9-8054-4d00-a5c5-48a57fd5cb0f",
+        "role": "student",
+        "full_name": null,
+        "avatar_url": null,
+        "created_at": "2026-03-11T15:39:25.177164+00:00",
+        "updated_at": "2026-03-11T15:39:25.177164+00:00",
+        "password_hash": null
+      }
+    ],
+    "error": null
+  },
+  "quizzes": {
+    "data": null,
+    "error": {
+      "code": "42703",
+      "details": null,
+      "hint": null,
+      "message": "column quizzes.difficulty does not exist"
+    }
+  },
+  "quizzesAll": {
+    "data": [],
+    "error": null
+  }
+}

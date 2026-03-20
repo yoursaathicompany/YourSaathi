@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { useSession, signOut } from 'next-auth/react';
 import { useState, useEffect } from 'react';
-import { Sparkles, LogOut, User, Settings, Shield, Menu, X } from 'lucide-react';
+import { Sparkles, LogOut, User, Settings, Shield, Menu, X, Coins } from 'lucide-react';
 import CoinWalletHeader from './CoinWalletHeader';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -48,6 +48,11 @@ export default function Navbar() {
         <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-gray-400">
           <Link href="/" className="hover:text-white transition-colors">Home</Link>
           {session && <Link href="/profile" className="hover:text-white transition-colors">Profile</Link>}
+          {session && (
+            <Link href="/redeem" className="hover:text-white transition-colors text-yellow-400 flex items-center gap-1">
+              <Coins className="w-3.5 h-3.5" /> Redeem
+            </Link>
+          )}
           {isAdmin && <Link href="/admin" className="hover:text-white transition-colors text-indigo-400">Admin</Link>}
         </nav>
 
@@ -90,6 +95,10 @@ export default function Navbar() {
                       <Link href="/profile" role="menuitem" onClick={() => setMenuOpen(false)}
                         className="flex items-center gap-2 px-4 py-2.5 text-sm text-gray-300 hover:bg-white/5 hover:text-white transition-colors">
                         <User className="w-4 h-4" /> Profile & Wallet
+                      </Link>
+                      <Link href="/redeem" role="menuitem" onClick={() => setMenuOpen(false)}
+                        className="flex items-center gap-2 px-4 py-2.5 text-sm text-yellow-400 hover:bg-yellow-500/5 transition-colors">
+                        <Coins className="w-4 h-4" /> Redeem Coins
                       </Link>
                       <Link href="/settings" role="menuitem" onClick={() => setMenuOpen(false)}
                         className="flex items-center gap-2 px-4 py-2.5 text-sm text-gray-300 hover:bg-white/5 hover:text-white transition-colors">

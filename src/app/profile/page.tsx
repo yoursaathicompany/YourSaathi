@@ -155,9 +155,9 @@ export default function ProfilePage() {
                 <span className="text-xl font-bold opacity-70">coins</span>
               </div>
 
-              <button className="mt-6 w-full bg-black/10 hover:bg-black/20 text-gray-900 font-bold py-3 rounded-2xl transition-all border border-black/5 text-sm">
-                <Link href="/redeem"> Redeem Rewards </Link>
-              </button>
+              <Link href="/redeem"> <button className="mt-6 w-full bg-black/10 hover:bg-black/20 text-gray-900 font-bold py-3 rounded-2xl transition-all border border-black/5 text-sm">
+                Redeem Rewards
+              </button> </Link>
             </div>
           </motion.div>
         </div>

@@ -42,12 +42,11 @@ export async function POST(req: NextRequest) {
     }
 
     // Log transaction
-    await supabaseAdmin.from('coin_transactions').insert({
+    await supabaseAdmin.from('coin_ledger').insert({
       user_id: target_user_id,
-      coins_awarded: amount,
-      previous_balance: previousBalance,
-      new_balance: newBalance,
-      reason: 'admin_adjustment',
+      amount: amount,
+      type: 'adjusted',
+      reference_type: 'admin_adjustment',
       note: note || reason || 'Manual adjustment by admin',
     });
 

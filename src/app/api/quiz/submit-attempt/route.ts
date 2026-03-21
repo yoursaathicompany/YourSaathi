@@ -176,7 +176,18 @@ export async function POST(req: NextRequest) {
         }
       }
 
-      // Step D: Log coin transaction skipped as table doesn't exist
+      // Step D: Log coin transaction in the new coin_ledger
+      const { error: ledgerErr } = await supabaseAdmin
+        .from('coin_ledger')
+        .insert({
+          user_id: userId,
+          type: 'earned',
+          amount: coinsAwarded,
+          reference_id: quiz_id, // We use quiz_id as reference since attempt_id is not in the type
+          reference_type: 'quiz_attempt',
+          note: `Earned ${coinsAwarded} coins for quiz attempt`,
+        });
+      if (ledgerErr) console.warn('[submit-attempt] coin_ledger insert warning:', ledgerErr);
     }
 
     return NextResponse.json({

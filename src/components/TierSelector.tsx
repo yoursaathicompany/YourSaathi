@@ -26,7 +26,7 @@ export default function TierSelector({ tiers, wallet, selectedTierId, onSelect, 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
       {tiers.map((tier) => {
-        const canAfford  = available >= tier.coins_required;
+        const canAfford = available >= tier.coins_required;
         const isSelected = selectedTierId === tier.id;
         const isDisabled = disabled || !canAfford;
 
@@ -58,7 +58,7 @@ export default function TierSelector({ tiers, wallet, selectedTierId, onSelect, 
             </div>
 
             <div className="flex items-end gap-2 mb-3">
-              <div className="flex items-center gap-1 text-3xl font-black text-white">
+              <div className="flex items-center gap-1 text-3xl font-black text-black">
                 <span className="text-green-400 text-2xl">₹</span>
                 {tier.rupee_amount.toLocaleString('en-IN')}
               </div>

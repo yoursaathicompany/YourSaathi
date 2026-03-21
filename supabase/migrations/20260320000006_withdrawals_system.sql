@@ -218,6 +218,11 @@ BEGIN
     format('Coins locked for withdrawal of ₹%s', v_tier.rupee_amount)
   );
 
+  -- 7. Deduct from the legacy cache column (users.coins_balance)
+  UPDATE public.users
+  SET coins_balance = public.get_available_balance(p_user_id)
+  WHERE id = p_user_id;
+
   RETURN jsonb_build_object(
     'success', true,
     'withdrawal_id', v_withdrawal_id,
@@ -305,6 +310,11 @@ BEGIN
     'withdrawal',
     COALESCE('Refund: ' || p_notes, format('Coins refunded — withdrawal of ₹%s was rejected.', v_w.requested_amount))
   );
+
+  -- 7. Refund to the legacy cache column (users.coins_balance)
+  UPDATE public.users
+  SET coins_balance = public.get_available_balance(v_w.user_id)
+  WHERE id = v_w.user_id;
 
   RETURN jsonb_build_object('success', true, 'message', 'Withdrawal rejected and coins refunded to user.');
 END;

@@ -22,6 +22,7 @@ export default function RedeemPage() {
   const [wallet, setWallet]               = useState<UserWallet | null>(null);
   const [tiers, setTiers]                 = useState<WithdrawalTier[]>([]);
   const [pendingWithdrawal, setPending]   = useState<Withdrawal | null>(null);
+  const [lastCompleted, setLastCompleted] = useState<Withdrawal | null>(null);
   const [selectedTier, setSelectedTier]   = useState<WithdrawalTier | null>(null);
   const [upiId, setUpiId]                 = useState('');
   const [upiError, setUpiError]           = useState('');
@@ -36,7 +37,7 @@ export default function RedeemPage() {
       const [walletRes, tiersRes, histRes] = await Promise.all([
         fetch('/api/withdrawals/balance'),
         fetch('/api/withdrawals/tiers'),
-        fetch('/api/withdrawals?limit=1'),
+        fetch('/api/withdrawals?limit=5'),
       ]);
 
       if (walletRes.ok) setWallet(await walletRes.json());
@@ -46,9 +47,9 @@ export default function RedeemPage() {
       }
       if (histRes.ok) {
         const d = await histRes.json();
-        const first: Withdrawal | undefined = d.withdrawals?.[0];
-        if (first?.status === 'pending') setPending(first);
-        else setPending(null);
+        const ws: Withdrawal[] = d.withdrawals ?? [];
+        setPending(ws.find(w => w.status === 'pending') || null);
+        setLastCompleted(ws.find(w => w.status === 'approved' || w.status === 'paid') || null);
       }
     } finally {
       setLoading(false);
@@ -160,6 +161,28 @@ export default function RedeemPage() {
               </p>
             </div>
             <WithdrawalStatusBadge status="pending" size="sm" />
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Approved/Paid withdrawal banner */}
+      <AnimatePresence>
+        {!pendingWithdrawal && lastCompleted && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="mb-6 flex items-center gap-4 p-5 bg-green-500/10 border border-green-500/30 rounded-2xl"
+          >
+            <div className="w-10 h-10 rounded-xl bg-green-500/20 flex items-center justify-center flex-shrink-0">
+              <CheckCircle2 className="w-5 h-5 text-green-400" />
+            </div>
+            <div className="flex-1">
+              <p className="font-semibold text-green-400">Withdrawal {lastCompleted.status === 'paid' ? 'Paid' : 'Approved'}</p>
+              <p className="text-sm text-green-400/80 mt-0.5">
+                Your transaction of ₹{Number(lastCompleted.requested_amount).toLocaleString('en-IN')} is approved and money should reflect in your bank account ({lastCompleted.upi_id}).
+              </p>
+            </div>
+            <WithdrawalStatusBadge status={lastCompleted.status} size="sm" />
           </motion.div>
         )}
       </AnimatePresence>

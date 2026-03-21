@@ -15,9 +15,9 @@ export default function Navbar() {
   // Fetch live balance on mount & when session changes
   useEffect(() => {
     const fetchBalance = () => {
-      fetch('/api/user/balance')
+      fetch('/api/withdrawals/balance')
         .then(r => r.json())
-        .then(d => setBalance(d.coins_balance ?? 0))
+        .then(d => setBalance(d.available_balance ?? 0))
         .catch(() => { });
     };
 

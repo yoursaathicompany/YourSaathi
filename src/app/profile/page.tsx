@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { User, Mail, Shield, Coins, Wallet, History, Verified, AlertCircle } from 'lucide-react';
 import CoinTransactionList from '@/components/CoinTransactionList';
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
 
 export default function ProfilePage() {
   const { data: session, status } = useSession();
@@ -155,7 +156,7 @@ export default function ProfilePage() {
               </div>
 
               <button className="mt-6 w-full bg-black/10 hover:bg-black/20 text-gray-900 font-bold py-3 rounded-2xl transition-all border border-black/5 text-sm">
-                Redeem Rewards (Coming Soon)
+                <Link href="/redeem"> Redeem Rewards </Link>
               </button>
             </div>
           </motion.div>

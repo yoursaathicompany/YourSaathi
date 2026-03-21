@@ -29,6 +29,7 @@ CREATE TABLE IF NOT EXISTS public.withdrawal_settings (
   UNIQUE (coins_required)
 );
 
+DROP TRIGGER IF EXISTS withdrawal_settings_updated_at ON public.withdrawal_settings;
 CREATE TRIGGER withdrawal_settings_updated_at
   BEFORE UPDATE ON public.withdrawal_settings
   FOR EACH ROW EXECUTE FUNCTION public.set_updated_at();
@@ -68,6 +69,7 @@ CREATE INDEX idx_withdrawals_user_id   ON public.withdrawals(user_id);
 CREATE INDEX idx_withdrawals_status    ON public.withdrawals(status);
 CREATE INDEX idx_withdrawals_created_at ON public.withdrawals(created_at DESC);
 
+DROP TRIGGER IF EXISTS withdrawals_updated_at ON public.withdrawals;
 CREATE TRIGGER withdrawals_updated_at
   BEFORE UPDATE ON public.withdrawals
   FOR EACH ROW EXECUTE FUNCTION public.set_updated_at();

@@ -17,9 +17,9 @@ export default function ProfilePage() {
 
   useEffect(() => {
     const fetchBalance = () => {
-      fetch('/api/user/balance')
+      fetch('/api/withdrawals/balance')
         .then(r => r.json())
-        .then(d => setBalance(d.coins_balance))
+        .then(d => setBalance(d.available_balance ?? 0))
         .catch(() => { });
     };
 

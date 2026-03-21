@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
-import { History, ArrowLeft, Loader2, Target, CheckCircle2, XCircle, Brain, Calendar } from 'lucide-react';
+import { History, ArrowLeft, Loader2, Target, CheckCircle2, XCircle, Brain, Calendar, ChevronRight } from 'lucide-react';
 import Link from 'next/link';
 
 interface QuizAttempt {
@@ -113,10 +113,11 @@ export default function HistoryPage() {
               return (
                 <motion.div
                   key={attempt.id}
+                  onClick={() => router.push(`/history/${attempt.id}`)}
                   initial={{ opacity: 0, y: 15 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: idx * 0.05 }}
-                  className="bg-white/[0.03] border border-white/5 rounded-3xl p-6 hover:bg-white/[0.05] hover:border-white/10 transition-all flex flex-col group"
+                  className="bg-white/[0.03] border border-white/5 rounded-3xl p-6 hover:bg-white/[0.05] hover:border-white/20 transition-all flex flex-col group cursor-pointer relative"
                 >
                   <div className="flex-1">
                     <div className="flex items-start justify-between mb-4">
@@ -168,6 +169,10 @@ export default function HistoryPage() {
                       </div>
                       <span className="text-lg font-black text-red-400">{incorrectCount}</span>
                     </div>
+                  </div>
+
+                  <div className="absolute top-6 right-6 opacity-0 group-hover:opacity-100 transition-opacity transform group-hover:translate-x-1">
+                    <ChevronRight className="w-6 h-6 text-purple-400" />
                   </div>
                 </motion.div>
               );

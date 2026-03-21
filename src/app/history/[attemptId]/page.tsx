@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, use } from 'react';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -39,7 +39,8 @@ interface AttemptSummary {
   };
 }
 
-export default function HistoryDetailPage({ params }: { params: { attemptId: string } }) {
+export default function HistoryDetailPage(props: { params: Promise<{ attemptId: string }> }) {
+  const { attemptId } = use(props.params);
   const { data: session, status } = useSession();
   const router = useRouter();
   
@@ -56,7 +57,7 @@ export default function HistoryDetailPage({ params }: { params: { attemptId: str
 
     if (status === 'authenticated') {
       setLoading(true);
-      fetch(`/api/user/history/${params.attemptId}`)
+      fetch(`/api/user/history/${attemptId}`)
         .then((res) => {
           if (!res.ok) throw new Error('Failed to fetch details');
           return res.json();
@@ -75,7 +76,7 @@ export default function HistoryDetailPage({ params }: { params: { attemptId: str
         })
         .finally(() => setLoading(false));
     }
-  }, [status, router, params.attemptId]);
+  }, [status, router, attemptId]);
 
   if (status === 'loading' || loading) {
     return (

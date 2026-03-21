@@ -4,7 +4,7 @@ import { supabaseAdmin } from '@/lib/supabase/server';
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: { attemptId: string } }
+  props: { params: Promise<{ attemptId: string }> }
 ) {
   try {
     const session = await auth();
@@ -12,7 +12,7 @@ export async function GET(
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const { attemptId } = params;
+    const { attemptId } = await props.params;
     if (!attemptId) {
       return NextResponse.json({ error: 'Missing attempt ID' }, { status: 400 });
     }

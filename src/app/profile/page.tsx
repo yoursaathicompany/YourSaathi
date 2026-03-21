@@ -2,7 +2,7 @@
 
 import { useSession } from 'next-auth/react';
 import { motion } from 'framer-motion';
-import { User, Mail, Shield, Coins, Wallet, History, Verified, AlertCircle } from 'lucide-react';
+import { User, Mail, Shield, Coins, Wallet, History, Verified, AlertCircle, ArrowRight } from 'lucide-react';
 import CoinTransactionList from '@/components/CoinTransactionList';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
@@ -127,8 +127,12 @@ export default function ProfilePage() {
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-sm text-gray-500 font-medium">Quizzes Taken</span>
-                <span className="text-sm text-black">{stats.quizzesTaken}</span>
+                <span className="text-sm text-white font-bold">{stats.quizzesTaken}</span>
               </div>
+              
+              <Link href="/history" className="mt-6 flex items-center justify-center gap-2 w-full bg-white/5 hover:bg-white/10 text-white font-bold py-3 rounded-2xl transition-all border border-white/10 text-sm group">
+                View Full Quiz History <ArrowRight className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" />
+              </Link>
             </div>
           </motion.div>
 

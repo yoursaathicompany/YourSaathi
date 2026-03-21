@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { useSession, signOut } from 'next-auth/react';
 import { useState, useEffect } from 'react';
-import { Sparkles, LogOut, User, Settings, Shield, Menu, X, Coins } from 'lucide-react';
+import { Sparkles, LogOut, User, Settings, Shield, Menu, X, Coins, History } from 'lucide-react';
 import CoinWalletHeader from './CoinWalletHeader';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -95,6 +95,10 @@ export default function Navbar() {
                       <Link href="/profile" role="menuitem" onClick={() => setMenuOpen(false)}
                         className="flex items-center gap-2 px-4 py-2.5 text-sm text-gray-300 hover:bg-white/5 hover:text-white transition-colors">
                         <User className="w-4 h-4" /> Profile & Wallet
+                      </Link>
+                      <Link href="/history" role="menuitem" onClick={() => setMenuOpen(false)}
+                        className="flex items-center gap-2 px-4 py-2.5 text-sm text-gray-300 hover:bg-white/5 hover:text-white transition-colors">
+                        <History className="w-4 h-4" /> Quiz History
                       </Link>
                       <Link href="/redeem" role="menuitem" onClick={() => setMenuOpen(false)}
                         className="flex items-center gap-2 px-4 py-2.5 text-sm text-yellow-400 hover:bg-yellow-500/5 transition-colors">

@@ -88,9 +88,9 @@ export default function HistoryPage() {
           {error}
         </div>
       ) : attempts.length === 0 ? (
-        <div className="text-center py-20 bg-white/[0.02] border border-white/5 rounded-3xl">
-          <Brain className="w-16 h-16 text-gray-600 mx-auto mb-4 opacity-50" />
-          <h3 className="text-xl font-bold text-gray-300 mb-2">No Quizzes Taken Yet</h3>
+        <div className="text-center py-20 bg-white dark:bg-white/[0.02] border border-gray-200 dark:border-white/5 rounded-3xl shadow-sm dark:shadow-none">
+          <Brain className="w-16 h-16 text-gray-400 dark:text-gray-600 mx-auto mb-4 opacity-70 dark:opacity-50" />
+          <h3 className="text-xl font-bold text-gray-900 dark:text-gray-300 mb-2">No Quizzes Taken Yet</h3>
           <p className="text-gray-500 text-sm mb-6 max-w-sm mx-auto">
             Your history is empty. Start your learning journey by taking a quiz!
           </p>
@@ -117,11 +117,11 @@ export default function HistoryPage() {
                   initial={{ opacity: 0, y: 15 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: idx * 0.05 }}
-                  className="bg-white/[0.03] border border-white/5 rounded-3xl p-6 hover:bg-white/[0.05] hover:border-white/20 transition-all flex flex-col group cursor-pointer relative"
+                  className="bg-white dark:bg-white/[0.03] border border-gray-200 dark:border-white/5 shadow-sm dark:shadow-none rounded-3xl p-6 hover:bg-gray-50 dark:hover:bg-white/[0.05] hover:border-gray-300 dark:hover:border-white/20 transition-all flex flex-col group cursor-pointer relative"
                 >
                   <div className="flex-1">
                     <div className="flex items-start justify-between mb-4">
-                      <div className="flex items-center gap-2 text-xs font-semibold px-2.5 py-1 rounded-full bg-white/5 text-gray-300 border border-white/10 group-hover:border-white/20 transition-colors">
+                      <div className="flex items-center gap-2 text-xs font-semibold px-2.5 py-1 rounded-full bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-white/10 group-hover:border-gray-300 dark:group-hover:border-white/20 transition-colors">
                         <Calendar className="w-3.5 h-3.5" /> {date}
                       </div>
                       <div className={`px-2.5 py-1 rounded-lg text-xs font-black uppercase tracking-wider
@@ -133,7 +133,7 @@ export default function HistoryPage() {
                       </div>
                     </div>
 
-                    <h3 className="text-lg font-bold text-white mb-1 line-clamp-2 leading-tight">
+                    <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-1 line-clamp-2 leading-tight">
                       {attempt.quizzes?.title || 'Unknown Quiz'}
                     </h3>
                     <p className="text-sm text-gray-500 mb-6 flex items-center gap-2">
@@ -147,15 +147,15 @@ export default function HistoryPage() {
 
                   <div className="grid grid-cols-3 gap-2 mt-auto">
                     {/* Total */}
-                    <div className="bg-white/5 rounded-2xl p-3 flex flex-col items-center justify-center border border-white/5">
+                    <div className="bg-gray-50 dark:bg-white/5 rounded-2xl p-3 flex flex-col items-center justify-center border border-gray-200 dark:border-white/5">
                       <div className="flex items-center gap-1.5 text-xs text-gray-400 mb-1">
                         <Target className="w-3.5 h-3.5" /> Total
                       </div>
-                      <span className="text-lg font-black text-white">{attempt.total_questions}</span>
+                      <span className="text-lg font-black text-gray-900 dark:text-white">{attempt.total_questions}</span>
                     </div>
 
                     {/* Correct */}
-                    <div className="bg-green-500/5 rounded-2xl p-3 flex flex-col items-center justify-center border border-green-500/10">
+                    <div className="bg-green-50 dark:bg-green-500/5 rounded-2xl p-3 flex flex-col items-center justify-center border border-green-200 dark:border-green-500/10">
                       <div className="flex items-center gap-1.5 text-xs text-green-400/70 mb-1">
                         <CheckCircle2 className="w-3.5 h-3.5" /> Correct
                       </div>
@@ -163,7 +163,7 @@ export default function HistoryPage() {
                     </div>
 
                     {/* Incorrect */}
-                    <div className="bg-red-500/5 rounded-2xl p-3 flex flex-col items-center justify-center border border-red-500/10">
+                    <div className="bg-red-50 dark:bg-red-500/5 rounded-2xl p-3 flex flex-col items-center justify-center border border-red-200 dark:border-red-500/10">
                       <div className="flex items-center gap-1.5 text-xs text-red-400/70 mb-1">
                         <XCircle className="w-3.5 h-3.5" /> Incorrect
                       </div>

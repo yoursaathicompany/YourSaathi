@@ -121,34 +121,34 @@ export default function QuizPlayer({ quizId, questions, topic }: QuizPlayerProps
 
   if (result) {
     return (
-      <div className="min-h-[60vh] flex flex-col items-center justify-center text-center p-8 glass-panel rounded-3xl border border-white/10">
+      <div className="min-h-[60vh] flex flex-col items-center justify-center text-center p-8 glass-panel rounded-3xl border border-gray-200 dark:border-white/10 bg-white/50 dark:bg-transparent">
         <motion.div
           initial={{ scale: 0.8, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
-          className="mb-6 p-4 rounded-full bg-green-500/20 text-green-400"
+          className="mb-6 p-4 rounded-full bg-green-100 dark:bg-green-500/20 text-green-600 dark:text-green-400"
         >
           <CheckCircle2 className="w-16 h-16" />
         </motion.div>
 
-        <h2 className="text-4xl font-bold mb-2">Quiz Completed!</h2>
-        <p className="text-gray-400 mb-8 max-w-md">
+        <h2 className="text-4xl font-bold mb-2 text-gray-900 dark:text-white">Quiz Completed!</h2>
+        <p className="text-gray-600 dark:text-gray-400 mb-8 max-w-md">
           You answered {result.correct_count} out of {result.total_questions} questions correctly.
         </p>
 
         <div className="grid grid-cols-2 gap-4 w-full max-w-sm mb-8">
-          <div className="p-4 bg-white/5 rounded-2xl border border-white/10">
+          <div className="p-4 bg-gray-100 dark:bg-white/5 rounded-2xl border border-gray-200 dark:border-white/10">
             <p className="text-sm text-gray-500 mb-1">Score</p>
-            <p className="text-2xl font-bold text-white">{result.score_percentage}%</p>
+            <p className="text-2xl font-bold text-gray-900 dark:text-white">{result.score_percentage}%</p>
           </div>
-          <div className="p-4 bg-yellow-500/10 rounded-2xl border border-yellow-500/20">
-            <p className="text-sm text-yellow-500/70 mb-1">Coins Earned</p>
-            <p className="text-2xl font-bold text-yellow-400">+{result.coins_awarded}</p>
+          <div className="p-4 bg-yellow-50 dark:bg-yellow-500/10 rounded-2xl border border-yellow-200 dark:border-yellow-500/20">
+            <p className="text-sm text-yellow-600 dark:text-yellow-500/70 mb-1">Coins Earned</p>
+            <p className="text-2xl font-bold text-yellow-500 dark:text-yellow-400">+{result.coins_awarded}</p>
           </div>
         </div>
 
         <button
           onClick={() => router.push('/')}
-          className="bg-white text-black font-bold px-8 py-3 rounded-xl hover:bg-gray-200 transition-colors"
+          className="bg-gray-900 dark:bg-white text-white dark:text-black font-bold px-8 py-3 rounded-xl hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors"
         >
           Back to Home
         </button>

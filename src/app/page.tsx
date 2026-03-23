@@ -24,13 +24,60 @@ export default function Home() {
         </motion.div>
 
         <motion.h1
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.1 }}
-          className="text-5xl md:text-7xl font-extrabold tracking-tight"
+          variants={{
+            hidden: { opacity: 0 },
+            visible: {
+              opacity: 1,
+              transition: {
+                staggerChildren: 0.15,
+                delayChildren: 0.1,
+              },
+            },
+          }}
+          initial="hidden"
+          animate="visible"
+          className="text-5xl md:text-7xl font-extrabold tracking-tight flex flex-col items-center gap-2 sm:gap-4"
         >
-          Build Yourself <br />
-          <span className="gradient-text">By Practicing Quizzes</span>
+          <div className="overflow-hidden flex gap-3 md:gap-4 flex-wrap justify-center">
+            {["Build", "Yourself"].map((word, i) => (
+              <motion.span
+                key={`word1-${i}`}
+                variants={{
+                  hidden: { y: "100%", opacity: 0, rotateX: -45, filter: "blur(8px)" },
+                  visible: { 
+                    y: 0, 
+                    opacity: 1, 
+                    rotateX: 0,
+                    filter: "blur(0px)",
+                    transition: { type: "spring", damping: 12, stiffness: 100 }
+                  }
+                }}
+                className="inline-block text-gray-950 dark:text-white"
+              >
+                {word}
+              </motion.span>
+            ))}
+          </div>
+          <div className="overflow-hidden flex gap-3 md:gap-4 flex-wrap justify-center mt-[-0.2em]">
+            {["By", "Practicing", "Quizzes"].map((word, i) => (
+              <motion.span
+                key={`word2-${i}`}
+                variants={{
+                  hidden: { y: "100%", opacity: 0, rotateX: -45, filter: "blur(8px)" },
+                  visible: { 
+                    y: 0, 
+                    opacity: 1, 
+                    rotateX: 0,
+                    filter: "blur(0px)", 
+                    transition: { type: "spring", damping: 12, stiffness: 100 }
+                  }
+                }}
+                className="inline-block gradient-text"
+              >
+                {word}
+              </motion.span>
+            ))}
+          </div>
         </motion.h1>
 
         <motion.p

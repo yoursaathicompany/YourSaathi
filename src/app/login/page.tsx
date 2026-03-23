@@ -95,7 +95,7 @@ function LoginContent() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 py-12 bg-[#09090b]">
+    <div className="min-h-screen flex items-center justify-center px-4 py-12 bg-gray-50 dark:bg-[#09090b] transition-colors duration-300">
       {/* Background glow */}
       <div className="pointer-events-none fixed inset-0 overflow-hidden">
         <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[700px] h-[400px] bg-purple-600/20 rounded-full blur-3xl" />
@@ -313,7 +313,7 @@ function LoginContent() {
 export default function LoginPage() {
   return (
     <Suspense fallback={
-      <div className="min-h-screen flex items-center justify-center bg-[#09090b]">
+      <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-[#09090b] transition-colors duration-300">
         <Loader2 className="w-8 h-8 animate-spin text-purple-400" />
       </div>
     }>

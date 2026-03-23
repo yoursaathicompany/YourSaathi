@@ -53,7 +53,7 @@ export default async function QuizPlayPage({ params }: QuizPlayPageProps) {
   }));
 
   return (
-    <div className="min-h-screen bg-[#09090b]">
+    <div className="min-h-screen bg-gray-50 dark:bg-[#09090b] transition-colors duration-300">
        <QuizPlayer 
           quizId={quiz.id} 
           questions={mappedQuestions} 

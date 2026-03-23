@@ -5,6 +5,8 @@ import Script from "next/script";
 import { SessionProvider } from "@/components/providers/SessionProvider";
 import Navbar from "@/components/Navbar";
 
+import { ThemeProvider } from "@/components/providers/ThemeProvider";
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -70,16 +72,23 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark">
+    <html lang="en" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-[#09090b] text-white min-h-screen`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gray-50 text-gray-950 dark:bg-[#09090b] dark:text-white min-h-screen transition-colors duration-300`}
       >
-        <SessionProvider>
-          <Navbar />
-          <main>
-            {children}
-          </main>
-        </SessionProvider>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange={false}
+        >
+          <SessionProvider>
+            <Navbar />
+            <main>
+              {children}
+            </main>
+          </SessionProvider>
+        </ThemeProvider>
         <Script
           async
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4043118352636472"

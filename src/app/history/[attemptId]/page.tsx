@@ -132,10 +132,10 @@ export default function HistoryDetailPage(props: { params: Promise<{ attemptId: 
       </div>
 
       {/* Summary Card */}
-      <div className="bg-white/[0.03] border border-white/5 rounded-3xl p-6 mb-8 shadow-xl">
-        <h2 className="text-xl font-bold text-white mb-2">{attempt.quizzes?.title}</h2>
+      <div className="bg-white dark:bg-white/[0.03] border border-gray-200 dark:border-white/5 rounded-3xl p-6 mb-8 shadow-xl">
+        <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-2">{attempt.quizzes?.title}</h2>
         <div className="flex flex-wrap items-center gap-3 mb-6">
-          <span className="px-3 py-1 rounded-lg bg-white/5 text-gray-300 text-sm capitalize">
+          <span className="px-3 py-1 rounded-lg bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-gray-300 text-sm capitalize">
             {attempt.quizzes?.topic}
           </span>
           <span className={`px-3 py-1 rounded-lg text-sm font-medium capitalize
@@ -152,9 +152,9 @@ export default function HistoryDetailPage(props: { params: Promise<{ attemptId: 
         </div>
 
         <div className="grid grid-cols-3 gap-4">
-          <div className="bg-white/5 rounded-2xl p-4 flex flex-col items-center justify-center">
-            <div className="text-sm text-gray-400 mb-1 flex items-center gap-1.5"><Target className="w-4 h-4"/> Score</div>
-            <span className="text-2xl font-black text-white">{attempt.score_percentage}%</span>
+          <div className="bg-gray-100 dark:bg-white/5 rounded-2xl p-4 flex flex-col items-center justify-center border border-gray-200 dark:border-transparent">
+            <div className="text-sm text-gray-500 dark:text-gray-400 mb-1 flex items-center gap-1.5"><Target className="w-4 h-4"/> Score</div>
+            <span className="text-2xl font-black text-gray-900 dark:text-white">{attempt.score_percentage}%</span>
           </div>
           <div className="bg-green-500/5 rounded-2xl p-4 flex flex-col items-center justify-center border border-green-500/10">
             <div className="text-sm text-green-400/80 mb-1 flex items-center gap-1.5"><CheckCircle2 className="w-4 h-4"/> Correct</div>
@@ -168,7 +168,7 @@ export default function HistoryDetailPage(props: { params: Promise<{ attemptId: 
       </div>
 
       {/* Detailed Questions List */}
-      <h3 className="text-xl font-bold text-white mb-6">Question Breakdown</h3>
+      <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-6">Question Breakdown</h3>
       <div className="space-y-6">
         {answers.map((ans, idx) => {
           const q = ans.questions;
@@ -181,18 +181,18 @@ export default function HistoryDetailPage(props: { params: Promise<{ attemptId: 
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: idx * 0.05 }}
-              className={`bg-white/[0.02] border rounded-3xl p-6 ${
-                ans.is_correct ? 'border-green-500/20 shadow-[0_0_15px_rgba(34,197,94,0.05)]' : 'border-red-500/20 shadow-[0_0_15px_rgba(239,68,68,0.05)]'
+              className={`bg-white dark:bg-white/[0.02] border rounded-3xl p-6 ${
+                ans.is_correct ? 'border-green-300 dark:border-green-500/20 shadow-[0_0_15px_rgba(34,197,94,0.1)] dark:shadow-[0_0_15px_rgba(34,197,94,0.05)]' : 'border-red-300 dark:border-red-500/20 shadow-[0_0_15px_rgba(239,68,68,0.1)] dark:shadow-[0_0_15px_rgba(239,68,68,0.05)]'
               }`}
             >
               <div className="flex items-start gap-4 mb-6">
                 <div className={`shrink-0 w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm
-                  ${ans.is_correct ? 'bg-green-500/20 text-green-400' : 'bg-red-500/20 text-red-400'}
+                  ${ans.is_correct ? 'bg-green-100 dark:bg-green-500/20 text-green-600 dark:text-green-400' : 'bg-red-100 dark:bg-red-500/20 text-red-600 dark:text-red-400'}
                 `}>
                   {idx + 1}
                 </div>
                 <div className="flex-1 pt-1">
-                  <h4 className="text-lg font-medium text-gray-200 leading-relaxed">
+                  <h4 className="text-lg font-medium text-gray-900 dark:text-gray-200 leading-relaxed">
                     {q.content}
                   </h4>
                 </div>
@@ -217,14 +217,14 @@ export default function HistoryDetailPage(props: { params: Promise<{ attemptId: 
                       ? q.correct_answer.includes(opt)
                       : q.correct_answer === opt;
 
-                    let bgClass = "bg-white/5 border-white/5 text-gray-400";
+                    let bgClass = "bg-gray-50 dark:bg-white/5 border-gray-200 dark:border-white/5 text-gray-600 dark:text-gray-400";
                     let accentClass = "";
 
                     if (isCorrectChoice) {
-                      bgClass = "bg-green-500/10 border-green-500/30 text-green-400";
+                      bgClass = "bg-green-50 dark:bg-green-500/10 border-green-200 dark:border-green-500/30 text-green-600 dark:text-green-400";
                       accentClass = "ring-1 ring-green-500/50";
                     } else if (isUserChoice && !isCorrectChoice) {
-                      bgClass = "bg-red-500/10 border-red-500/30 text-red-400";
+                      bgClass = "bg-red-50 dark:bg-red-500/10 border-red-200 dark:border-red-500/30 text-red-600 dark:text-red-400";
                       accentClass = "ring-1 ring-red-500/50";
                     }
 

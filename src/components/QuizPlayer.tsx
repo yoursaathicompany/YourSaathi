@@ -209,13 +209,13 @@ export default function QuizPlayer({ quizId, questions, topic }: QuizPlayerProps
       {/* Progress Header */}
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h1 className="text-xl font-bold text-white mb-1 truncate max-w-[200px] sm:max-w-md">{topic}</h1>
+          <h1 className="text-xl font-bold text-gray-950 dark:text-white mb-1 truncate max-w-[200px] sm:max-w-md">{topic}</h1>
           <p className="text-xs text-gray-500 uppercase tracking-widest font-bold">
             Question {currentIndex + 1} of {questions.length}
           </p>
         </div>
         <div className="flex items-center gap-4">
-          <div className="flex items-center gap-2 px-3 py-1.5 bg-white/5 border border-white/10 rounded-full text-xs font-medium text-gray-400">
+          <div className="flex items-center gap-2 px-3 py-1.5 bg-gray-200/50 dark:bg-white/5 border border-gray-300 dark:border-white/10 rounded-full text-xs font-medium text-gray-600 dark:text-gray-400">
             <Timer className="w-3.5 h-3.5" />
             <span className="tabular-nums">
               {Math.floor((Date.now() - startTime) / 60000)}:
@@ -226,7 +226,7 @@ export default function QuizPlayer({ quizId, questions, topic }: QuizPlayerProps
       </div>
 
       {/* Progress Bar */}
-      <div className="w-full h-1.5 bg-white/5 rounded-full mb-12 overflow-hidden">
+      <div className="w-full h-1.5 bg-gray-200 dark:bg-white/5 rounded-full mb-12 overflow-hidden">
         <motion.div
           className="h-full bg-purple-500"
           initial={{ width: 0 }}
@@ -243,8 +243,8 @@ export default function QuizPlayer({ quizId, questions, topic }: QuizPlayerProps
           exit={{ opacity: 0, x: -20 }}
           className="min-h-[400px] flex flex-col"
         >
-          <div className="glass-panel p-8 rounded-3xl border border-white/10 mb-8">
-            <h2 className="text-2xl font-bold leading-tight mb-8 text-white">
+          <div className="glass-panel p-8 rounded-3xl border border-gray-200 dark:border-white/10 bg-white/50 dark:bg-transparent mb-8">
+            <h2 className="text-2xl font-bold leading-tight mb-8 text-gray-950 dark:text-white">
               {currentQuestion.question}
             </h2>
 
@@ -259,14 +259,14 @@ export default function QuizPlayer({ quizId, questions, topic }: QuizPlayerProps
                       w-full text-left p-5 rounded-2xl border transition-all duration-200 group
                       ${isSelected
                         ? 'bg-purple-500 border-purple-400 text-white shadow-lg shadow-purple-500/20'
-                        : 'bg-white/5 border-white/5 text-gray-400 hover:bg-white/[0.08] hover:border-white/20'
+                        : 'bg-gray-100 dark:bg-white/5 border-gray-200 dark:border-white/5 text-gray-700 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-white/[0.08] hover:border-gray-300 dark:hover:border-white/20'
                       }
                     `}
                   >
                     <div className="flex items-center gap-4">
                       <span className={`
                         w-8 h-8 rounded-lg flex items-center justify-center text-xs font-bold transition-colors
-                        ${isSelected ? 'bg-white/20 text-white' : 'bg-white/5 text-gray-500 group-hover:text-gray-300'}
+                        ${isSelected ? 'bg-white/20 text-white' : 'bg-gray-200 dark:bg-white/5 text-gray-600 dark:text-gray-500 group-hover:text-gray-800 dark:group-hover:text-gray-300'}
                       `}>
                         {String.fromCharCode(65 + idx)}
                       </span>
@@ -283,7 +283,7 @@ export default function QuizPlayer({ quizId, questions, topic }: QuizPlayerProps
             <button
               onClick={handlePrev}
               disabled={currentIndex === 0}
-              className="flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-gray-500 hover:text-white disabled:opacity-0 transition-all"
+              className="flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-gray-500 hover:text-gray-900 dark:hover:text-white disabled:opacity-0 transition-all"
             >
               <ChevronLeft className="w-5 h-5" /> Back
             </button>

@@ -129,7 +129,7 @@ export default function ProfilePage() {
                 <span className="text-sm text-gray-500 font-medium">Quizzes Taken</span>
                 <span className="text-sm text-white font-bold">{stats.quizzesTaken}</span>
               </div>
-              
+
               <Link href="/history" className="mt-6 flex items-center justify-center gap-2 w-full bg-white/5 hover:bg-white/10 text-white font-bold py-3 rounded-2xl transition-all border border-white/10 text-sm group">
                 View Full Quiz History <ArrowRight className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" />
               </Link>

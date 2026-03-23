@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { Search, Sparkles, TrendingUp } from 'lucide-react';
 import QuizBoxGrid from '@/components/QuizBoxGrid';
+import BackgroundAnimation from '@/components/BackgroundAnimation';
 import { motion } from 'framer-motion';
 
 export default function Home() {
@@ -10,9 +11,11 @@ export default function Home() {
   const [showAll, setShowAll] = useState(false);
 
   return (
-    <div className="min-h-screen pt-8 pb-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+    <>
+      <BackgroundAnimation />
+      <div className="min-h-screen pt-8 pb-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto relative z-0">
 
-      {/* Hero Section */}
+        {/* Hero Section */}
       <div className="flex flex-col items-center text-center mb-16 space-y-6">
         <motion.div
           initial={{ opacity: 0, y: -20 }}
@@ -133,6 +136,7 @@ export default function Home() {
         <QuizBoxGrid searchQuery={searchQuery} showAll={showAll} />
       </div>
 
-    </div>
+      </div>
+    </>
   );
 }

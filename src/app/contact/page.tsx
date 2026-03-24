@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 };
 
 export default function ContactUsPage() {
-  const supportEmail = 'support@yoursaathi.com'; // Replace with your actual support email
+  const supportEmail = 'yoursaathicompany@gmail.com'; // Replace with your actual support email
   const mailtoLink = `mailto:${supportEmail}?subject=Support Request - YourSaathi&body=Hi YourSaathi Team,%0D%0A%0D%0AI need help with...`;
 
   return (

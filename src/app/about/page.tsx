@@ -12,15 +12,15 @@ export default function AboutUsPage() {
   return (
     <div className="min-h-screen pt-8 pb-20">
       <main className="max-w-4xl mx-auto w-full px-4 sm:px-6 lg:px-8">
-        
+
         {/* Header Section */}
         <div className="text-center mb-16 space-y-4">
           <div className="inline-flex items-center justify-center mb-4">
-            <Image 
-              src="/logo.png" 
-              alt="YourSaathi Logo" 
-              width={160} 
-              height={160} 
+            <Image
+              src="/logo-yoursaathi.png"
+              alt="YourSaathi Logo"
+              width={160}
+              height={160}
               className="drop-shadow-2xl"
               priority
             />
@@ -41,8 +41,8 @@ export default function AboutUsPage() {
             </div>
             <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-3">Our Mission</h2>
             <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
-              To democratize high-quality education by providing instant, verified, and personalized 
-              practice quizzes for every subject and difficulty level. We believe that testing your knowledge 
+              To democratize high-quality education by providing instant, verified, and personalized
+              practice quizzes for every subject and difficulty level. We believe that testing your knowledge
               should be accessible to everyone, anywhere, at any time.
             </p>
           </div>
@@ -53,8 +53,8 @@ export default function AboutUsPage() {
             </div>
             <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-3">Learn & Earn</h2>
             <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
-              We know that staying motivated can be tough. That&apos;s why we built a learn-and-earn ecosystem 
-              where your actual performance directly translates into digital coins, which you can later redeem 
+              We know that staying motivated can be tough. That&apos;s why we built a learn-and-earn ecosystem
+              where your actual performance directly translates into digital coins, which you can later redeem
               for real-world rewards. You put in the hard work, and we reward you for it.
             </p>
           </div>
@@ -96,12 +96,12 @@ export default function AboutUsPage() {
           <p className="text-gray-600 dark:text-gray-300 mb-8 max-w-lg mx-auto">
             Join our growing community of learners! Follow us on social media for daily quiz challenges, platform updates, and learning tips.
           </p>
-          
+
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             {/* Instagram */}
-            <a 
-              href="https://instagram.com/yoursaathi_ai" 
-              target="_blank" 
+            <a
+              href="https://instagram.com/yoursaathi_ai"
+              target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 text-white font-semibold transition-all shadow-lg hover:shadow-xl hover:-translate-y-0.5"
             >
@@ -110,7 +110,7 @@ export default function AboutUsPage() {
             </a>
 
             {/* Email */}
-            <Link 
+            <Link
               href="/contact"
               className="flex items-center gap-2 px-6 py-3 rounded-xl bg-white dark:bg-black/40 border border-gray-200 dark:border-white/10 text-gray-900 dark:text-white hover:bg-gray-50 dark:hover:bg-black/60 font-semibold transition-all hover:-translate-y-0.5"
             >

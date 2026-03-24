@@ -26,27 +26,60 @@ export default function AdminDashboard() {
   const [adjustAmount, setAdjustAmount] = useState(0);
   const [adjusting, setAdjusting] = useState(false);
 
+  const [logs, setLogs] = useState<any[]>([]);
+
   useEffect(() => {
-    // Fill with some mock stats for now, in real app fetch from /api/admin/stats
-    setTimeout(() => {
-      setStats({ users: 1242, quizzes: 84, generations: 329, avgScore: '72%' });
-      setLoading(false);
-    }, 800);
+    const fetchAll = async () => {
+      try {
+        const [statsRes, logsRes] = await Promise.all([
+          fetch('/api/admin/stats'),
+          fetch('/api/admin/logs')
+        ]);
+        
+        if (statsRes.ok) {
+          const s = await statsRes.json();
+          setStats({ 
+            users: s.total_users, 
+            quizzes: s.total_quizzes, 
+            generations: s.total_ai_generations, 
+            avgScore: s.avg_score 
+          });
+        }
+        
+        if (logsRes.ok) {
+          const l = await logsRes.json();
+          setLogs(l.logs || []);
+        }
+      } catch (err) {
+        console.error('Failed to load admin dashboard data', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    fetchAll();
   }, []);
 
   const handleSearch = async () => {
     if (!query) return;
     setLoading(true);
-    // Real app: fetch('/api/admin/users?email=' + query)
-    setTimeout(() => {
-      setTargetUser({
-        id: '123-abc',
-        email: query,
-        display_name: 'Search Result User',
-        coins_balance: 450
-      });
+    setTargetUser(null);
+    try {
+      const res = await fetch(`/api/admin/users/search?email=${encodeURIComponent(query)}`);
+      if (res.ok) {
+        const data = await res.json();
+        if (data.users && data.users.length > 0) {
+          // Just grab the first perfect or partial match
+          setTargetUser(data.users[0]);
+        } else {
+          alert('No user found with that email.');
+        }
+      }
+    } catch (e) {
+      alert('Search failed.');
+    } finally {
       setLoading(false);
-    }, 500);
+    }
   };
 
   const adjustBalance = async () => {
@@ -208,18 +241,29 @@ export default function AdminDashboard() {
 
         {/* System Health / Recent Log Stubs */}
         <div className="space-y-6">
-           <div className="glass-panel p-6 rounded-2xl border border-white/10">
+             <div className="glass-panel p-6 rounded-2xl border border-white/10">
              <h4 className="text-sm font-bold mb-4 uppercase text-gray-500">System Logs</h4>
              <div className="space-y-3">
-                <div className="text-xs p-3 bg-green-500/5 border border-green-500/10 rounded-lg text-green-400">
-                  [19:54] AI Generation Success: topic="React"
-                </div>
-                <div className="text-xs p-3 bg-blue-500/5 border border-blue-500/10 rounded-lg text-blue-400">
-                  [19:52] User Signup: test@example.com
-                </div>
-                <div className="text-xs p-3 bg-yellow-500/5 border border-yellow-500/10 rounded-lg text-yellow-400">
-                  [19:48] Coin Award: +15 coins to 0x429
-                </div>
+               {logs.length === 0 ? (
+                 <p className="text-xs text-gray-500 italic">No recent logs.</p>
+               ) : (
+                 logs.map((log) => {
+                   const time = new Date(log.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                   
+                   let colorClass = 'bg-gray-500/5 border-gray-500/10 text-gray-400';
+                   if (log.status === 'success') colorClass = 'bg-green-500/5 border-green-500/10 text-green-400';
+                   else if (log.status === 'failed') colorClass = 'bg-red-500/5 border-red-500/10 text-red-400';
+                   else if (log.status === 'pending') colorClass = 'bg-yellow-500/5 border-yellow-500/10 text-yellow-400';
+
+                   return (
+                     <div key={log.id} className={`text-xs p-3 border rounded-lg ${colorClass}`}>
+                       <span className="opacity-75">[{time}]</span> {log.user_email}: AI Generation {log.status} 
+                       {log.topic && ` (topic: "${log.topic}")`}
+                       {log.error_message && ` - ${log.error_message}`}
+                     </div>
+                   );
+                 })
+               )}
              </div>
            </div>
 

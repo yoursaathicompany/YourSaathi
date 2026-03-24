@@ -196,7 +196,7 @@ export default function QuizPlayer({ quizId, questions, topic }: QuizPlayerProps
                 ) : null}
                 <button
                   onClick={() => setErrorMsg(null)}
-                  className="w-full bg-white/5 hover:bg-white/10 text-white font-medium py-3 px-4 rounded-xl transition-colors"
+                  className="w-full bg-gray-200 hover:bg-gray-300 dark:bg-white/5 dark:hover:bg-white/10 text-gray-900 dark:text-white font-medium py-3 px-4 rounded-xl transition-colors"
                 >
                   Close
                 </button>
@@ -258,7 +258,7 @@ export default function QuizPlayer({ quizId, questions, topic }: QuizPlayerProps
                     className={`
                       w-full text-left p-5 rounded-2xl border transition-all duration-200 group
                       ${isSelected
-                        ? 'bg-purple-500 border-purple-400 text-white shadow-lg shadow-purple-500/20'
+                        ? 'bg-purple-600 border-purple-500 text-white shadow-lg shadow-purple-500/20'
                         : 'bg-gray-100 dark:bg-white/5 border-gray-200 dark:border-white/5 text-gray-700 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-white/[0.08] hover:border-gray-300 dark:hover:border-white/20'
                       }
                     `}
@@ -266,7 +266,7 @@ export default function QuizPlayer({ quizId, questions, topic }: QuizPlayerProps
                     <div className="flex items-center gap-4">
                       <span className={`
                         w-8 h-8 rounded-lg flex items-center justify-center text-xs font-bold transition-colors
-                        ${isSelected ? 'bg-white/20 text-white' : 'bg-gray-200 dark:bg-white/5 text-gray-600 dark:text-gray-500 group-hover:text-gray-800 dark:group-hover:text-gray-300'}
+                        ${isSelected ? 'bg-black/10 dark:bg-white/20 text-gray-900 dark:text-white' : 'bg-gray-200 dark:bg-white/5 text-gray-600 dark:text-gray-500 group-hover:text-gray-800 dark:group-hover:text-gray-300'}
                       `}>
                         {String.fromCharCode(65 + idx)}
                       </span>

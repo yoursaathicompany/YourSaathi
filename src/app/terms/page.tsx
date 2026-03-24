@@ -18,10 +18,10 @@ export default function TermsOfServicePage() {
         </div>
 
         {/* Content */}
-        <div className="prose prose-invert prose-purple max-w-none space-y-8 text-gray-300">
+        <div className="prose prose-purple dark:prose-invert max-w-none space-y-8 text-gray-600 dark:text-gray-300">
           
           <section>
-            <h2 className="text-2xl font-bold text-white mb-4">1. Agreement to Terms</h2>
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">1. Agreement to Terms</h2>
             <p>
               By accessing or using the YourSaathi platform ("the Service"), you agree to be bound by 
               these Terms of Service. If you disagree with any part of these terms, you may not access 
@@ -30,7 +30,7 @@ export default function TermsOfServicePage() {
           </section>
 
           <section>
-            <h2 className="text-2xl font-bold text-white mb-4">2. Description of Service</h2>
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">2. Description of Service</h2>
             <p>
               YourSaathi is an AI-powered educational platform that allows users to generate practice quizzes, 
               take assessments, and earn digital coins ("Coins") based on their performance. Coins can subsequently 
@@ -39,7 +39,7 @@ export default function TermsOfServicePage() {
           </section>
 
           <section>
-            <h2 className="text-2xl font-bold text-white mb-4">3. User Accounts</h2>
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">3. User Accounts</h2>
             <ul className="list-disc pl-5 space-y-2">
               <li>You must provide accurate and complete information when creating an account.</li>
               <li>You are responsible for safeguarding your account credentials.</li>
@@ -49,15 +49,15 @@ export default function TermsOfServicePage() {
           </section>
 
           <section>
-            <h2 className="text-2xl font-bold text-white mb-4">4. Earning and Redeeming Coins</h2>
-            <h3 className="text-xl font-semibold text-white mb-2 mt-4">Fair Play and Anti-Cheat</h3>
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">4. Earning and Redeeming Coins</h2>
+            <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2 mt-4">Fair Play and Anti-Cheat</h3>
             <p className="mb-4">
               Coins are awarded strictly for legitimate quiz completion. Any attempt to manipulate, automate 
               (e.g., using bots or scripts), exploit bugs, or bypass the intended tracking of quiz scores to 
               generate artificial Coins will result in immediate account termination and forfeiture of all Coins.
             </p>
 
-            <h3 className="text-xl font-semibold text-white mb-2 mt-4">Redemptions</h3>
+            <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2 mt-4">Redemptions</h3>
             <ul className="list-disc pl-5 space-y-2">
               <li>Coins have no intrinsic real-world value outside the YourSaathi platform until a valid withdrawal request is approved.</li>
               <li>Withdrawals require reaching specific minimum Coin tiers.</li>
@@ -68,7 +68,7 @@ export default function TermsOfServicePage() {
           </section>
 
           <section>
-            <h2 className="text-2xl font-bold text-white mb-4">5. User-Generated and AI-Generated Content</h2>
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">5. User-Generated and AI-Generated Content</h2>
             <p className="mb-4">
               Quizzes generated via AI on our platform are provided "as-is." While we strive for accuracy, 
               we do not guarantee that all AI-generated questions or answers are flawless. You are solely 
@@ -81,7 +81,7 @@ export default function TermsOfServicePage() {
           </section>
 
           <section>
-            <h2 className="text-2xl font-bold text-white mb-4">6. Limitation of Liability</h2>
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">6. Limitation of Liability</h2>
             <p>
               In no event shall YourSaathi, nor its directors, employees, partners, agents, suppliers, 
               or affiliates, be liable for any indirect, incidental, special, consequential or punitive 
@@ -91,7 +91,7 @@ export default function TermsOfServicePage() {
           </section>
 
           <section>
-            <h2 className="text-2xl font-bold text-white mb-4">7. Termination</h2>
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">7. Termination</h2>
             <p>
               We may terminate or suspend your account immediately, without prior notice or liability, 
               for any reason whatsoever, including without limitation if you breach the Terms. 
@@ -100,7 +100,7 @@ export default function TermsOfServicePage() {
           </section>
 
           <section>
-            <h2 className="text-2xl font-bold text-white mb-4">8. Contact Us</h2>
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">8. Contact Us</h2>
             <p>
               If you have any questions about these Terms, please contact us at:
             </p>
@@ -112,8 +112,8 @@ export default function TermsOfServicePage() {
         </div>
 
         {/* Footer Link */}
-        <div className="mt-16 pt-8 border-t border-white/10 text-center">
-          <Link href="/contact" className="text-sm text-gray-400 hover:text-white transition-colors">
+        <div className="mt-16 pt-8 border-t border-gray-200 dark:border-white/10 text-center">
+          <Link href="/contact" className="text-sm text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white transition-colors">
             Return to Contact Page
           </Link>
         </div>

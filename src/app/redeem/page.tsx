@@ -126,7 +126,7 @@ export default function RedeemPage() {
         <div>
           <h1 className="text-3xl font-black flex items-center gap-3">
             <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center">
-              <Coins className="w-5 h-5 text-white" />
+              <Coins className="w-5 h-5 text-gray-900 dark:text-white" />
             </div>
             Redeem Coins
           </h1>
@@ -134,7 +134,7 @@ export default function RedeemPage() {
         </div>
         <Link
           href="/redeem/history"
-          className="flex items-center gap-2 text-sm text-gray-400 hover:text-white transition-colors px-4 py-2 rounded-xl bg-white/5 border border-white/10 hover:border-white/20"
+          className="flex items-center gap-2 text-sm text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white transition-colors px-4 py-2 rounded-xl bg-gray-200 dark:bg-white/5 border border-gray-300 dark:border-white/10 hover:border-gray-400 dark:hover:border-white/20"
         >
           <History className="w-4 h-4" />
           History
@@ -260,7 +260,7 @@ export default function RedeemPage() {
                 placeholder="e.g. yourname@okicici"
                 autoComplete="off"
                 spellCheck={false}
-                className={`w-full bg-black/30 border rounded-xl px-4 py-3 text-white placeholder-gray-600 focus:outline-none focus:ring-2 transition-colors font-mono text-sm ${
+                className={`w-full bg-black/5 dark:bg-black/30 border rounded-xl px-4 py-3 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-600 focus:outline-none focus:ring-2 transition-colors font-mono text-sm ${
                   upiError
                     ? 'border-red-500/50 focus:ring-red-500/30'
                     : 'border-white/10 focus:ring-purple-500/30 focus:border-purple-500/50'
@@ -280,7 +280,7 @@ export default function RedeemPage() {
                 className="flex items-center justify-between p-4 bg-purple-500/10 border border-purple-500/20 rounded-xl"
               >
                 <div>
-                  <p className="text-sm font-semibold text-white">Order Summary</p>
+                  <p className="text-sm font-semibold text-gray-900 dark:text-white">Order Summary</p>
                   <p className="text-xs text-gray-400 mt-0.5">
                     {selectedTier.coins_required.toLocaleString('en-IN')} coins →{' '}
                     {formatINR(selectedTier.rupee_amount)} via UPI
@@ -296,7 +296,7 @@ export default function RedeemPage() {
               id="btn-submit-withdrawal"
               onClick={handleSubmit}
               disabled={!canSubmit}
-              className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 disabled:from-gray-700 disabled:to-gray-700 disabled:cursor-not-allowed text-white font-bold py-4 rounded-xl transition-all shadow-lg shadow-purple-500/20 disabled:shadow-none text-base"
+              className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 disabled:from-gray-300 disabled:to-gray-300 dark:disabled:from-gray-700 dark:disabled:to-gray-700 disabled:cursor-not-allowed text-white font-bold py-4 rounded-xl transition-all shadow-lg shadow-purple-500/20 disabled:shadow-none text-base"
             >
               {submitting ? (
                 <><Loader2 className="w-5 h-5 animate-spin" /> Processing...</>

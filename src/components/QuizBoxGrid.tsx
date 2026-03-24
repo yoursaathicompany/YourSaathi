@@ -59,7 +59,7 @@ export default function QuizBoxGrid({ searchQuery = '', showAll = false }: QuizB
               </div>
 
               <div className={`p-3 rounded-xl bg-gradient-to-br ${cat.color} shadow-lg`}>
-                <Icon className="w-6 h-6 text-white" />
+                <Icon className="w-6 h-6 text-white dark:text-gray-900" />
               </div>
 
               <div className="z-10 mt-2 flex-grow">

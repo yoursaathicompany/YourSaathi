@@ -41,7 +41,7 @@ export default function ContactUsPage() {
               <Mail className="w-8 h-8" />
             </div>
             
-            <h2 className="text-2xl font-bold text-white mb-2">Email Support</h2>
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">Email Support</h2>
             <p className="text-gray-400 mb-6">
               Send us an email directly. Best for detailed questions, bug reports, or account issues.
             </p>
@@ -59,7 +59,7 @@ export default function ContactUsPage() {
                 <Clock className="w-6 h-6 text-blue-400" />
               </div>
               <div>
-                <h3 className="text-lg font-bold text-white mb-1">Response Time</h3>
+                <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-1">Response Time</h3>
                 <p className="text-gray-400 text-sm">
                   We aim to respond to all inquiries within 24-48 hours during business days.
                 </p>
@@ -71,7 +71,7 @@ export default function ContactUsPage() {
                 <Globe className="w-6 h-6 text-green-400" />
               </div>
               <div>
-                <h3 className="text-lg font-bold text-white mb-1">Global Support</h3>
+                <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-1">Global Support</h3>
                 <p className="text-gray-400 text-sm">
                   Our team is distributed, but support is primarily provided in English and Hindi.
                 </p>

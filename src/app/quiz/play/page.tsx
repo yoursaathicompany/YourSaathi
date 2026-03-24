@@ -102,7 +102,7 @@ export default function QuizPlayer() {
           className="bg-[#18181B] border border-white/10 rounded-2xl p-10 max-w-lg w-full text-center glass-panel shadow-2xl"
         >
           <div className="w-24 h-24 bg-gradient-to-br from-green-400 to-emerald-600 rounded-full mx-auto flex items-center justify-center shadow-lg shadow-emerald-500/30 mb-6">
-            <CheckCircle2 className="w-12 h-12 text-white" />
+            <CheckCircle2 className="w-12 h-12 text-gray-900 dark:text-white" />
           </div>
           <h2 className="text-3xl font-bold mb-2">Quiz Complete!</h2>
           <p className="text-gray-400 mb-8">Topic: {quizData.topic}</p>
@@ -110,11 +110,11 @@ export default function QuizPlayer() {
           <div className="grid grid-cols-2 gap-4 mb-8">
             <div className="bg-black/40 rounded-xl p-4 border border-white/5">
               <p className="text-sm text-gray-500 mb-1">Score</p>
-              <p className="text-3xl font-bold gradient-text text-white">{scorePct}%</p>
+              <p className="text-3xl font-bold gradient-text text-gray-900 dark:text-white">{scorePct}%</p>
             </div>
             <div className="bg-black/40 rounded-xl p-4 border border-white/5">
               <p className="text-sm text-gray-500 mb-1">Correct</p>
-              <p className="text-3xl font-bold text-white">{score} <span className="text-lg text-gray-500">/ {quizData.questions.length}</span></p>
+              <p className="text-3xl font-bold text-gray-900 dark:text-white">{score} <span className="text-lg text-gray-500">/ {quizData.questions.length}</span></p>
             </div>
           </div>
 
@@ -132,7 +132,7 @@ export default function QuizPlayer() {
       {/* Header Info */}
       <div className="flex items-center justify-between mb-8 pb-4 border-b border-white/10">
         <div>
-          <h1 className="text-2xl font-bold text-white">{quizData.topic}</h1>
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">{quizData.topic}</h1>
           <p className="text-sm text-gray-400 capitalize">{quizData.difficulty} • {quizData.student_level}</p>
         </div>
         <div className="flex items-center gap-4 bg-[#18181B] border border-white/10 px-4 py-2 rounded-full glass-panel">
@@ -235,7 +235,7 @@ export default function QuizPlayer() {
         <div className="mt-8 pt-6 border-t border-white/10 flex justify-between items-center">
           <button
             onClick={() => confirm("Are you sure you want to exit?") && router.push('/')}
-            className="text-gray-500 hover:text-white transition-colors text-sm font-medium"
+            className="text-gray-600 hover:text-gray-900 dark:text-gray-500 dark:hover:text-white transition-colors text-sm font-medium"
           >
             Quit
           </button>

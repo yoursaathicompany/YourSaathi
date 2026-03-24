@@ -48,6 +48,7 @@ export default function Navbar() {
         {/* Nav links */}
         <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-gray-400">
           <Link href="/" className="hover:text-white transition-colors">Home</Link>
+          <Link href="/about" className="hover:text-white transition-colors">About</Link>
           <Link href="/contact" className="hover:text-white transition-colors">Contact</Link>
           {session && <Link href="/profile" className="hover:text-white transition-colors">Profile</Link>}
           {session && (

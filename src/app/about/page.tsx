@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import { Target, Users, BookOpen, Sparkles, Instagram, Mail } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
 
 export const metadata: Metadata = {
   title: 'About Us | YourSaathi',
@@ -14,10 +15,17 @@ export default function AboutUsPage() {
         
         {/* Header Section */}
         <div className="text-center mb-16 space-y-4">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-purple-500/20 to-pink-500/20 text-purple-500 mb-4 ring-1 ring-purple-500/30">
-            <Sparkles className="w-8 h-8" />
+          <div className="inline-flex items-center justify-center mb-4">
+            <Image 
+              src="/logo.png" 
+              alt="YourSaathi Logo" 
+              width={160} 
+              height={160} 
+              className="drop-shadow-2xl"
+              priority
+            />
           </div>
-          <h1 className="text-4xl md:text-5xl font-black bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent">
+          <h1 className="text-4xl md:text-5xl font-black bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent mt-2">
             About YourSaathi
           </h1>
           <p className="text-xl text-gray-500 dark:text-gray-400 max-w-2xl mx-auto">

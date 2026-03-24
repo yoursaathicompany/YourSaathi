@@ -58,7 +58,7 @@ export default function TierSelector({ tiers, wallet, selectedTierId, onSelect, 
             </div>
 
             <div className="flex items-end gap-2 mb-3">
-              <div className="flex items-center gap-1 text-3xl font-black text-white">
+              <div className="flex items-center gap-1 text-3xl font-black text-black dark:text-white">
                 <span className="text-green-400 text-2xl">₹</span>
                 {tier.rupee_amount.toLocaleString('en-IN')}
               </div>

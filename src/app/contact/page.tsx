@@ -13,39 +13,39 @@ export default function ContactUsPage() {
 
   return (
     <div className="min-h-screen flex flex-col pt-8">
-      
+
       <main className="flex-1 max-w-4xl mx-auto w-full px-4 py-12 sm:px-6 lg:px-8">
-        
+
         {/* Header Section */}
         <div className="text-center mb-16 space-y-4">
           <h1 className="text-4xl md:text-5xl font-black bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent">
             Get in Touch
           </h1>
           <p className="text-lg text-gray-400 max-w-2xl mx-auto">
-            Have a question, feedback, or facing an issue? We're here to help! 
+            Have a question, feedback, or facing an issue? We're here to help!
             Drop us an email and our team will get back to you.
           </p>
         </div>
 
         {/* Contact Cards Grid */}
         <div className="grid md:grid-cols-2 gap-8 mb-16">
-          
+
           {/* Email Card (Primary Action) */}
           <a
             href={mailtoLink}
             className="group relative overflow-hidden rounded-3xl p-8 bg-white/5 border border-white/10 hover:border-purple-500/50 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-2xl hover:shadow-purple-500/20 flex flex-col items-center text-center"
           >
             <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-            
+
             <div className="w-16 h-16 bg-purple-500/20 text-purple-400 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 group-hover:rotate-3 transition-transform">
               <Mail className="w-8 h-8" />
             </div>
-            
+
             <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">Email Support</h2>
             <p className="text-gray-400 mb-6">
               Send us an email directly. Best for detailed questions, bug reports, or account issues.
             </p>
-            
+
             <span className="inline-flex items-center gap-2 text-purple-400 font-semibold group-hover:text-purple-300">
               {supportEmail}
               <MessageSquare className="w-4 h-4" />
@@ -83,7 +83,7 @@ export default function ContactUsPage() {
 
         {/* Bottom CTA / Links */}
         <div className="text-center p-8 rounded-3xl bg-gradient-to-br from-purple-900/20 to-pink-900/20 border border-purple-500/20">
-          <p className="text-gray-300 mb-4">
+          <p className="text-gray-400 mb-4">
             Looking for quick answers? You might find what you need in our terms or privacy policy.
           </p>
           <div className="flex items-center justify-center gap-6">

@@ -103,7 +103,7 @@ export default function QuizRequirementsModal({
                   type="text" 
                   value={topic}
                   onChange={e => setTopic(e.target.value)}
-                  className="w-full bg-black/5 dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl py-2.5 pl-10 pr-4 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50" 
+                  className="w-full bg-black/40 border border-white/10 rounded-xl py-2.5 pl-10 pr-4 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50" 
                   placeholder="e.g. Photosynthesis, React Hooks, World War II"
                   required 
                 />
@@ -116,7 +116,7 @@ export default function QuizRequirementsModal({
                 <select 
                   value={difficulty}
                   onChange={e => setDifficulty(e.target.value)}
-                  className="w-full bg-black/5 dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl p-2.5 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-purple-500/50 appearance-none"
+                  className="w-full bg-black/40 border border-white/10 rounded-xl p-2.5 text-white focus:outline-none focus:ring-2 focus:ring-purple-500/50 appearance-none"
                 >
                   <option value="easy">Easy</option>
                   <option value="medium">Medium</option>
@@ -128,7 +128,7 @@ export default function QuizRequirementsModal({
                 <select 
                   value={studentLevel}
                   onChange={e => setStudentLevel(e.target.value)}
-                  className="w-full bg-black/5 dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl p-2.5 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-purple-500/50 appearance-none"
+                  className="w-full bg-black/40 border border-white/10 rounded-xl p-2.5 text-white focus:outline-none focus:ring-2 focus:ring-purple-500/50 appearance-none"
                 >
                   <option value="class6">Class 6-8</option>
                   <option value="class10">Class 9-12</option>

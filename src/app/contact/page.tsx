@@ -1,7 +1,6 @@
 import { Metadata } from 'next';
 import { Mail, MessageSquare, Clock, Globe } from 'lucide-react';
 import Link from 'next/link';
-import Navbar from '@/components/Navbar';
 
 export const metadata: Metadata = {
   title: 'Contact Us | YourSaathi',
@@ -13,8 +12,7 @@ export default function ContactUsPage() {
   const mailtoLink = `mailto:${supportEmail}?subject=Support Request - YourSaathi&body=Hi YourSaathi Team,%0D%0A%0D%0AI need help with...`;
 
   return (
-    <div className="min-h-screen flex flex-col pt-20">
-      <Navbar />
+    <div className="min-h-screen flex flex-col pt-8">
       
       <main className="flex-1 max-w-4xl mx-auto w-full px-4 py-12 sm:px-6 lg:px-8">
         

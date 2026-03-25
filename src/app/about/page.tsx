@@ -17,7 +17,7 @@ export default function AboutUsPage() {
         <div className="text-center mb-16 space-y-4">
           <div className="inline-flex items-center justify-center mb-4">
             <Image
-              src="/logo-yoursaathi.png"
+              src="/logo.svg"
               alt="YourSaathi Logo"
               width={160}
               height={160}

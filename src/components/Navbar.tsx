@@ -11,7 +11,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 export default function Navbar() {
   const { data: session, status } = useSession();
   const [balance, setBalance] = useState<number>(0);
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [userMenuOpen, setUserMenuOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   // Fetch live balance on mount & when session changes
   useEffect(() => {
@@ -70,11 +71,11 @@ export default function Navbar() {
               {/* User dropdown */}
               <div className="relative">
                 <button
-                  onClick={() => setMenuOpen(o => !o)}
+                  onClick={() => setUserMenuOpen(o => !o)}
                   id="user-menu-btn"
                   className="flex items-center gap-2 px-2 py-1.5 rounded-xl hover:bg-white/5 transition-colors"
                   aria-haspopup="true"
-                  aria-expanded={menuOpen}
+                  aria-expanded={userMenuOpen}
                 >
                   {session.user.image ? (
                     <img src={session.user.image} alt={session.user.name ?? 'User'} className="w-7 h-7 rounded-full" />
@@ -89,7 +90,7 @@ export default function Navbar() {
                 </button>
 
                 <AnimatePresence>
-                  {menuOpen && (
+                  {userMenuOpen && (
                     <motion.div
                       initial={{ opacity: 0, scale: 0.95, y: -8 }}
                       animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -97,31 +98,31 @@ export default function Navbar() {
                       className="absolute right-0 top-full mt-2 w-48 bg-[#18181b] border border-white/10 rounded-xl shadow-2xl overflow-hidden"
                       role="menu"
                     >
-                      <Link href="/profile" role="menuitem" onClick={() => setMenuOpen(false)}
+                      <Link href="/profile" role="menuitem" onClick={() => setUserMenuOpen(false)}
                         className="flex items-center gap-2 px-4 py-2.5 text-sm text-gray-300 hover:bg-white/5 hover:text-white transition-colors">
                         <User className="w-4 h-4" /> Profile & Wallet
                       </Link>
-                      <Link href="/history" role="menuitem" onClick={() => setMenuOpen(false)}
+                      <Link href="/history" role="menuitem" onClick={() => setUserMenuOpen(false)}
                         className="flex items-center gap-2 px-4 py-2.5 text-sm text-gray-300 hover:bg-white/5 hover:text-white transition-colors">
                         <History className="w-4 h-4" /> Quiz History
                       </Link>
-                      <Link href="/redeem" role="menuitem" onClick={() => setMenuOpen(false)}
+                      <Link href="/redeem" role="menuitem" onClick={() => setUserMenuOpen(false)}
                         className="flex items-center gap-2 px-4 py-2.5 text-sm text-yellow-400 hover:bg-yellow-500/5 transition-colors">
                         <Coins className="w-4 h-4" /> Redeem Coins
                       </Link>
-                      <Link href="/settings" role="menuitem" onClick={() => setMenuOpen(false)}
+                      <Link href="/settings" role="menuitem" onClick={() => setUserMenuOpen(false)}
                         className="flex items-center gap-2 px-4 py-2.5 text-sm text-gray-300 hover:bg-white/5 hover:text-white transition-colors">
                         <Settings className="w-4 h-4" /> Settings
                       </Link>
                       {isAdmin && (
-                        <Link href="/admin" role="menuitem" onClick={() => setMenuOpen(false)}
+                        <Link href="/admin" role="menuitem" onClick={() => setUserMenuOpen(false)}
                           className="flex items-center gap-2 px-4 py-2.5 text-sm text-indigo-400 hover:bg-white/5 transition-colors">
                           <Shield className="w-4 h-4" /> Admin Panel
                         </Link>
                       )}
                       <div className="border-t border-white/5" />
                       <button
-                        onClick={() => { signOut({ callbackUrl: '/login' }); setMenuOpen(false); }}
+                        onClick={() => { signOut({ callbackUrl: '/login' }); setUserMenuOpen(false); }}
                         role="menuitem"
                         id="btn-signout"
                         className="flex w-full items-center gap-2 px-4 py-2.5 text-sm text-red-400 hover:bg-red-500/10 transition-colors"
@@ -146,13 +147,52 @@ export default function Navbar() {
           {/* Mobile menu toggle */}
           <button
             className="md:hidden p-2 rounded-lg hover:bg-white/5 text-gray-400"
-            onClick={() => setMenuOpen(o => !o)}
+            onClick={() => setMobileMenuOpen(o => !o)}
             aria-label="Toggle menu"
           >
-            {menuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
         </div>
       </div>
+
+      {/* Mobile Nav Menu */}
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            className="md:hidden border-t border-gray-200 dark:border-white/5 bg-white/95 dark:bg-[#09090b]/95 backdrop-blur-xl overflow-hidden"
+          >
+            <nav className="flex flex-col px-4 py-4 gap-4 text-sm font-medium text-gray-600 dark:text-gray-300">
+              <Link href="/" onClick={() => setMobileMenuOpen(false)} className="hover:text-gray-900 dark:hover:text-white transition-colors">Home</Link>
+              <Link href="/about" onClick={() => setMobileMenuOpen(false)} className="hover:text-gray-900 dark:hover:text-white transition-colors">About</Link>
+              <Link href="/contact" onClick={() => setMobileMenuOpen(false)} className="hover:text-gray-900 dark:hover:text-white transition-colors">Contact</Link>
+              
+              {session && (
+                <Link href="/profile" onClick={() => setMobileMenuOpen(false)} className="hover:text-gray-900 dark:hover:text-white transition-colors">
+                  Profile
+                </Link>
+              )}
+              {session && (
+                <Link href="/redeem" onClick={() => setMobileMenuOpen(false)} className="text-yellow-600 dark:text-yellow-400 flex items-center gap-1">
+                  <Coins className="w-4 h-4" /> Redeem
+                </Link>
+              )}
+              {isAdmin && (
+                <Link href="/admin" onClick={() => setMobileMenuOpen(false)} className="text-indigo-600 dark:text-indigo-400 flex items-center gap-1">
+                  <Shield className="w-4 h-4" /> Admin
+                </Link>
+              )}
+              {status === 'unauthenticated' && (
+                <Link href="/login" onClick={() => setMobileMenuOpen(false)} className="text-purple-600 font-semibold mt-2">
+                  Sign In
+                </Link>
+              )}
+            </nav>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </header>
   );
 }

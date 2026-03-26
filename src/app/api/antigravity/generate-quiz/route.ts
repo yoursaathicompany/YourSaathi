@@ -144,7 +144,7 @@ export async function POST(req: NextRequest) {
 
     while (attempts < 3) {
       try {
-        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`, {
+        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -157,6 +157,14 @@ export async function POST(req: NextRequest) {
 
         if (!response.ok) {
            const errorText = await response.text();
+           // On 429 rate limit, wait before retrying
+           if (response.status === 429) {
+             const waitMs = (attempts + 1) * 3000; // 3s, 6s, 9s
+             console.warn(`[generate-quiz] Rate limited (429). Waiting ${waitMs}ms before retry ${attempts + 1}...`);
+             await new Promise(r => setTimeout(r, waitMs));
+             attempts++;
+             continue;
+           }
            throw new Error(`API HTTP error: ${response.status} ${errorText}`);
         }
 

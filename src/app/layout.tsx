@@ -39,6 +39,9 @@ export const metadata: Metadata = {
   authors: [{ name: "YourSaathi Team" }],
   creator: "YourSaathi",
   publisher: "YourSaathi",
+  verification: {
+    google: "tM-8E7-jGEUoY_iM20rwU2LYKxXMFz9bM38YIeUWRmE",
+  },
   openGraph: {
     type: "website",
     locale: "en_US",

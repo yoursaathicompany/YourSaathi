@@ -1,7 +1,10 @@
 import { MetadataRoute } from 'next';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://yoursaathi.com';
+  // Use the primary app URL, then Vercel's canonical URL, then fallback
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL
+    || (process.env.VERCEL_PROJECT_PRODUCTION_URL ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}` : '')
+    || 'https://your-saathi.vercel.app';
 
   const topicIds = ['math', 'science', 'cs', 'history', 'lit', 'comp', 'geo', 'art', 'music', 'health', 'business'];
 

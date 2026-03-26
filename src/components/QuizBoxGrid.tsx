@@ -1,11 +1,24 @@
 /* eslint-disable */
 'use client';
 
-import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { BrainCircuit, BookOpen, Trophy } from 'lucide-react';
+import { BrainCircuit, BookOpen, Trophy, Calculator, Beaker, Code2, Globe, Book, Target, Map as MapIcon, Palette, Music, Heart, Briefcase, LucideIcon } from 'lucide-react';
 import Link from 'next/link';
 import { topicsData } from '@/data/topics';
+
+const iconMap: Record<string, LucideIcon> = {
+  math: Calculator,
+  science: Beaker,
+  cs: Code2,
+  history: Globe,
+  lit: Book,
+  comp: Target,
+  geo: MapIcon,
+  art: Palette,
+  music: Music,
+  health: Heart,
+  business: Briefcase,
+};
 
 interface QuizBoxGridProps {
   searchQuery?: string;
@@ -15,8 +28,8 @@ interface QuizBoxGridProps {
 export default function QuizBoxGrid({ searchQuery = '', showAll = false }: QuizBoxGridProps) {
   const categoriesList = Object.values(topicsData);
 
-  const filteredCategories = categoriesList.filter(cat => 
-    cat.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
+  const filteredCategories = categoriesList.filter(cat =>
+    cat.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
     cat.desc.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
@@ -31,7 +44,7 @@ export default function QuizBoxGrid({ searchQuery = '', showAll = false }: QuizB
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-fr">
           {displayedCategories.map((cat, i) => {
-            const Icon = cat.icon;
+            const Icon = iconMap[cat.id] ?? BrainCircuit;
             return (
               <Link href={`/topics/${cat.id}`} key={cat.id} className="block group">
                 <motion.div

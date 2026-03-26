@@ -5,11 +5,12 @@ import BackgroundAnimation from '@/components/BackgroundAnimation';
 import TopicContent from './TopicContent';
 
 interface Props {
-  params: { topicId: string };
+  params: Promise<{ topicId: string }>;
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const topic = topicsData[params.topicId];
+  const resolvedParams = await params;
+  const topic = topicsData[resolvedParams.topicId];
   if (!topic) {
     return { title: 'Topic Not Found | ZQuiz' };
   }
@@ -31,8 +32,9 @@ export function generateStaticParams() {
   }));
 }
 
-export default function TopicPage({ params }: Props) {
-  const topic = topicsData[params.topicId];
+export default async function TopicPage({ params }: Props) {
+  const resolvedParams = await params;
+  const topic = topicsData[resolvedParams.topicId];
 
   if (!topic) {
     notFound();

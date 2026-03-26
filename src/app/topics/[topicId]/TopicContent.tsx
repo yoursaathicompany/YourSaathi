@@ -4,11 +4,25 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { TopicData } from '@/data/topics';
 import QuizRequirementsModal from '@/components/QuizRequirementsModal';
-import { BrainCircuit, BookOpen, GraduationCap, ChevronRight, CheckCircle2 } from 'lucide-react';
+import { BrainCircuit, BookOpen, GraduationCap, ChevronRight, CheckCircle2, Calculator, Beaker, Code2, Globe, Book, Target, Map as MapIcon, Palette, Music, Heart, Briefcase, LucideIcon } from 'lucide-react';
+
+const iconMap: Record<string, LucideIcon> = {
+  math: Calculator,
+  science: Beaker,
+  cs: Code2,
+  history: Globe,
+  lit: Book,
+  comp: Target,
+  geo: MapIcon,
+  art: Palette,
+  music: Music,
+  health: Heart,
+  business: Briefcase,
+};
 
 export default function TopicContent({ topic }: { topic: TopicData }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const Icon = topic.icon;
+  const Icon = iconMap[topic.id] ?? BrainCircuit;
 
   return (
     <div className="space-y-12">
@@ -19,12 +33,12 @@ export default function TopicContent({ topic }: { topic: TopicData }) {
         className="glass-panel rounded-3xl p-8 md:p-12 border border-white/10 relative overflow-hidden"
       >
         <div className={`absolute top-0 right-0 w-64 h-64 bg-gradient-to-br ${topic.color} rounded-full blur-3xl opacity-20 -mr-20 -mt-20`} />
-        
+
         <div className="relative z-10 flex flex-col md:flex-row gap-8 items-start md:items-center">
           <div className={`p-6 rounded-2xl bg-gradient-to-br ${topic.color} shadow-2xl`}>
             <Icon className="w-16 h-16 text-white" />
           </div>
-          
+
           <div className="flex-1 space-y-4">
             <h1 className="text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-400">
               {topic.name}
@@ -44,8 +58,8 @@ export default function TopicContent({ topic }: { topic: TopicData }) {
 
       {/* Content Layout */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        
-        {/* Main Content (Introduction & Lessons) */}
+
+        {/* Main Content */}
         <motion.div
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
@@ -81,7 +95,7 @@ export default function TopicContent({ topic }: { topic: TopicData }) {
             </div>
           </section>
 
-          {/* Sample Quizzes (if available) */}
+          {/* Sample Quizzes */}
           {topic.content.sampleQuizzes && (
             <section className="space-y-6 pt-4">
               <h2 className="text-2xl font-bold flex items-center gap-3 ml-2">
@@ -90,15 +104,15 @@ export default function TopicContent({ topic }: { topic: TopicData }) {
               <div className="grid gap-6">
                 {topic.content.sampleQuizzes.map((quiz, idx) => (
                   <div key={idx} className="glass-panel p-6 rounded-2xl border border-white/5 space-y-4 bg-white/[0.01]">
-                    <div className="flex justify-between items-start">
+                    <div className="flex justify-between items-start gap-4">
                       <h3 className="text-lg text-gray-200 font-medium font-serif leading-relaxed">
                         Q: {quiz.question}
                       </h3>
-                      <span className="px-3 py-1 text-xs rounded-full bg-white/10 text-gray-300 font-semibold uppercase tracking-wider">
+                      <span className="px-3 py-1 text-xs rounded-full bg-white/10 text-gray-300 font-semibold uppercase tracking-wider shrink-0">
                         {quiz.difficulty}
                       </span>
                     </div>
-                    
+
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4">
                       {quiz.options.map((opt, i) => (
                         <div key={i} className={`p-3 rounded-xl border ${opt === quiz.answer ? 'border-green-500/30 bg-green-500/10 text-green-300' : 'border-white/5 bg-white/5 text-gray-400'}`}>
@@ -106,7 +120,7 @@ export default function TopicContent({ topic }: { topic: TopicData }) {
                         </div>
                       ))}
                     </div>
-                    
+
                     <div className="mt-4 p-4 rounded-xl bg-blue-500/10 border border-blue-500/20 text-blue-200 font-medium flex items-start gap-3">
                       <CheckCircle2 className="w-5 h-5 shrink-0 mt-0.5" />
                       <p>
@@ -121,7 +135,7 @@ export default function TopicContent({ topic }: { topic: TopicData }) {
           )}
         </motion.div>
 
-        {/* Sidebar (Study Guide) */}
+        {/* Sidebar - Study Guide */}
         <motion.div
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
@@ -145,7 +159,7 @@ export default function TopicContent({ topic }: { topic: TopicData }) {
                   </li>
                 ))}
               </ul>
-              
+
               <div className="mt-8 pt-6 border-t border-white/10">
                 <p className="text-sm text-gray-400 mb-4 text-center">Ready to test your knowledge?</p>
                 <button

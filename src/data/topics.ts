@@ -1,9 +1,6 @@
-import { Calculator, Beaker, Code2, Globe, Book, Target, Map as MapIcon, Palette, Music, Heart, Briefcase, LucideIcon } from 'lucide-react';
-
 export interface TopicData {
   id: string;
   name: string;
-  icon: LucideIcon;
   color: string;
   desc: string;
   seoTitle: string;
@@ -20,7 +17,6 @@ export const topicsData: Record<string, TopicData> = {
   math: {
     id: 'math',
     name: 'Mathematics & Logic',
-    icon: Calculator,
     color: 'from-blue-500 to-cyan-400',
     desc: 'Calculus, Algebra, Logic puzzles',
     seoTitle: 'Mathematics & Logic Practice Quizzes | ZQuiz',
@@ -62,7 +58,6 @@ export const topicsData: Record<string, TopicData> = {
   science: {
     id: 'science',
     name: 'Science & Nature',
-    icon: Beaker,
     color: 'from-emerald-500 to-green-400',
     desc: 'Physics, Biology, Chemistry',
     seoTitle: 'Science & Nature Study Guide & Quizzes | ZQuiz',
@@ -70,7 +65,7 @@ export const topicsData: Record<string, TopicData> = {
     content: {
       introduction: "Science encompasses the systematic study of the structure and behavior of the physical and natural world through observation and experiment. Understanding science helps us make sense of the universe around us, from the smallest subatomic particles to the vastness of galaxies.",
       subtopics: [
-        { title: 'Physics (The Fundamentals)', content: 'Physics studies matter, energy, and the fundamental forces of nature. Key areas include classical mechanics (Newton’s laws), thermodynamics, electromagnetism, and quantum mechanics. A solid grasp of physics allows us to understand how engines work, how electricity is generated, and how planets orbit.' },
+        { title: 'Physics (The Fundamentals)', content: 'Physics studies matter, energy, and the fundamental forces of nature. Key areas include classical mechanics (Newton\'s laws), thermodynamics, electromagnetism, and quantum mechanics. A solid grasp of physics allows us to understand how engines work, how electricity is generated, and how planets orbit.' },
         { title: 'Chemistry (The Central Science)', content: 'Chemistry bridges other natural sciences by studying the composition, structure, properties, and changes of matter. Core topics include the periodic table, chemical bonding, stoichiometry, and organic chemistry. It lays the groundwork for fields like pharmacology, materials science, and biochemistry.' },
         { title: 'Biology (The Study of Life)', content: 'Biology explores living organisms, encompassing their physical structure, chemical processes, molecular interactions, physiological mechanisms, development, and evolution. Sub-disciplines like genetics, ecology, and anatomy are vital for medicine, environmental conservation, and agriculture.' }
       ],
@@ -104,7 +99,6 @@ export const topicsData: Record<string, TopicData> = {
   cs: {
     id: 'cs',
     name: 'Computer Science',
-    icon: Code2,
     color: 'from-purple-500 to-indigo-500',
     desc: 'Algorithms, Data Structures, Web',
     seoTitle: 'Computer Science Concepts & Quizzes | ZQuiz',
@@ -122,7 +116,7 @@ export const topicsData: Record<string, TopicData> = {
           'Code Every Day: Consistency is key. Even 30 minutes of coding daily yields huge long-term benefits.',
           'Build Projects: Apply what you learn by building real-world applications. Theoretical knowledge without practical application is easily forgotten.',
           'Read Source Code: Look at open-source projects to understand how experienced developers structure their code.',
-          'Understand the "Why": Don’t just memorize syntax; understand why a tool or framework exists and what problem it solves.'
+          'Understand the "Why": Don\'t just memorize syntax; understand why a tool or framework exists and what problem it solves.'
         ]
       }
     }
@@ -130,7 +124,6 @@ export const topicsData: Record<string, TopicData> = {
   history: {
     id: 'history',
     name: 'World History',
-    icon: Globe,
     color: 'from-orange-500 to-yellow-500',
     desc: 'Ancient civilizations, World Wars',
     seoTitle: 'World History Study Guides & Quizzes | ZQuiz',
@@ -156,7 +149,6 @@ export const topicsData: Record<string, TopicData> = {
   lit: {
     id: 'lit',
     name: 'Literature',
-    icon: Book,
     color: 'from-pink-500 to-rose-400',
     desc: 'Classic authors, Poetry, Analysis',
     seoTitle: 'Literature Quizzes and Explainers | ZQuiz',
@@ -173,7 +165,6 @@ export const topicsData: Record<string, TopicData> = {
   comp: {
     id: 'comp',
     name: 'Competitive Exams',
-    icon: Target,
     color: 'from-red-500 to-orange-500',
     desc: 'UPSC, GRE, Engineering entrance',
     seoTitle: 'Competitive Exams Preparation & Guides | ZQuiz',
@@ -190,7 +181,6 @@ export const topicsData: Record<string, TopicData> = {
   geo: {
     id: 'geo',
     name: 'Geography',
-    icon: MapIcon,
     color: 'from-green-500 to-emerald-400',
     desc: 'Countries, Capitals, Physical Geography',
     seoTitle: 'Geography Topics and Interactive Quizzes | ZQuiz',
@@ -207,7 +197,6 @@ export const topicsData: Record<string, TopicData> = {
   art: {
     id: 'art',
     name: 'Art & Culture',
-    icon: Palette,
     color: 'from-pink-500 to-fuchsia-500',
     desc: 'Famous Artists, Art History, Movements',
     seoTitle: 'Art & Culture Study Modules | ZQuiz',
@@ -224,7 +213,6 @@ export const topicsData: Record<string, TopicData> = {
   music: {
     id: 'music',
     name: 'Music',
-    icon: Music,
     color: 'from-violet-500 to-purple-500',
     desc: 'Instruments, Music Theory, Genres',
     seoTitle: 'Music Theory and History Explainer | ZQuiz',
@@ -241,7 +229,6 @@ export const topicsData: Record<string, TopicData> = {
   health: {
     id: 'health',
     name: 'Health & Fitness',
-    icon: Heart,
     color: 'from-rose-500 to-red-400',
     desc: 'Nutrition, Anatomy, Wellness',
     seoTitle: 'Health, Nutrition & Fitness Guides | ZQuiz',
@@ -258,7 +245,6 @@ export const topicsData: Record<string, TopicData> = {
   business: {
     id: 'business',
     name: 'Business & Finance',
-    icon: Briefcase,
     color: 'from-amber-500 to-orange-400',
     desc: 'Economics, Management, Markets',
     seoTitle: 'Business, Finance, and Economics Explainers | ZQuiz',

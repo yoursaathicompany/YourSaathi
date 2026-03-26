@@ -44,10 +44,33 @@ export default function QuizPlayer() {
 
   if (!quizData) {
     return (
-      <div className="min-h-[80vh] flex items-center justify-center">
-        <div className="animate-pulse flex flex-col items-center">
-          <div className="w-16 h-16 border-4 border-purple-500/30 border-t-purple-500 rounded-full animate-spin mb-4" />
-          <p className="text-gray-400">Loading your knowledge environment...</p>
+      <div className="min-h-[80vh] flex items-center justify-center px-4">
+        <div className="flex flex-col items-center gap-8 max-w-sm w-full text-center">
+          {/* Spinning orb */}
+          <div className="relative w-24 h-24">
+            <div className="absolute inset-0 rounded-full bg-purple-600/20 animate-ping" />
+            <div className="absolute inset-2 rounded-full bg-purple-600/30 animate-ping [animation-delay:0.3s]" />
+            <div className="relative w-24 h-24 rounded-full border-4 border-purple-500/30 border-t-purple-500 animate-spin" />
+            <div className="absolute inset-0 flex items-center justify-center">
+              <Sparkles className="w-8 h-8 text-purple-400 animate-pulse" />
+            </div>
+          </div>
+
+          <div>
+            <h2 className="text-xl font-bold text-white mb-2">Loading Quiz...</h2>
+            <p className="text-sm text-gray-400">Setting up your knowledge environment</p>
+          </div>
+
+          {/* Animated dots */}
+          <div className="flex gap-2">
+            {[0, 1, 2].map(i => (
+              <div
+                key={i}
+                className="w-2 h-2 rounded-full bg-purple-500 animate-bounce"
+                style={{ animationDelay: `${i * 0.15}s` }}
+              />
+            ))}
+          </div>
         </div>
       </div>
     );
@@ -175,7 +198,7 @@ export default function QuizPlayer() {
                 const isSelected = currentAnswer === opt;
 
                 // Show Correct / Incorrect states only if explanation is shown
-                let optionClass = "border-white/10 bg-[#e1e1e6] hover:border-purple-500/50 hover:bg-purple-500/5";
+                let optionClass = "border-white/10 bg-[#18181b] hover:border-purple-500/50 hover:bg-purple-500/5 text-gray-300";
                 let icon = null;
 
                 if (showExplanation) {
@@ -189,7 +212,7 @@ export default function QuizPlayer() {
                     optionClass = "border-red-500/50 bg-red-500/10 text-red-400";
                     icon = <AlertCircle className="w-5 h-5 text-red-400" />;
                   } else if (!isSelected && isCorrectAnswer) {
-                    optionClass = "border-green-500/50 bg-green-500/10 text-black"; // Highlight correct
+                    optionClass = "border-green-500/50 bg-green-500/10 text-green-300"; // Highlight correct
                     icon = <CheckCircle2 className="w-5 h-5 text-green-400" />;
                   } else {
                     optionClass = "border-white/5 opacity-50 bg-[#18181B] text-white"; // Dim others
@@ -224,7 +247,7 @@ export default function QuizPlayer() {
                   <h4 className="text-blue-400 font-bold mb-2 text-sm uppercase tracking-wider flex items-center gap-2">
                     <Sparkles className="w-4 h-4" /> Explanation
                   </h4>
-                  <p className="text-blue-500 leading-relaxed text-sm">{question.explanation}</p>
+                  <p className="text-blue-300 leading-relaxed text-sm">{question.explanation}</p>
                 </motion.div>
               )}
             </AnimatePresence>

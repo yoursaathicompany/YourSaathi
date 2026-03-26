@@ -137,6 +137,8 @@ export async function POST(req: NextRequest) {
 
       REQUIRED JSON SCHEMA:
       ${JSON.stringify(responseSchema, null, 2)}
+
+      IMPORTANT: Respond ONLY with a valid JSON object. No markdown, no code blocks, no extra text.
     `;
 
     let attempts = 0;
@@ -150,7 +152,8 @@ export async function POST(req: NextRequest) {
           body: JSON.stringify({
             contents: [{ parts: [{ text: prompt }] }],
             generationConfig: {
-              responseMimeType: 'application/json'
+              temperature: 0.7,
+              topP: 0.9,
             }
           })
         });

@@ -17,7 +17,7 @@ export default function QuizRequirementsModal({
 }) {
   const router = useRouter();
   const { data: session, status } = useSession();
-  const [topic, setTopic] = useState(initialTopic || '');
+  const [topic, setTopic] = useState('');
   const [difficulty, setDifficulty] = useState('medium');
   const [studentLevel, setStudentLevel] = useState('class10');
   const [numQuestions, setNumQuestions] = useState(5);

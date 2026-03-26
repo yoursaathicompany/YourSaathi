@@ -35,7 +35,7 @@ export default function AboutUsPage() {
 
         {/* Mission & Vision */}
         <div className="grid md:grid-cols-2 gap-8 mb-16">
-          <div className="bg-white bg-[#121214] p-8 rounded-3xl border border-white/10 border-white/10 shadow-sm transition-transform hover:-translate-y-1">
+          <div className="bg-[#121214] p-8 rounded-3xl border border-white/10 border-white/10 shadow-sm transition-transform hover:-translate-y-1">
             <div className="w-12 h-12 bg-blue-500/10 text-blue-500 text-blue-400 rounded-xl flex items-center justify-center mb-4">
               <Target className="w-6 h-6" />
             </div>
@@ -47,7 +47,7 @@ export default function AboutUsPage() {
             </p>
           </div>
 
-          <div className="bg-white bg-[#121214] p-8 rounded-3xl border border-white/10 border-white/10 shadow-sm transition-transform hover:-translate-y-1">
+          <div className="bg-[#121214] p-8 rounded-3xl border border-white/10 border-white/10 shadow-sm transition-transform hover:-translate-y-1">
             <div className="w-12 h-12 bg-emerald-500/10 text-emerald-500 text-emerald-400 rounded-xl flex items-center justify-center mb-4">
               <BookOpen className="w-6 h-6" />
             </div>

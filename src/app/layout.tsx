@@ -7,6 +7,7 @@ import Navbar from "@/components/Navbar";
 
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import Footer from "@/components/Footer";
+import { Analytics } from "@vercel/analytics/next";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -100,6 +101,7 @@ export default function RootLayout({
           crossOrigin="anonymous"
           strategy="afterInteractive"
         />
+        <Analytics />
       </body>
     </html>
   );

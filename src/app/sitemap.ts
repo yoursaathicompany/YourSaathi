@@ -1,10 +1,9 @@
 import { MetadataRoute } from 'next';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  // Use the primary app URL, then Vercel's canonical URL, then fallback
-  const baseUrl = process.env.NEXT_PUBLIC_APP_URL
-    || (process.env.VERCEL_PROJECT_PRODUCTION_URL ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}` : '')
-    || 'https://your-saathi.vercel.app';
+  // Hardcoded to production domain — NEXT_PUBLIC_APP_URL is localhost in .env
+  // To update: change this URL or set NEXT_PUBLIC_APP_URL in Vercel env dashboard
+  const baseUrl = 'https://your-saathi.vercel.app';
 
   const topicIds = ['math', 'science', 'cs', 'history', 'lit', 'comp', 'geo', 'art', 'music', 'health', 'business'];
 

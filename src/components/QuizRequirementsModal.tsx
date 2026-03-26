@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Loader2, Sparkles, BookOpen } from 'lucide-react';
+import { X, Sparkles, BookOpen } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 
@@ -68,7 +68,7 @@ export default function QuizRequirementsModal({
       
     } catch (err) {
       console.error(err);
-      alert('Failed to generate quiz. Check the console and try again.');
+      alert('Failed to generate quiz. Please try again.');
     } finally {
       setIsLoading(false);
       onClose();
@@ -77,99 +77,131 @@ export default function QuizRequirementsModal({
 
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
-        <motion.div 
-          initial={{ opacity: 0, scale: 0.95, y: 20 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          exit={{ opacity: 0, scale: 0.95, y: 20 }}
-          className="bg-[#18181B] border border-white/10 w-full max-w-lg rounded-2xl shadow-2xl overflow-hidden glass-panel"
-        >
-          <div className="flex justify-between items-center p-6 border-b border-white/5 bg-white/5">
-            <h2 className="text-xl font-bold flex items-center gap-2">
-              <Sparkles className="w-5 h-5 text-purple-400" />
-              Generate Quiz
-            </h2>
-            <button onClick={onClose} className="text-gray-500 hover:text-white text-gray-400 hover:text-white transition-colors">
-              <X className="w-5 h-5" />
-            </button>
-          </div>
+      <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
 
-          <form onSubmit={handleSubmit} className="p-6 space-y-5">
+        {isLoading ? (
+          /* ── Premium Loading State ── */
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="flex flex-col items-center gap-8 text-center max-w-xs"
+          >
+            {/* Pinging orbs + spinning ring */}
+            <div className="relative w-28 h-28">
+              <div className="absolute inset-0 rounded-full bg-purple-600/20 animate-ping" />
+              <div className="absolute inset-3 rounded-full bg-purple-500/20 animate-ping [animation-delay:0.4s]" />
+              <div className="absolute inset-0 w-28 h-28 rounded-full border-4 border-purple-500/30 border-t-purple-500 animate-spin" />
+              <div className="absolute inset-0 flex items-center justify-center">
+                <Sparkles className="w-10 h-10 text-purple-400 animate-pulse" />
+              </div>
+            </div>
+
             <div>
-              <label className="block text-sm font-medium mb-1.5 text-gray-300">Topic</label>
-              <div className="relative">
-                <BookOpen className="w-5 h-5 absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" />
-                <input 
-                  type="text" 
-                  value={topic}
-                  onChange={e => setTopic(e.target.value)}
-                  className="w-full bg-black/40 border border-white/10 rounded-xl py-2.5 pl-10 pr-4 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50" 
-                  placeholder="e.g. Photosynthesis, React Hooks, World War II"
-                  required 
+              <h2 className="text-2xl font-bold text-white mb-2">Generating Your Quiz</h2>
+              <p className="text-gray-400 text-sm">AI is crafting personalised questions for you…</p>
+            </div>
+
+            <div className="flex gap-2">
+              {[0, 1, 2].map(i => (
+                <div
+                  key={i}
+                  className="w-2.5 h-2.5 rounded-full bg-purple-500 animate-bounce"
+                  style={{ animationDelay: `${i * 0.18}s` }}
                 />
-              </div>
+              ))}
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
+            <p className="text-xs text-gray-500">This usually takes 15–30 seconds</p>
+          </motion.div>
+        ) : (
+          /* ── Quiz Form ── */
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.95, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.95, y: 20 }}
+            className="bg-[#18181B] border border-white/10 w-full max-w-lg rounded-2xl shadow-2xl overflow-hidden"
+          >
+            <div className="flex justify-between items-center p-6 border-b border-white/5 bg-white/5">
+              <h2 className="text-xl font-bold flex items-center gap-2">
+                <Sparkles className="w-5 h-5 text-purple-400" />
+                Generate Quiz
+              </h2>
+              <button onClick={onClose} className="text-gray-400 hover:text-white transition-colors">
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <form onSubmit={handleSubmit} className="p-6 space-y-5">
               <div>
-                <label className="block text-sm font-medium mb-1.5 text-gray-300">Difficulty</label>
-                <select 
-                  value={difficulty}
-                  onChange={e => setDifficulty(e.target.value)}
-                  className="w-full bg-black/40 border border-white/10 rounded-xl p-2.5 text-white focus:outline-none focus:ring-2 focus:ring-purple-500/50 appearance-none"
-                >
-                  <option value="easy">Easy</option>
-                  <option value="medium">Medium</option>
-                  <option value="hard">Hard</option>
-                </select>
+                <label className="block text-sm font-medium mb-1.5 text-gray-300">Topic</label>
+                <div className="relative">
+                  <BookOpen className="w-5 h-5 absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" />
+                  <input 
+                    type="text" 
+                    value={topic}
+                    onChange={e => setTopic(e.target.value)}
+                    className="w-full bg-black/40 border border-white/10 rounded-xl py-2.5 pl-10 pr-4 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50" 
+                    placeholder="e.g. Photosynthesis, React Hooks, World War II"
+                    required 
+                  />
+                </div>
               </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium mb-1.5 text-gray-300">Difficulty</label>
+                  <select 
+                    value={difficulty}
+                    onChange={e => setDifficulty(e.target.value)}
+                    className="w-full bg-black/40 border border-white/10 rounded-xl p-2.5 text-white focus:outline-none focus:ring-2 focus:ring-purple-500/50 appearance-none"
+                  >
+                    <option value="easy">Easy</option>
+                    <option value="medium">Medium</option>
+                    <option value="hard">Hard</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium mb-1.5 text-gray-300">Student Level</label>
+                  <select 
+                    value={studentLevel}
+                    onChange={e => setStudentLevel(e.target.value)}
+                    className="w-full bg-black/40 border border-white/10 rounded-xl p-2.5 text-white focus:outline-none focus:ring-2 focus:ring-purple-500/50 appearance-none"
+                  >
+                    <option value="class6">Class 6-8</option>
+                    <option value="class10">Class 9-12</option>
+                    <option value="college">College</option>
+                    <option value="upsc">UPSC / Comp</option>
+                  </select>
+                </div>
+              </div>
+
               <div>
-                <label className="block text-sm font-medium mb-1.5 text-gray-300">Student Level</label>
-                <select 
-                  value={studentLevel}
-                  onChange={e => setStudentLevel(e.target.value)}
-                  className="w-full bg-black/40 border border-white/10 rounded-xl p-2.5 text-white focus:outline-none focus:ring-2 focus:ring-purple-500/50 appearance-none"
-                >
-                  <option value="class6">Class 6-8</option>
-                  <option value="class10">Class 9-12</option>
-                  <option value="college">College</option>
-                  <option value="upsc">UPSC / Comp</option>
-                </select>
+                <label className="block text-sm font-medium mb-1.5 text-gray-300">
+                  Number of Questions ({numQuestions})
+                </label>
+                <input 
+                  type="range" 
+                  min="1" max="25" 
+                  value={numQuestions}
+                  onChange={e => setNumQuestions(Number(e.target.value))}
+                  className="w-full accent-purple-500 bg-gray-700 h-2 rounded-lg appearance-none cursor-pointer" 
+                />
+                <div className="flex justify-between text-xs text-gray-500 mt-1">
+                  <span>1</span>
+                  <span>25</span>
+                </div>
               </div>
-            </div>
 
-            <div>
-              <label className="block text-sm font-medium mb-1.5 text-gray-300">
-                Number of Questions ({numQuestions})
-              </label>
-              <input 
-                type="range" 
-                min="1" max="25" 
-                value={numQuestions}
-                onChange={e => setNumQuestions(Number(e.target.value))}
-                className="w-full accent-purple-500 bg-gray-700 h-2 rounded-lg appearance-none cursor-pointer" 
-              />
-              <div className="flex justify-between text-xs text-gray-500 mt-1">
-                <span>1</span>
-                <span>25</span>
-              </div>
-            </div>
-
-            <button 
-              type="submit" 
-              disabled={isLoading}
-              className="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-medium py-3 rounded-xl transition-all shadow-lg shadow-indigo-500/25 flex justify-center items-center mt-4 disabled:opacity-50"
-            >
-              {isLoading ? (
-                <><Loader2 className="w-5 h-5 animate-spin mr-2" /> Generating AI Quiz...</>
-              ) : status === 'unauthenticated' ? (
-                'Sign in to Generate'
-              ) : (
-                'Generate Magic'
-              )}
-            </button>
-          </form>
-        </motion.div>
+              <button 
+                type="submit" 
+                disabled={isLoading}
+                className="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-medium py-3 rounded-xl transition-all shadow-lg shadow-indigo-500/25 flex justify-center items-center mt-4 disabled:opacity-50"
+              >
+                {status === 'unauthenticated' ? 'Sign in to Generate' : 'Generate Magic ✨'}
+              </button>
+            </form>
+          </motion.div>
+        )}
       </div>
     </AnimatePresence>
   );

@@ -81,7 +81,7 @@ export default function ProfilePage() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="glass-panel p-8 rounded-3xl border border-white/10 border-white/10 bg-white/50 bg-transparent relative overflow-hidden group"
+            className="p-8 rounded-3xl border border-white/10 bg-[#18181b] relative overflow-hidden group"
           >
             <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
               <User className="w-24 h-24" />

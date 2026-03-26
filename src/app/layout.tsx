@@ -6,6 +6,7 @@ import { SessionProvider } from "@/components/providers/SessionProvider";
 import Navbar from "@/components/Navbar";
 
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
+import Footer from "@/components/Footer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -87,6 +88,7 @@ export default function RootLayout({
             <main>
               {children}
             </main>
+            <Footer />
           </SessionProvider>
         </ThemeProvider>
         <Script

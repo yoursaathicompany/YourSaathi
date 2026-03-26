@@ -109,6 +109,8 @@ export async function POST(req: NextRequest) {
     if (!apiKey) {
       return NextResponse.json({ error: 'AI key not configured' }, { status: 500 });
     }
+    // Log last 4 chars to confirm key identity without exposing full key
+    console.log(`[generate-quiz] Using API key ending in: ...${apiKey.slice(-4)}`);
 
     const prompt = `
       You are an expert educator and exam creator. 
@@ -146,15 +148,13 @@ export async function POST(req: NextRequest) {
 
     while (attempts < 3) {
       try {
-        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-lite:generateContent?key=${apiKey}`, {
+        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             contents: [{ parts: [{ text: prompt }] }],
             generationConfig: {
               responseMimeType: 'application/json',
-              temperature: 0.7,
-              topP: 0.9,
             }
           })
         });

@@ -180,20 +180,32 @@ export async function POST(req: NextRequest) {
 
         let responseText = data.candidates[0].content.parts[0].text;
         
-        // Strip out markdown code block if present
-        responseText = responseText.replace(/^```json\s*/, '').replace(/\s*```$/, '');
+        // Aggressively strip any markdown wrapping
+        responseText = responseText
+          .replace(/^```json\s*/i, '')
+          .replace(/^```\s*/i, '')
+          .replace(/\s*```$/i, '')
+          .trim();
         
         quizData = JSON.parse(responseText);
         
-        // Basic validation: ensure questions count is correct or at least not zero
+        // Validate questions exist
         if (quizData.questions && quizData.questions.length > 0) {
           break;
         }
+        // If no questions returned, increment and retry
+        console.warn(`[generate-quiz] No questions in response, retrying... (attempt ${attempts + 1})`);
+        attempts++;
       } catch (err) {
         console.error(`Attempt ${attempts + 1} failed:`, err);
         attempts++;
         if (attempts === 3) throw err;
       }
+    }
+
+    // Guard: if we exhausted retries without valid data
+    if (!quizData || !quizData.questions || quizData.questions.length === 0) {
+      return NextResponse.json({ error: 'Failed to generate quiz questions after multiple attempts. Please try again.' }, { status: 503 });
     }
 
     // Persist to DB

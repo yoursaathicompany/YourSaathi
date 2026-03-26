@@ -49,7 +49,7 @@ export default function WithdrawalHistoryPage() {
         <div className="flex items-center gap-4">
           <Link
             href="/redeem"
-            className="p-2 rounded-xl bg-gray-200 dark:bg-white/5 border border-gray-300 dark:border-white/10 hover:border-gray-400 dark:hover:border-white/20 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
+            className="p-2 rounded-xl bg-gray-200 bg-white/5 border border-gray-300 border-white/10 hover:border-gray-400 hover:border-white/20 text-gray-600 text-gray-400 hover:text-white hover:text-white transition-colors"
           >
             <ArrowLeft className="w-5 h-5" />
           </Link>
@@ -61,7 +61,7 @@ export default function WithdrawalHistoryPage() {
         <button
           onClick={() => fetchHistory(page, true)}
           disabled={refreshing}
-          className="p-2 rounded-xl bg-gray-200 dark:bg-white/5 border border-gray-300 dark:border-white/10 hover:border-gray-400 dark:hover:border-white/20 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors disabled:opacity-50"
+          className="p-2 rounded-xl bg-gray-200 bg-white/5 border border-gray-300 border-white/10 hover:border-gray-400 hover:border-white/20 text-gray-600 text-gray-400 hover:text-white hover:text-white transition-colors disabled:opacity-50"
           title="Refresh"
         >
           <RefreshCw className={`w-4 h-4 ${refreshing ? 'animate-spin' : ''}`} />

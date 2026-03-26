@@ -81,7 +81,7 @@ export default function ProfilePage() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="glass-panel p-8 rounded-3xl border border-gray-200 dark:border-white/10 bg-white/50 dark:bg-transparent relative overflow-hidden group"
+            className="glass-panel p-8 rounded-3xl border border-white/10 border-white/10 bg-white/50 bg-transparent relative overflow-hidden group"
           >
             <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
               <User className="w-24 h-24" />
@@ -96,15 +96,15 @@ export default function ProfilePage() {
                 )}
               </div>
 
-              <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-1">{user?.name || 'User'}</h1>
+              <h1 className="text-2xl font-bold text-white text-white mb-1">{user?.name || 'User'}</h1>
               <p className="text-sm text-gray-500 flex items-center gap-1 mb-4">
                 <Mail className="w-3.5 h-3.5" />
                 {user?.email}
               </p>
 
               <div className="flex flex-wrap justify-center gap-2">
-                <span className="px-3 py-1 rounded-full bg-gray-100 dark:bg-white/5 border border-gray-200 dark:border-white/10 text-xs font-bold text-gray-600 dark:text-gray-400 flex items-center gap-1.5">
-                  <Shield className="w-3 h-3 text-indigo-500 dark:text-indigo-400" />
+                <span className="px-3 py-1 rounded-full bg-white/10 bg-white/5 border border-white/10 border-white/10 text-xs font-bold text-gray-600 text-gray-400 flex items-center gap-1.5">
+                  <Shield className="w-3 h-3 text-indigo-500 text-indigo-400" />
                   {(user as any)?.role?.toUpperCase() || 'STUDENT'}
                 </span>
                 {(user as any)?.emailVerified && (
@@ -116,10 +116,10 @@ export default function ProfilePage() {
               </div>
             </div>
 
-            <div className="mt-8 pt-8 border-t border-gray-200 dark:border-white/5 space-y-4">
+            <div className="mt-8 pt-8 border-t border-white/10 border-white/5 space-y-4">
               <div className="flex items-center justify-between">
                 <span className="text-sm text-gray-500 font-medium">Member Since</span>
-                <span className="text-sm text-gray-900 dark:text-gray-100">
+                <span className="text-sm text-white text-gray-100">
                   {stats.memberSince
                     ? new Date(stats.memberSince).toLocaleDateString('en-IN', { month: 'long', year: 'numeric' })
                     : 'Loading...'}
@@ -127,10 +127,10 @@ export default function ProfilePage() {
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-sm text-gray-500 font-medium">Quizzes Taken</span>
-                <span className="text-sm text-gray-900 dark:text-white font-bold">{stats.quizzesTaken}</span>
+                <span className="text-sm text-white text-white font-bold">{stats.quizzesTaken}</span>
               </div>
 
-              <Link href="/history" className="mt-6 flex items-center justify-center gap-2 w-full bg-gray-100 hover:bg-gray-200 dark:bg-white/5 dark:hover:bg-white/10 text-gray-900 dark:text-white font-bold py-3 rounded-2xl transition-all border border-gray-200 dark:border-white/10 text-sm group">
+              <Link href="/history" className="mt-6 flex items-center justify-center gap-2 w-full bg-white/10 hover:bg-gray-200 bg-white/5 hover:bg-white/10 text-white text-white font-bold py-3 rounded-2xl transition-all border border-white/10 border-white/10 text-sm group">
                 View Full Quiz History <ArrowRight className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" />
               </Link>
             </div>
@@ -141,7 +141,7 @@ export default function ProfilePage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="bg-gradient-to-br from-yellow-400 to-orange-500 p-8 rounded-3xl shadow-xl shadow-yellow-500/20 text-gray-900 group relative overflow-hidden"
+            className="bg-gradient-to-br from-yellow-400 to-orange-500 p-8 rounded-3xl shadow-xl shadow-yellow-500/20 text-white group relative overflow-hidden"
           >
             <div className="absolute -right-4 -bottom-4 opacity-20 rotate-12 group-hover:rotate-0 transition-transform duration-500">
               <Coins className="w-32 h-32" />
@@ -159,7 +159,7 @@ export default function ProfilePage() {
                 <span className="text-xl font-bold opacity-70">coins</span>
               </div>
 
-              <Link href="/redeem"> <button className="mt-6 w-full bg-black/10 hover:bg-black/20 text-gray-900 font-bold py-3 rounded-2xl transition-all border border-black/5 text-sm">
+              <Link href="/redeem"> <button className="mt-6 w-full bg-black/10 hover:bg-black/20 text-white font-bold py-3 rounded-2xl transition-all border border-black/5 text-sm">
                 Redeem Rewards
               </button> </Link>
             </div>

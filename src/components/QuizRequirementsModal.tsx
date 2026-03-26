@@ -89,7 +89,7 @@ export default function QuizRequirementsModal({
               <Sparkles className="w-5 h-5 text-purple-400" />
               Generate Quiz
             </h2>
-            <button onClick={onClose} className="text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white transition-colors">
+            <button onClick={onClose} className="text-gray-500 hover:text-white text-gray-400 hover:text-white transition-colors">
               <X className="w-5 h-5" />
             </button>
           </div>

@@ -5,7 +5,6 @@ import { useSession, signOut } from 'next-auth/react';
 import { useState, useEffect } from 'react';
 import { Sparkles, LogOut, User, Settings, Shield, Menu, X, Coins, History } from 'lucide-react';
 import CoinWalletHeader from './CoinWalletHeader';
-import { ThemeToggle } from './ThemeToggle';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export default function Navbar() {
@@ -36,14 +35,14 @@ export default function Navbar() {
   const isAdmin = (session?.user as any)?.role === 'admin' || (session?.user as any)?.role === 'teacher';
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-gray-200 dark:border-white/5 bg-white/80 dark:bg-[#09090b]/80 backdrop-blur-xl transition-colors duration-300">
+    <header className="sticky top-0 z-50 w-full border-b border-white/10 border-white/5 bg-[#09090b]/80 bg-[#09090b]/80 backdrop-blur-xl transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-0 group">
           <div className="w-8 h-8 rounded-xl bg-transparent flex items-center justify-center transition-transform group-hover:scale-110">
             <span className="font-black text-[28px] text-[#A855F7] leading-none">Y</span>
           </div>
-          <span className="font-bold text-gray-950 dark:text-white text-xl tracking-tight hidden sm:block">Saathi</span>
+          <span className="font-bold text-white text-white text-xl tracking-tight hidden sm:block">Saathi</span>
         </Link>
 
         {/* Nav links */}
@@ -62,8 +61,6 @@ export default function Navbar() {
 
         {/* Right side */}
         <div className="flex items-center gap-3">
-          <ThemeToggle />
-          
           {status === 'authenticated' && session?.user ? (
             <>
               <CoinWalletHeader balance={balance} />
@@ -162,25 +159,25 @@ export default function Navbar() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden border-t border-gray-200 dark:border-white/5 bg-white/95 dark:bg-[#09090b]/95 backdrop-blur-xl overflow-hidden"
+            className="md:hidden border-t border-white/10 border-white/5 bg-white/95 bg-[#09090b]/95 backdrop-blur-xl overflow-hidden"
           >
-            <nav className="flex flex-col px-4 py-4 gap-4 text-sm font-medium text-gray-600 dark:text-gray-300">
-              <Link href="/" onClick={() => setMobileMenuOpen(false)} className="hover:text-gray-900 dark:hover:text-white transition-colors">Home</Link>
-              <Link href="/about" onClick={() => setMobileMenuOpen(false)} className="hover:text-gray-900 dark:hover:text-white transition-colors">About</Link>
-              <Link href="/contact" onClick={() => setMobileMenuOpen(false)} className="hover:text-gray-900 dark:hover:text-white transition-colors">Contact</Link>
+            <nav className="flex flex-col px-4 py-4 gap-4 text-sm font-medium text-gray-600 text-gray-300">
+              <Link href="/" onClick={() => setMobileMenuOpen(false)} className="hover:text-white hover:text-white transition-colors">Home</Link>
+              <Link href="/about" onClick={() => setMobileMenuOpen(false)} className="hover:text-white hover:text-white transition-colors">About</Link>
+              <Link href="/contact" onClick={() => setMobileMenuOpen(false)} className="hover:text-white hover:text-white transition-colors">Contact</Link>
               
               {session && (
-                <Link href="/profile" onClick={() => setMobileMenuOpen(false)} className="hover:text-gray-900 dark:hover:text-white transition-colors">
+                <Link href="/profile" onClick={() => setMobileMenuOpen(false)} className="hover:text-white hover:text-white transition-colors">
                   Profile
                 </Link>
               )}
               {session && (
-                <Link href="/redeem" onClick={() => setMobileMenuOpen(false)} className="text-yellow-600 dark:text-yellow-400 flex items-center gap-1">
+                <Link href="/redeem" onClick={() => setMobileMenuOpen(false)} className="text-yellow-600 text-yellow-400 flex items-center gap-1">
                   <Coins className="w-4 h-4" /> Redeem
                 </Link>
               )}
               {isAdmin && (
-                <Link href="/admin" onClick={() => setMobileMenuOpen(false)} className="text-indigo-600 dark:text-indigo-400 flex items-center gap-1">
+                <Link href="/admin" onClick={() => setMobileMenuOpen(false)} className="text-indigo-600 text-indigo-400 flex items-center gap-1">
                   <Shield className="w-4 h-4" /> Admin
                 </Link>
               )}

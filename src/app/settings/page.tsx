@@ -170,7 +170,7 @@ export default function SettingsPage() {
                 onClick={() => togglePref('animations')}
                 className={`w-12 h-6 rounded-full transition-colors relative ${prefs.animations ? 'bg-purple-600' : 'bg-gray-700'}`}
               >
-                <div className={`absolute top-1 w-4 h-4 bg-white rounded-full transition-all ${prefs.animations ? 'left-7' : 'left-1'}`} />
+                <div className={`absolute top-1 w-4 h-4 bg-[#121214] rounded-full transition-all ${prefs.animations ? 'left-7' : 'left-1'}`} />
               </button>
             </div>
 
@@ -183,7 +183,7 @@ export default function SettingsPage() {
                 onClick={() => togglePref('reducedMotion')}
                 className={`w-12 h-6 rounded-full transition-colors relative ${prefs.reducedMotion ? 'bg-purple-600' : 'bg-gray-700'}`}
               >
-                <div className={`absolute top-1 w-4 h-4 bg-white rounded-full transition-all ${prefs.reducedMotion ? 'left-7' : 'left-1'}`} />
+                <div className={`absolute top-1 w-4 h-4 bg-[#121214] rounded-full transition-all ${prefs.reducedMotion ? 'left-7' : 'left-1'}`} />
               </button>
             </div>
 
@@ -196,7 +196,7 @@ export default function SettingsPage() {
                 onClick={() => togglePref('sounds')}
                 className={`w-12 h-6 rounded-full transition-colors relative ${prefs.sounds ? 'bg-purple-600' : 'bg-gray-700'}`}
               >
-                <div className={`absolute top-1 w-4 h-4 bg-white rounded-full transition-all ${prefs.sounds ? 'left-7' : 'left-1'}`} />
+                <div className={`absolute top-1 w-4 h-4 bg-[#121214] rounded-full transition-all ${prefs.sounds ? 'left-7' : 'left-1'}`} />
               </button>
             </div>
           </div>

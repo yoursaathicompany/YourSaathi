@@ -55,7 +55,7 @@ export default function Home() {
                     transition: { type: "spring", damping: 12, stiffness: 100 }
                   }
                 }}
-                className="inline-block text-gray-950 dark:text-white"
+                className="inline-block text-white text-white"
               >
                 {word}
               </motion.span>

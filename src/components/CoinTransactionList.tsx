@@ -84,7 +84,7 @@ export default function CoinTransactionList() {
                     🪙
                   </div>
                   <div>
-                    <p className="text-sm font-medium text-gray-900 dark:text-white">{reasonLabel(tx.reason)}</p>
+                    <p className="text-sm font-medium text-white text-white">{reasonLabel(tx.reason)}</p>
                     {tx.quiz && (
                       <p className="text-xs text-gray-500 truncate max-w-[200px]">
                         {tx.quiz.topic ?? tx.quiz.title ?? 'Quiz'}
@@ -111,7 +111,7 @@ export default function CoinTransactionList() {
                 onClick={() => setPage(p => Math.max(1, p - 1))}
                 disabled={page === 1 || loading}
                 aria-label="Previous page"
-                className="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-gray-200 dark:bg-white/5 border border-gray-300 dark:border-white/10 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white disabled:opacity-30 transition-all"
+                className="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-gray-200 bg-white/5 border border-gray-300 border-white/10 text-sm text-gray-600 text-gray-400 hover:text-white hover:text-white disabled:opacity-30 transition-all"
               >
                 <ChevronLeft className="w-4 h-4" /> Prev
               </button>
@@ -122,7 +122,7 @@ export default function CoinTransactionList() {
                 onClick={() => setPage(p => p + 1)}
                 disabled={!data.has_more || loading}
                 aria-label="Next page"
-                className="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-gray-200 dark:bg-white/5 border border-gray-300 dark:border-white/10 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white disabled:opacity-30 transition-all"
+                className="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-gray-200 bg-white/5 border border-gray-300 border-white/10 text-sm text-gray-600 text-gray-400 hover:text-white hover:text-white disabled:opacity-30 transition-all"
               >
                 Next <ChevronRight className="w-4 h-4" />
               </button>

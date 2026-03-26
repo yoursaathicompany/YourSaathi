@@ -95,7 +95,7 @@ function LoginContent() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 py-12 bg-gray-50 dark:bg-[#09090b] transition-colors duration-300">
+    <div className="min-h-screen flex items-center justify-center px-4 py-12 bg-[#09090b] bg-[#09090b] transition-colors duration-300">
       {/* Background glow */}
       <div className="pointer-events-none fixed inset-0 overflow-hidden">
         <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[700px] h-[400px] bg-purple-600/20 rounded-full blur-3xl" />
@@ -144,7 +144,7 @@ function LoginContent() {
               onClick={() => handleOAuth('google')}
               disabled={!!loading}
               id="btn-google"
-              className="w-full flex items-center justify-center gap-3 px-4 py-3 bg-white text-gray-900 font-semibold rounded-xl hover:bg-gray-100 transition-all disabled:opacity-50 shadow-md"
+              className="w-full flex items-center justify-center gap-3 px-4 py-3 bg-[#121214] text-white font-semibold rounded-xl hover:bg-white/10 transition-all disabled:opacity-50 shadow-md"
             >
               {loading === 'google' ? (
                 <Loader2 className="w-5 h-5 animate-spin" />
@@ -313,7 +313,7 @@ function LoginContent() {
 export default function LoginPage() {
   return (
     <Suspense fallback={
-      <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-[#09090b] transition-colors duration-300">
+      <div className="min-h-screen flex items-center justify-center bg-[#09090b] bg-[#09090b] transition-colors duration-300">
         <Loader2 className="w-8 h-8 animate-spin text-purple-400" />
       </div>
     }>

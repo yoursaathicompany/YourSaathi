@@ -21,7 +21,7 @@ const legalLinks = [
 
 export default function Footer() {
   return (
-    <footer className="relative border-t border-gray-200 dark:border-white/5 bg-white/80 dark:bg-[#09090b]/90 backdrop-blur-xl">
+    <footer className="relative border-t border-white/10 border-white/5 bg-[#09090b]/80 bg-[#09090b]/90 backdrop-blur-xl">
       {/* Top gradient line */}
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-purple-500/50 to-transparent" />
 
@@ -32,9 +32,9 @@ export default function Footer() {
           <div className="lg:col-span-1 space-y-5">
             <Link href="/" className="flex items-center gap-1 group w-fit">
               <span className="font-black text-[32px] text-purple-500 leading-none">Y</span>
-              <span className="font-bold text-gray-900 dark:text-white text-2xl tracking-tight">Saathi</span>
+              <span className="font-bold text-white text-white text-2xl tracking-tight">Saathi</span>
             </Link>
-            <p className="text-sm text-gray-500 dark:text-gray-400 leading-relaxed">
+            <p className="text-sm text-gray-500 text-gray-400 leading-relaxed">
               AI-powered quiz platform to help you learn faster, practice smarter, and earn while you grow. Your preparation partner.
             </p>
             {/* Social */}
@@ -52,7 +52,7 @@ export default function Footer() {
               <a
                 href="mailto:yoursaathicompany@gmail.com"
                 aria-label="Email YourSaathi support"
-                className="p-2 rounded-xl bg-gray-100 dark:bg-white/5 border border-gray-200 dark:border-white/5 text-gray-500 dark:text-gray-400 hover:text-purple-500 hover:border-purple-500/30 transition-all"
+                className="p-2 rounded-xl bg-white/10 bg-white/5 border border-white/10 border-white/5 text-gray-500 text-gray-400 hover:text-purple-500 hover:border-purple-500/30 transition-all"
               >
                 <Mail className="w-4 h-4" />
               </a>
@@ -61,7 +61,7 @@ export default function Footer() {
 
           {/* Study Topics */}
           <div className="space-y-5">
-            <h3 className="text-sm font-bold text-gray-900 dark:text-white uppercase tracking-wider flex items-center gap-2">
+            <h3 className="text-sm font-bold text-white text-white uppercase tracking-wider flex items-center gap-2">
               <BookOpen className="w-4 h-4 text-emerald-400" /> Study Topics
             </h3>
             <ul className="space-y-3">
@@ -69,9 +69,9 @@ export default function Footer() {
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="text-sm text-gray-500 dark:text-gray-400 hover:text-purple-500 dark:hover:text-purple-400 transition-colors flex items-center gap-1.5 group"
+                    className="text-sm text-gray-500 text-gray-400 hover:text-purple-500 hover:text-purple-400 transition-colors flex items-center gap-1.5 group"
                   >
-                    <span className="w-1 h-1 rounded-full bg-gray-300 dark:bg-gray-600 group-hover:bg-purple-400 transition-colors" />
+                    <span className="w-1 h-1 rounded-full bg-gray-300 bg-gray-600 group-hover:bg-purple-400 transition-colors" />
                     {link.label}
                   </Link>
                 </li>
@@ -81,7 +81,7 @@ export default function Footer() {
 
           {/* Legal / Company */}
           <div className="space-y-5">
-            <h3 className="text-sm font-bold text-gray-900 dark:text-white uppercase tracking-wider flex items-center gap-2">
+            <h3 className="text-sm font-bold text-white text-white uppercase tracking-wider flex items-center gap-2">
               <Shield className="w-4 h-4 text-blue-400" /> Company
             </h3>
             <ul className="space-y-3">
@@ -89,7 +89,7 @@ export default function Footer() {
                 <li key={href}>
                   <Link
                     href={href}
-                    className="text-sm text-gray-500 dark:text-gray-400 hover:text-purple-500 dark:hover:text-purple-400 transition-colors flex items-center gap-2 group"
+                    className="text-sm text-gray-500 text-gray-400 hover:text-purple-500 hover:text-purple-400 transition-colors flex items-center gap-2 group"
                   >
                     <Icon className="w-3.5 h-3.5 text-gray-400 group-hover:text-purple-400 transition-colors" />
                     {label}
@@ -99,16 +99,16 @@ export default function Footer() {
             </ul>
 
             {/* Disclaimer */}
-            <div className="pt-2 border-t border-gray-200 dark:border-white/5">
+            <div className="pt-2 border-t border-white/10 border-white/5">
               <p className="text-xs text-gray-400 leading-relaxed">
-                <span className="font-semibold text-gray-500 dark:text-gray-300">Disclaimer:</span> All AI-generated quiz content is provided for educational purposes only. While we strive for accuracy, we recommend verifying critical information from authoritative sources.
+                <span className="font-semibold text-gray-500 text-gray-300">Disclaimer:</span> All AI-generated quiz content is provided for educational purposes only. While we strive for accuracy, we recommend verifying critical information from authoritative sources.
               </p>
             </div>
           </div>
 
           {/* Features / CTA */}
           <div className="space-y-5">
-            <h3 className="text-sm font-bold text-gray-900 dark:text-white uppercase tracking-wider flex items-center gap-2">
+            <h3 className="text-sm font-bold text-white text-white uppercase tracking-wider flex items-center gap-2">
               <Sparkles className="w-4 h-4 text-yellow-400" /> Why YourSaathi?
             </h3>
             <ul className="space-y-3">
@@ -120,7 +120,7 @@ export default function Footer() {
                 { emoji: '📚', text: 'Study guides on 11+ topics' },
                 { emoji: '🚀', text: 'Track quiz history & progress' },
               ].map((item) => (
-                <li key={item.text} className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
+                <li key={item.text} className="flex items-center gap-2 text-sm text-gray-500 text-gray-400">
                   <span className="text-base">{item.emoji}</span>
                   {item.text}
                 </li>
@@ -137,9 +137,9 @@ export default function Footer() {
         </div>
 
         {/* Bottom bar */}
-        <div className="pt-8 border-t border-gray-200 dark:border-white/5 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div className="pt-8 border-t border-white/10 border-white/5 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-xs text-gray-400 text-center sm:text-left">
-            © {currentYear} <span className="font-semibold text-gray-600 dark:text-gray-300">YourSaathi</span>. All rights reserved.
+            © {currentYear} <span className="font-semibold text-gray-600 text-gray-300">YourSaathi</span>. All rights reserved.
           </p>
           <div className="flex items-center gap-4 text-xs text-gray-400">
             <Link href="/privacy" className="hover:text-purple-400 transition-colors">Privacy</Link>

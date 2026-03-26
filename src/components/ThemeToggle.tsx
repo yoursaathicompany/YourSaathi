@@ -25,7 +25,7 @@ export function ThemeToggle() {
     <motion.button
       whileTap={{ scale: 0.9 }}
       onClick={() => setTheme(isDark ? "light" : "dark")}
-      className="relative w-10 h-10 rounded-full bg-white/10 dark:bg-white/5 hover:bg-white/20 dark:hover:bg-white/10 flex items-center justify-center transition-colors overflow-hidden border border-gray-200 dark:border-white/10 shadow-sm"
+      className="relative w-10 h-10 rounded-full bg-white/10 bg-white/5 hover:bg-white/20 hover:bg-white/10 flex items-center justify-center transition-colors overflow-hidden border border-white/10 border-white/10 shadow-sm"
       aria-label="Toggle theme"
     >
       <motion.div

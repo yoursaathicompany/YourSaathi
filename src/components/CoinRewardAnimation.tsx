@@ -73,7 +73,7 @@ export default function CoinRewardAnimation({
       <div
         role="status"
         aria-live="polite"
-        className="fixed bottom-6 right-6 z-50 bg-yellow-400 text-gray-900 font-bold px-5 py-3 rounded-2xl shadow-xl text-lg animate-none"
+        className="fixed bottom-6 right-6 z-50 bg-yellow-400 text-white font-bold px-5 py-3 rounded-2xl shadow-xl text-lg animate-none"
       >
         🪙 +{coinsAwarded} coins earned!
       </div>
@@ -110,7 +110,7 @@ export default function CoinRewardAnimation({
           transition={{ delay: 0.2 }}
           role="status"
           aria-live="polite"
-          className="fixed bottom-6 right-6 z-50 flex items-center gap-3 bg-gradient-to-r from-yellow-400 to-orange-400 text-gray-900 font-bold px-5 py-3 rounded-2xl shadow-xl shadow-yellow-500/30"
+          className="fixed bottom-6 right-6 z-50 flex items-center gap-3 bg-gradient-to-r from-yellow-400 to-orange-400 text-white font-bold px-5 py-3 rounded-2xl shadow-xl shadow-yellow-500/30"
         >
           <span className="text-2xl">🪙</span>
           <div>

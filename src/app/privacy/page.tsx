@@ -18,10 +18,10 @@ export default function PrivacyPolicyPage() {
         </div>
 
         {/* Content */}
-        <div className="prose prose-purple dark:prose-invert max-w-none space-y-8 text-gray-600 dark:text-gray-300">
+        <div className="prose prose-purple prose-invert max-w-none space-y-8 text-gray-600 text-gray-300">
           
           <section>
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">1. Introduction</h2>
+            <h2 className="text-2xl font-bold text-white text-white mb-4">1. Introduction</h2>
             <p>
               Welcome to YourSaathi ("we," "our," or "us"). We are committed to protecting your privacy 
               and ensuring the security of your personal information. This Privacy Policy explains how we 
@@ -31,8 +31,8 @@ export default function PrivacyPolicyPage() {
           </section>
 
           <section>
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">2. Information We Collect</h2>
-            <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2 mt-4">Personal Information</h3>
+            <h2 className="text-2xl font-bold text-white text-white mb-4">2. Information We Collect</h2>
+            <h3 className="text-xl font-semibold text-white text-white mb-2 mt-4">Personal Information</h3>
             <p className="mb-4">
               When you register for an account, participate in quizzes, or communicate with us, we may collect:
             </p>
@@ -42,7 +42,7 @@ export default function PrivacyPolicyPage() {
               <li>Payment and payout details (e.g., UPI ID) when you redeem coins</li>
             </ul>
 
-            <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2 mt-6">Usage Data</h3>
+            <h3 className="text-xl font-semibold text-white text-white mb-2 mt-6">Usage Data</h3>
             <p className="mb-4">
               We automatically collect certain information when you visit, use, or navigate the platform:
             </p>
@@ -54,7 +54,7 @@ export default function PrivacyPolicyPage() {
           </section>
 
           <section>
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">3. How We Use Your Information</h2>
+            <h2 className="text-2xl font-bold text-white text-white mb-4">3. How We Use Your Information</h2>
             <p className="mb-4">We use the collected information for various purposes, including to:</p>
             <ul className="list-disc pl-5 space-y-2">
               <li>Provide, operate, and maintain our platform</li>
@@ -66,7 +66,7 @@ export default function PrivacyPolicyPage() {
           </section>
 
           <section>
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">4. Sharing Your Information</h2>
+            <h2 className="text-2xl font-bold text-white text-white mb-4">4. Sharing Your Information</h2>
             <p>
               We do not sell your personal information. We may share information with trusted third-party 
               service providers (e.g., hosting providers, payment processors, AI integration APIs) strictly 
@@ -76,7 +76,7 @@ export default function PrivacyPolicyPage() {
           </section>
 
           <section>
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">5. Data Security</h2>
+            <h2 className="text-2xl font-bold text-white text-white mb-4">5. Data Security</h2>
             <p>
               We implement industry-standard security measures to protect your personal information from 
               unauthorized access, alteration, disclosure, or destruction. However, please note that no 
@@ -85,7 +85,7 @@ export default function PrivacyPolicyPage() {
           </section>
 
           <section>
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">6. Your Rights</h2>
+            <h2 className="text-2xl font-bold text-white text-white mb-4">6. Your Rights</h2>
             <p>
               You have the right to access, update, or delete your personal information. If you wish to 
               exercise these rights, or if you have any questions about our privacy practices, please 
@@ -94,7 +94,7 @@ export default function PrivacyPolicyPage() {
           </section>
 
           <section>
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">7. Changes to This Policy</h2>
+            <h2 className="text-2xl font-bold text-white text-white mb-4">7. Changes to This Policy</h2>
             <p>
               We reserve the right to modify this Privacy Policy at any time. Any changes will be effective 
               immediately upon posting the updated policy on this page. We encourage you to review this 
@@ -103,7 +103,7 @@ export default function PrivacyPolicyPage() {
           </section>
 
           <section>
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">8. Contact Us</h2>
+            <h2 className="text-2xl font-bold text-white text-white mb-4">8. Contact Us</h2>
             <p>
               If you have any questions or concerns about this Privacy Policy, please reach out to us at:
             </p>
@@ -115,8 +115,8 @@ export default function PrivacyPolicyPage() {
         </div>
 
         {/* Footer Link */}
-        <div className="mt-16 pt-8 border-t border-gray-200 dark:border-white/10 text-center">
-          <Link href="/contact" className="text-sm text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white transition-colors">
+        <div className="mt-16 pt-8 border-t border-white/10 border-white/10 text-center">
+          <Link href="/contact" className="text-sm text-gray-500 hover:text-white text-gray-400 hover:text-white transition-colors">
             Return to Contact Page
           </Link>
         </div>

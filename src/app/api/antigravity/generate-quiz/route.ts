@@ -144,7 +144,7 @@ export async function POST(req: NextRequest) {
     `;
 
     // Model fallback chain: try flash first, fall back to pro models
-    const modelFallbackChain = ['gemini-1.5-flash', 'gemini-1.5-pro', 'gemini-pro'];
+    const modelFallbackChain = ['gemini-2.0-flash', 'gemini-1.5-flash-latest', 'gemini-1.5-pro-latest'];
     const genAI = new GoogleGenerativeAI(apiKey);
     let quizData: any = null;
 

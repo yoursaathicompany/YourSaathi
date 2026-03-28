@@ -3,8 +3,17 @@ import { Mail, MessageSquare, Clock, Globe } from 'lucide-react';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
-  title: 'Contact Us | YourSaathi',
-  description: 'Get in touch with the YourSaathi team for support, feedback, or inquiries.',
+  title: 'Contact YourSaathi — Support & Feedback',
+  description: 'Get in touch with the YourSaathi team for support, feedback, bug reports, or general inquiries. We respond within 24-48 hours.',
+  keywords: ['contact yoursaathi', 'yoursaathi support', 'yoursaathi feedback', 'yoursaathicompany@gmail.com'],
+  alternates: { canonical: 'https://your-saathi.vercel.app/contact' },
+  openGraph: {
+    title: 'Contact YourSaathi — Support & Feedback',
+    description: 'Reach out to the YourSaathi team for any questions, bug reports, or feedback.',
+    url: 'https://your-saathi.vercel.app/contact',
+    type: 'website',
+    images: [{ url: '/og-image.png', width: 1200, height: 630 }],
+  },
 };
 
 export default function ContactUsPage() {

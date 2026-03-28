@@ -1,21 +1,32 @@
 import { MetadataRoute } from 'next';
 
 export default function robots(): MetadataRoute.Robots {
-  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://yoursaathi.com';
+  const baseUrl = 'https://your-saathi.vercel.app';
 
   return {
-    rules: {
-      userAgent: '*',
-      allow: '/',
-      disallow: [
-        '/api/',
-        '/admin/',
-        '/profile/',
-        '/settings/',
-        '/history/',
-        '/redeem/',
-      ],
-    },
+    rules: [
+      {
+        // Allow all good crawlers
+        userAgent: '*',
+        allow: '/',
+        disallow: [
+          '/api/',
+          '/admin/',
+          '/profile/',
+          '/settings/',
+          '/history/',
+          '/redeem/',
+          '/quiz/play',   // Dynamic play pages shouldn't be indexed
+          '/pyq/play',    // Dynamic play pages shouldn't be indexed
+        ],
+      },
+      {
+        // Block bad bots entirely
+        userAgent: ['AhrefsBot', 'SemrushBot', 'MJ12bot', 'DotBot'],
+        disallow: ['/'],
+      },
+    ],
     sitemap: `${baseUrl}/sitemap.xml`,
+    host: baseUrl,
   };
 }

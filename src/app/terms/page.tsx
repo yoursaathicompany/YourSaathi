@@ -2,8 +2,16 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
-  title: 'Terms of Service | YourSaathi',
-  description: 'Read the Terms of Service for using the YourSaathi platform, including quiz rules and coin redemption policies.',
+  title: 'Terms of Service — YourSaathi',
+  description: 'Read the Terms of Service for using YourSaathi. Covers quiz rules, coin earning policies, coin redemption via UPI, fair play, and user responsibilities.',
+  keywords: ['yoursaathi terms', 'yoursaathi terms of service', 'quiz platform rules', 'coin redemption policy', 'yoursaathi fair play'],
+  alternates: { canonical: 'https://your-saathi.vercel.app/terms' },
+  openGraph: {
+    title: 'Terms of Service — YourSaathi',
+    description: 'YourSaathi Terms of Service: quiz rules, coin earning, UPI redemption policy.',
+    url: 'https://your-saathi.vercel.app/terms',
+    type: 'website',
+  },
 };
 
 export default function TermsOfServicePage() {

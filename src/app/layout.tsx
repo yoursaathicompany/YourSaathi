@@ -19,55 +19,71 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const BASE_URL = 'https://your-saathi.vercel.app';
+
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || 'https://yoursaathi.com'),
-  title: "YourSaathi | AI-Powered Learning",
-  description: "YourSaathi is an AI-powered quiz generation platform that helps you create and take quizzes on any topic. Boost your preparation and earn coins while you learn.",
+  metadataBase: new URL(BASE_URL),
+  title: {
+    default: 'YourSaathi — AI Quiz Generator & PYQ Practice for Students',
+    template: '%s | YourSaathi',
+  },
+  description: 'YourSaathi is India\'s AI-powered quiz platform. Generate custom quizzes on any topic, practice CBSE Class 10-12 PYQs, JEE, NEET, UPSC previous year questions, and earn real coins while you learn.',
   keywords: [
-    "yoursaathi",
-    "yoursaathi quiz",
-    "yoursaathi student",
-    "AI quiz generator",
-    "practice quizzes online",
-    "online assessment platform",
-    "learn and earn",
-    "AI powered learning",
-    "student preparation",
-    "create quizzes",
-    "yoursaathi platform",
-    "best quiz app"
+    'yoursaathi', 'AI quiz generator India', 'previous year questions', 'PYQ',
+    'CBSE Class 10 PYQ', 'CBSE Class 12 PYQ', 'JEE previous year questions',
+    'NEET PYQ', 'UPSC previous year papers', 'SSC CGL PYQ',
+    'online quiz practice', 'AI learning platform India', 'earn coins learning',
+    'quiz app for students', 'practice test generator', 'learn and earn app',
+    'AI powered education', 'board exam preparation', 'competitive exam practice',
+    'Class 10 science quiz', 'Class 12 physics MCQ', 'JEE Main mock test',
+    'NEET biology questions', 'UPSC GS questions', 'free online quiz India',
   ],
-  authors: [{ name: "YourSaathi Team" }],
-  creator: "YourSaathi",
-  publisher: "YourSaathi",
+  authors: [{ name: 'YourSaathi Team', url: BASE_URL }],
+  creator: 'YourSaathi',
+  publisher: 'YourSaathi',
+  category: 'Education',
+  classification: 'Education / Test Preparation',
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+  alternates: {
+    canonical: BASE_URL,
+  },
   verification: {
-    google: "tM-8E7-jGEUoY_iM20rwU2LYKxXMFz9bM38YIeUWRmE",
+    google: 'tM-8E7-jGEUoY_iM20rwU2LYKxXMFz9bM38YIeUWRmE',
   },
   openGraph: {
-    type: "website",
-    locale: "en_US",
-    url: "/",
-    title: "YourSaathi | AI-Powered Learning",
-    description: "Instantly create high-quality, rigorously verified practice tests on any topic, at any difficulty level with YourSaathi.",
-    siteName: "YourSaathi",
-    images: [
-      {
-        url: "/og-image.png",
-        width: 1200,
-        height: 630,
-        alt: "YourSaathi - AI-Powered Learning Platform",
-      },
-    ],
+    type: 'website',
+    locale: 'en_IN',
+    url: BASE_URL,
+    title: 'YourSaathi — AI Quiz Generator & PYQ Practice',
+    description: 'Practice with AI-generated quizzes and real PYQs for CBSE, JEE, NEET, UPSC & SSC. Earn coins for every correct answer.',
+    siteName: 'YourSaathi',
+    images: [{
+      url: '/og-image.png',
+      width: 1200,
+      height: 630,
+      alt: 'YourSaathi — AI-Powered Quiz Platform for Indian Students',
+    }],
   },
   twitter: {
-    card: "summary_large_image",
-    title: "YourSaathi | AI-Powered Learning",
-    description: "Instantly create high-quality practice tests on any topic and earn coins while you learn with YourSaathi.",
-    images: ["/og-image.png"],
-    creator: "@yoursaathi",
+    card: 'summary_large_image',
+    title: 'YourSaathi — AI Quiz Generator & PYQ Practice',
+    description: 'Generate quizzes on any topic. Practice CBSE, JEE, NEET, UPSC PYQs. Earn real coins while you study.',
+    images: ['/og-image.png'],
+    creator: '@yoursaathi',
+    site: '@yoursaathi',
   },
   other: {
-    "google-adsense-account": "ca-pub-4043118352636472",
+    'google-adsense-account': 'ca-pub-4043118352636472',
   },
 };
 
@@ -94,6 +110,39 @@ export default function RootLayout({
             <Footer />
           </SessionProvider>
         </ThemeProvider>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify([
+              {
+                "@context": "https://schema.org",
+                "@type": "WebSite",
+                "name": "YourSaathi",
+                "url": "https://your-saathi.vercel.app",
+                "description": "India's AI-powered quiz platform for CBSE, JEE, NEET, UPSC previous year questions and custom quiz generation.",
+                "potentialAction": {
+                  "@type": "SearchAction",
+                  "target": { "@type": "EntryPoint", "urlTemplate": "https://your-saathi.vercel.app/?q={search_term_string}" },
+                  "query-input": "required name=search_term_string"
+                }
+              },
+              {
+                "@context": "https://schema.org",
+                "@type": "Organization",
+                "name": "YourSaathi",
+                "url": "https://your-saathi.vercel.app",
+                "logo": "https://your-saathi.vercel.app/logo.svg",
+                "sameAs": ["https://instagram.com/yoursaathi_ai"],
+                "contactPoint": {
+                  "@type": "ContactPoint",
+                  "email": "yoursaathicompany@gmail.com",
+                  "contactType": "customer support",
+                  "availableLanguage": ["English", "Hindi"]
+                }
+              }
+            ])
+          }}
+        />
         <Script
           async
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4043118352636472"

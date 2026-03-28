@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useMemo } from 'react';
+import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { GraduationCap, Search, Zap, BookOpen, Trophy, Users, Star } from 'lucide-react';
 import BackgroundAnimation from '@/components/BackgroundAnimation';
@@ -199,7 +200,7 @@ export default function PYQPage() {
             viewport={{ once: true }}
             className="relative overflow-hidden rounded-3xl border border-purple-500/20 bg-gradient-to-br from-purple-900/30 to-pink-900/20 p-10 text-center"
           >
-            <div className="absolute inset-0 bg-gradient-to-r from-purple-500/5 to-pink-500/5" />
+            <div className="absolute inset-0 bg-gradient-to-r from-purple-500/5 to-pink-500/5 pointer-events-none" />
             <Zap className="w-10 h-10 text-yellow-400 mx-auto mb-4" />
             <h3 className="text-2xl font-bold text-white mb-3">
               Want AI-Generated Quizzes on Any Topic?
@@ -207,13 +208,13 @@ export default function PYQPage() {
             <p className="text-gray-400 mb-6 max-w-md mx-auto">
               Beyond PYQs — generate custom quizzes on any topic, difficulty, and format instantly.
             </p>
-            <a
+            <Link
               href="/"
-              className="inline-flex items-center gap-2 bg-purple-600 hover:bg-purple-500 text-white font-bold px-8 py-3 rounded-xl transition-all shadow-lg shadow-purple-500/25"
+              className="relative z-10 inline-flex items-center gap-2 bg-purple-600 hover:bg-purple-500 text-white font-bold px-8 py-3 rounded-xl transition-all shadow-lg shadow-purple-500/25"
             >
               <Zap className="w-4 h-4" />
               Try AI Quiz Generator
-            </a>
+            </Link>
           </motion.div>
         </section>
 

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useTransition } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { GraduationCap, Search, Zap, BookOpen, Trophy, Users, Star } from 'lucide-react';
@@ -29,6 +29,7 @@ const STATS = [
 export default function PYQPage() {
   const [activeTab, setActiveTab] = useState<PYQLevel | 'all'>('all');
   const [search, setSearch] = useState('');
+  const [isPending, startTransition] = useTransition();
 
   const filtered = useMemo(() => {
     return PYQ_CATALOG.filter((entry) => {
@@ -107,7 +108,7 @@ export default function PYQPage() {
               <input
                 type="text"
                 value={search}
-                onChange={(e) => setSearch(e.target.value)}
+                onChange={(e) => startTransition(() => setSearch(e.target.value))}
                 placeholder="Search exam, subject, or topic..."
                 className="w-full bg-transparent border-none py-4 px-3 text-white placeholder-gray-500 focus:outline-none focus:ring-0"
               />
@@ -124,7 +125,7 @@ export default function PYQPage() {
             {TABS.map((tab) => (
               <motion.button
                 key={tab.value}
-                onClick={() => setActiveTab(tab.value)}
+                onClick={() => startTransition(() => setActiveTab(tab.value))}
                 whileTap={{ scale: 0.95 }}
                 className={`flex-shrink-0 px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-200 ${
                   activeTab === tab.value

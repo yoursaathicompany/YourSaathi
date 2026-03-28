@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useTransition } from 'react';
 import { Search, Sparkles, TrendingUp } from 'lucide-react';
 import QuizBoxGrid from '@/components/QuizBoxGrid';
 import BackgroundAnimation from '@/components/BackgroundAnimation';
@@ -9,6 +9,7 @@ import { motion } from 'framer-motion';
 export default function Home() {
   const [searchQuery, setSearchQuery] = useState('');
   const [showAll, setShowAll] = useState(false);
+  const [, startTransition] = useTransition();
 
   return (
     <>

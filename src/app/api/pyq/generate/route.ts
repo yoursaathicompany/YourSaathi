@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { GoogleGenerativeAI } from '@google/generative-ai';
 import { z } from 'zod';
 
 const pyqRequestSchema = z.object({
@@ -11,6 +10,81 @@ const pyqRequestSchema = z.object({
   entryId: z.string().optional(),
 });
 
+// Wrap JSON array in an object so Gemini handles it reliably
+const buildPrompt = (params: z.infer<typeof pyqRequestSchema>): string => {
+  const yearContext = params.year
+    ? `from the ${params.year} exam paper`
+    : 'based on typical question patterns across recent years';
+
+  return `You are an expert exam coach for Indian board and competitive exams.
+
+Generate exactly ${params.numQuestions} high-quality MCQ questions in the style of ${params.exam} ${params.subject} ${yearContext}.
+
+Rules:
+- Difficulty: ${params.difficulty}
+- Each question must have exactly 4 answer options
+- Questions should cover different chapters/topics from the syllabus
+- Explanations must be under 60 words
+- Respond ONLY with a valid JSON object — absolutely no markdown, no code blocks, no intro text
+
+Required JSON format:
+{
+  "questions": [
+    {
+      "id": "q1",
+      "question": "Full question text",
+      "options": ["Option A", "Option B", "Option C", "Option D"],
+      "correct_answer": "The exact text of the correct option",
+      "explanation": "Short explanation under 60 words",
+      "topic": "Chapter or topic name",
+      "year_hint": "${params.year ? `${params.year} pattern` : 'Classic pattern'}"
+    }
+  ]
+}
+
+Generate all ${params.numQuestions} questions inside the "questions" array.`;
+};
+
+const MODEL_CHAIN = [
+  'gemini-1.5-flash',
+  'gemini-1.5-pro',
+  'gemini-pro',
+];
+
+const GEMINI_BASE = 'https://generativelanguage.googleapis.com/v1beta/models';
+
+async function callGemini(model: string, apiKey: string, prompt: string): Promise<any> {
+  const url = `${GEMINI_BASE}/${model}:generateContent?key=${apiKey}`;
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      contents: [{ parts: [{ text: prompt }] }],
+      generationConfig: { responseMimeType: 'application/json' },
+    }),
+  });
+
+  if (!response.ok) {
+    const errText = await response.text();
+    const err: any = new Error(`HTTP ${response.status}: ${errText.slice(0, 200)}`);
+    err.status = response.status;
+    throw err;
+  }
+
+  const data = await response.json();
+  const raw = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+  if (!raw) throw new Error('Empty content from Gemini');
+
+  // Strip any accidental markdown fences
+  const cleaned = raw
+    .replace(/^```json\s*/i, '')
+    .replace(/^```\s*/i, '')
+    .replace(/\s*```$/i, '')
+    .trim();
+
+  return JSON.parse(cleaned);
+}
+
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
@@ -18,73 +92,64 @@ export async function POST(req: NextRequest) {
 
     const apiKey = process.env.GEMINI_API_KEY;
     if (!apiKey) {
+      console.error('[pyq/generate] GEMINI_API_KEY not set');
       return NextResponse.json({ error: 'AI key not configured' }, { status: 500 });
     }
 
-    const yearContext = params.year ? `from the ${params.year} exam paper` : 'based on typical question patterns';
-    const prompt = `
-You are an expert exam coach and question paper analyst for Indian competitive and board exams.
-
-Generate ${params.numQuestions} high-quality MCQ (multiple choice) questions in the EXACT style and pattern of 
-${params.exam} - ${params.subject} ${yearContext}.
-
-The questions should be:
-- Difficulty: ${params.difficulty}
-- Authentic to the board/exam style (CBSE boards have different phrasing than JEE/NEET)
-- Diverse: cover different chapters/topics from the syllabus
-- Each question MUST have exactly 4 options labeled as just the option text
-
-IMPORTANT: You MUST reply ONLY with a valid JSON array (no markdown, no code fences, no extra text):
-
-[
-  {
-    "id": "q1",
-    "question": "Full question text here",
-    "options": ["Option A text", "Option B text", "Option C text", "Option D text"],
-    "correct_answer": "The exact text of the correct option",
-    "explanation": "Clear explanation in under 60 words",
-    "topic": "Chapter/topic name",
-    "year_hint": "${params.year ? `Based on ${params.year} pattern` : 'Classic pattern'}"
-  }
-]
-
-Generate exactly ${params.numQuestions} questions. The JSON array should have ${params.numQuestions} items.
-    `.trim();
-
-    const modelChain = ['gemini-1.5-flash', 'gemini-1.5-pro'];
-    const genAI = new GoogleGenerativeAI(apiKey);
+    const prompt = buildPrompt(params);
     let questions: any[] = [];
+    let lastError: string = '';
 
-    for (const modelName of modelChain) {
+    for (const model of MODEL_CHAIN) {
       if (questions.length > 0) break;
-      for (let attempt = 0; attempt < 2; attempt++) {
+
+      for (let attempt = 0; attempt < 3; attempt++) {
         try {
-          const model = genAI.getGenerativeModel({
-            model: modelName,
-            generationConfig: { responseMimeType: 'application/json' },
-          });
-          const result = await model.generateContent(prompt);
-          let text = result.response.text().trim();
-          // Strip markdown fences if present
-          text = text.replace(/^```json\s*/i, '').replace(/^```\s*/i, '').replace(/\s*```$/i, '').trim();
-          const parsed = JSON.parse(text);
-          if (Array.isArray(parsed) && parsed.length > 0) {
-            questions = parsed;
+          console.log(`[pyq/generate] Trying ${model} attempt ${attempt + 1}`);
+          const parsed = await callGemini(model, apiKey, prompt);
+
+          // Accept both { questions: [...] } and a bare array
+          const arr = Array.isArray(parsed)
+            ? parsed
+            : Array.isArray(parsed?.questions)
+            ? parsed.questions
+            : null;
+
+          if (arr && arr.length > 0) {
+            questions = arr;
+            console.log(`[pyq/generate] Success: ${questions.length} questions from ${model}`);
             break;
           }
+          console.warn(`[pyq/generate] ${model} attempt ${attempt + 1}: empty questions`);
         } catch (err: any) {
-          const is429 = err?.status === 429 || err?.message?.includes('429') || err?.message?.includes('quota');
-          if (is429 && attempt === 0) {
-            await new Promise(r => setTimeout(r, 5000));
+          lastError = err?.message ?? String(err);
+          console.error(`[pyq/generate] ${model} attempt ${attempt + 1} failed: ${lastError}`);
+
+          const is429 =
+            err?.status === 429 ||
+            lastError.includes('429') ||
+            lastError.toLowerCase().includes('quota') ||
+            lastError.toLowerCase().includes('rate');
+
+          if (is429) {
+            const waitMs = Math.pow(2, attempt) * 5000; // 5s, 10s, 20s
+            console.warn(`[pyq/generate] Rate limited. Waiting ${waitMs}ms before retry...`);
+            await new Promise(r => setTimeout(r, waitMs));
             continue;
           }
-          if (attempt === 1) break;
+
+          // Non-rate-limit error: try next model
+          break;
         }
       }
     }
 
     if (questions.length === 0) {
-      return NextResponse.json({ error: 'Failed to generate PYQ questions. Please try again.' }, { status: 503 });
+      console.error(`[pyq/generate] All models exhausted. Last error: ${lastError}`);
+      return NextResponse.json(
+        { error: 'Could not generate questions right now. Please try again in a moment.' },
+        { status: 503 }
+      );
     }
 
     return NextResponse.json({
@@ -100,7 +165,7 @@ Generate exactly ${params.numQuestions} questions. The JSON array should have ${
     if (err instanceof z.ZodError) {
       return NextResponse.json({ error: 'Invalid request', details: err.issues }, { status: 400 });
     }
-    console.error('[pyq/generate] Error:', err);
+    console.error('[pyq/generate] Unexpected error:', err);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }

@@ -1,7 +1,7 @@
 /* eslint-disable */
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
@@ -117,7 +117,7 @@ export default function PYQPlayPage() {
     goNext();
   };
 
-  const goNext = useCallback(() => {
+  const goNext = () => {
     if (isLastQuestion) {
       setIsFinished(true);
     } else {
@@ -125,7 +125,7 @@ export default function PYQPlayPage() {
       setSelectedAnswer(null);
       setShowExplanation(false);
     }
-  }, [isLastQuestion]);
+  };
 
   const handleNextQuestion = () => {
     goNext();

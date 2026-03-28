@@ -143,63 +143,48 @@ export async function POST(req: NextRequest) {
       IMPORTANT: Respond ONLY with a valid JSON object. No markdown, no code blocks, no extra text.
     `;
 
-    let attempts = 0;
+    // Model fallback chain: try flash first, fall back to pro models
+    const modelFallbackChain = ['gemini-1.5-flash', 'gemini-1.5-pro', 'gemini-pro'];
+    const genAI = new GoogleGenerativeAI(apiKey);
     let quizData: any = null;
 
-    while (attempts < 3) {
-      try {
-        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            contents: [{ parts: [{ text: prompt }] }],
-            generationConfig: {
-              responseMimeType: 'application/json',
+    for (let modelIndex = 0; modelIndex < modelFallbackChain.length && !quizData; modelIndex++) {
+      const modelName = modelFallbackChain[modelIndex];
+      console.log(`[generate-quiz] Trying model: ${modelName}`);
+      
+      for (let attempt = 0; attempt < 3; attempt++) {
+        try {
+          const model = genAI.getGenerativeModel({
+            model: modelName,
+            generationConfig: { responseMimeType: 'application/json' },
+          });
+
+          const result = await model.generateContent(prompt);
+          const responseText = result.response.text().trim();
+
+          const parsed = JSON.parse(responseText);
+          if (parsed.questions && parsed.questions.length > 0) {
+            quizData = parsed;
+            break;
+          }
+          console.warn(`[generate-quiz] No questions in response from ${modelName}, attempt ${attempt + 1}`);
+        } catch (err: any) {
+          const is429 = err?.status === 429 || err?.message?.includes('429') || err?.message?.includes('quota');
+          if (is429) {
+            if (attempt < 2) {
+              const waitMs = Math.pow(2, attempt) * 5000; // 5s, 10s, 20s exponential backoff
+              console.warn(`[generate-quiz] Rate limited on ${modelName}. Waiting ${waitMs}ms before retry ${attempt + 1}...`);
+              await new Promise(r => setTimeout(r, waitMs));
+              continue;
+            } else {
+              console.warn(`[generate-quiz] ${modelName} exhausted after 429s, trying next model...`);
+              break; // move to next model in chain
             }
-          })
-        });
-
-        if (!response.ok) {
-           const errorText = await response.text();
-           // On 429 rate limit, wait before retrying
-           if (response.status === 429) {
-             const waitMs = (attempts + 1) * 3000; // 3s, 6s, 9s
-             console.warn(`[generate-quiz] Rate limited (429). Waiting ${waitMs}ms before retry ${attempts + 1}...`);
-             await new Promise(r => setTimeout(r, waitMs));
-             attempts++;
-             continue;
-           }
-           throw new Error(`API HTTP error: ${response.status} ${errorText}`);
+          }
+          // Non-429 error on last attempt of this model — try next model
+          console.error(`[generate-quiz] Error on ${modelName} attempt ${attempt + 1}:`, err?.message);
+          if (attempt === 2) break;
         }
-
-        const data = await response.json();
-        
-        if (!data.candidates?.[0]?.content?.parts?.[0]?.text) {
-           throw new Error('Invalid response structure from Gemini API');
-        }
-
-        let responseText = data.candidates[0].content.parts[0].text;
-        
-        // Aggressively strip any markdown wrapping
-        responseText = responseText
-          .replace(/^```json\s*/i, '')
-          .replace(/^```\s*/i, '')
-          .replace(/\s*```$/i, '')
-          .trim();
-        
-        quizData = JSON.parse(responseText);
-        
-        // Validate questions exist
-        if (quizData.questions && quizData.questions.length > 0) {
-          break;
-        }
-        // If no questions returned, increment and retry
-        console.warn(`[generate-quiz] No questions in response, retrying... (attempt ${attempts + 1})`);
-        attempts++;
-      } catch (err) {
-        console.error(`Attempt ${attempts + 1} failed:`, err);
-        attempts++;
-        if (attempts === 3) throw err;
       }
     }
 

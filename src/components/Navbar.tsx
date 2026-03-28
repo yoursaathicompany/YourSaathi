@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { useSession, signOut } from 'next-auth/react';
 import { useState, useEffect } from 'react';
-import { Sparkles, LogOut, User, Settings, Shield, Menu, X, Coins, History } from 'lucide-react';
+import { Sparkles, LogOut, User, Settings, Shield, Menu, X, Coins, History, GraduationCap } from 'lucide-react';
 import CoinWalletHeader from './CoinWalletHeader';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -48,6 +48,9 @@ export default function Navbar() {
         {/* Nav links */}
         <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-gray-400">
           <Link href="/" className="hover:text-white transition-colors">Home</Link>
+          <Link href="/pyq" className="hover:text-white transition-colors text-purple-400 flex items-center gap-1 font-semibold">
+            <GraduationCap className="w-3.5 h-3.5" /> PYQ
+          </Link>
           <Link href="/about" className="hover:text-white transition-colors">About</Link>
           <Link href="/contact" className="hover:text-white transition-colors">Contact</Link>
           {session && <Link href="/profile" className="hover:text-white transition-colors">Profile</Link>}
@@ -163,6 +166,9 @@ export default function Navbar() {
           >
             <nav className="flex flex-col px-4 py-4 gap-4 text-sm font-medium text-gray-600 text-gray-300">
               <Link href="/" onClick={() => setMobileMenuOpen(false)} className="hover:text-white hover:text-white transition-colors">Home</Link>
+              <Link href="/pyq" onClick={() => setMobileMenuOpen(false)} className="text-purple-400 font-semibold flex items-center gap-2">
+                <GraduationCap className="w-4 h-4" /> PYQ Practice
+              </Link>
               <Link href="/about" onClick={() => setMobileMenuOpen(false)} className="hover:text-white hover:text-white transition-colors">About</Link>
               <Link href="/contact" onClick={() => setMobileMenuOpen(false)} className="hover:text-white hover:text-white transition-colors">Contact</Link>
               

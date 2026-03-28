@@ -10,7 +10,6 @@ const pyqRequestSchema = z.object({
   entryId: z.string().optional(),
 });
 
-// Wrap JSON array in an object so Gemini handles it reliably
 const buildPrompt = (params: z.infer<typeof pyqRequestSchema>): string => {
   const yearContext = params.year
     ? `from the ${params.year} exam paper`
@@ -25,7 +24,7 @@ Rules:
 - Each question must have exactly 4 answer options
 - Questions should cover different chapters/topics from the syllabus
 - Explanations must be under 60 words
-- Respond ONLY with a valid JSON object — absolutely no markdown, no code blocks, no intro text
+- Respond ONLY with a valid JSON object — no markdown, no code blocks
 
 Required JSON format:
 {
@@ -45,10 +44,10 @@ Required JSON format:
 Generate all ${params.numQuestions} questions inside the "questions" array.`;
 };
 
+// Only models confirmed to exist in the v1beta API (returns 429 not 404)
 const MODEL_CHAIN = [
   'gemini-2.0-flash',
-  'gemini-1.5-flash-latest',
-  'gemini-1.5-pro-latest',
+  'gemini-2.5-flash',
 ];
 
 const GEMINI_BASE = 'https://generativelanguage.googleapis.com/v1beta/models';
@@ -66,8 +65,8 @@ async function callGemini(model: string, apiKey: string, prompt: string): Promis
 
   if (!response.ok) {
     const errText = await response.text();
-    const err: any = new Error(`HTTP ${response.status}: ${errText.slice(0, 200)}`);
-    err.status = response.status;
+    const err: any = new Error(`HTTP ${response.status}: ${errText.slice(0, 300)}`);
+    err.httpStatus = response.status;
     throw err;
   }
 
@@ -75,7 +74,6 @@ async function callGemini(model: string, apiKey: string, prompt: string): Promis
   const raw = data?.candidates?.[0]?.content?.parts?.[0]?.text;
   if (!raw) throw new Error('Empty content from Gemini');
 
-  // Strip any accidental markdown fences
   const cleaned = raw
     .replace(/^```json\s*/i, '')
     .replace(/^```\s*/i, '')
@@ -98,8 +96,9 @@ export async function POST(req: NextRequest) {
 
     const prompt = buildPrompt(params);
     let questions: any[] = [];
-    let lastError: string = '';
+    let lastError = '';
 
+    modelLoop:
     for (const model of MODEL_CHAIN) {
       if (questions.length > 0) break;
 
@@ -108,7 +107,6 @@ export async function POST(req: NextRequest) {
           console.log(`[pyq/generate] Trying ${model} attempt ${attempt + 1}`);
           const parsed = await callGemini(model, apiKey, prompt);
 
-          // Accept both { questions: [...] } and a bare array
           const arr = Array.isArray(parsed)
             ? parsed
             : Array.isArray(parsed?.questions)
@@ -117,37 +115,46 @@ export async function POST(req: NextRequest) {
 
           if (arr && arr.length > 0) {
             questions = arr;
-            console.log(`[pyq/generate] Success: ${questions.length} questions from ${model}`);
-            break;
+            console.log(`[pyq/generate] Success: ${questions.length} questions via ${model}`);
+            break modelLoop;
           }
-          console.warn(`[pyq/generate] ${model} attempt ${attempt + 1}: empty questions`);
+          // Empty but no error — try once more then give up on this model
+          console.warn(`[pyq/generate] ${model} attempt ${attempt + 1}: no questions in response`);
+          if (attempt >= 1) break;
+
         } catch (err: any) {
           lastError = err?.message ?? String(err);
-          console.error(`[pyq/generate] ${model} attempt ${attempt + 1} failed: ${lastError}`);
+          const httpStatus: number = err?.httpStatus ?? 0;
+          console.error(`[pyq/generate] ${model} attempt ${attempt + 1} FAILED (HTTP ${httpStatus}): ${lastError.slice(0, 120)}`);
 
-          const is429 =
-            err?.status === 429 ||
-            lastError.includes('429') ||
-            lastError.toLowerCase().includes('quota') ||
-            lastError.toLowerCase().includes('rate');
-
-          if (is429) {
-            const waitMs = Math.pow(2, attempt) * 5000; // 5s, 10s, 20s
-            console.warn(`[pyq/generate] Rate limited. Waiting ${waitMs}ms before retry...`);
-            await new Promise(r => setTimeout(r, waitMs));
-            continue;
+          if (httpStatus === 404) {
+            // Model doesn't exist — skip immediately, no retries
+            console.warn(`[pyq/generate] ${model} is 404 (model not found), skipping to next model`);
+            break; // exit attempt loop, next model in modelLoop
           }
 
-          // Non-rate-limit error: try next model
+          if (httpStatus === 429) {
+            if (attempt < 2) {
+              const waitMs = (attempt + 1) * 4000; // 4s then 8s
+              console.warn(`[pyq/generate] Rate limited. Waiting ${waitMs}ms...`);
+              await new Promise(r => setTimeout(r, waitMs));
+              continue;
+            }
+            console.warn(`[pyq/generate] ${model} rate limited on all 3 attempts, trying next model`);
+            break;
+          }
+
+          // Any other error — don't retry, try next model
+          console.warn(`[pyq/generate] ${model} non-retryable error, moving to next model`);
           break;
         }
       }
     }
 
     if (questions.length === 0) {
-      console.error(`[pyq/generate] All models exhausted. Last error: ${lastError}`);
+      console.error(`[pyq/generate] All models failed. Last: ${lastError.slice(0, 200)}`);
       return NextResponse.json(
-        { error: 'Could not generate questions right now. Please try again in a moment.' },
+        { error: 'AI is busy right now. Please wait a moment and try again.' },
         { status: 503 }
       );
     }

@@ -35,7 +35,7 @@ export const metadata: Metadata = {
     shortcut: '/favicon.ico',
   },
   title: {
-    default: 'YourSaathi — AI Quiz Generator & PYQ Practice for Students',
+    default: 'YourSaathi — Free AI Quiz Generator & PYQ Practice for Students',
     template: '%s | YourSaathi',
   },
   description: 'YourSaathi is India\'s AI-powered quiz platform. Generate custom quizzes on any topic, practice CBSE Class 10-12 PYQs, JEE, NEET, UPSC previous year questions, and earn real coins while you learn.',

@@ -6,11 +6,11 @@ export const metadata: Metadata = {
   title: 'Contact YourSaathi — Support & Feedback',
   description: 'Get in touch with the YourSaathi team for support, feedback, bug reports, or general inquiries. We respond within 24-48 hours.',
   keywords: ['contact yoursaathi', 'yoursaathi support', 'yoursaathi feedback', 'yoursaathicompany@gmail.com'],
-  alternates: { canonical: 'https://your-saathi.vercel.app/contact' },
+  alternates: { canonical: 'https://www.yoursaathi.site/contact' },
   openGraph: {
     title: 'Contact YourSaathi — Support & Feedback',
     description: 'Reach out to the YourSaathi team for any questions, bug reports, or feedback.',
-    url: 'https://your-saathi.vercel.app/contact',
+    url: 'https://www.yoursaathi.site/contact',
     type: 'website',
     images: [{ url: '/og-image.png', width: 1200, height: 630 }],
   },

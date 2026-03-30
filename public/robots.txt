@@ -21,4 +21,4 @@ Disallow: /
 User-agent: DotBot
 Disallow: /
 
-Sitemap: https://your-saathi.vercel.app/sitemap.xml
+Sitemap: https://www.yoursaathi.site/sitemap.xml

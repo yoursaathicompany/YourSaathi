@@ -20,7 +20,7 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-const BASE_URL = 'https://your-saathi.vercel.app';
+const BASE_URL = 'https://www.yoursaathi.site';
 
 export const metadata: Metadata = {
   metadataBase: new URL(BASE_URL),
@@ -119,11 +119,11 @@ export default function RootLayout({
                 "@context": "https://schema.org",
                 "@type": "WebSite",
                 "name": "YourSaathi",
-                "url": "https://your-saathi.vercel.app",
+                "url": "https://www.yoursaathi.site",
                 "description": "India's AI-powered quiz platform for CBSE, JEE, NEET, UPSC previous year questions and custom quiz generation.",
                 "potentialAction": {
                   "@type": "SearchAction",
-                  "target": { "@type": "EntryPoint", "urlTemplate": "https://your-saathi.vercel.app/?q={search_term_string}" },
+                  "target": { "@type": "EntryPoint", "urlTemplate": "https://www.yoursaathi.site/?q={search_term_string}" },
                   "query-input": "required name=search_term_string"
                 }
               },
@@ -131,8 +131,8 @@ export default function RootLayout({
                 "@context": "https://schema.org",
                 "@type": "Organization",
                 "name": "YourSaathi",
-                "url": "https://your-saathi.vercel.app",
-                "logo": "https://your-saathi.vercel.app/logo.svg",
+                "url": "https://www.yoursaathi.site",
+                "logo": "https://www.yoursaathi.site/logo.svg",
                 "sameAs": ["https://instagram.com/yoursaathi_ai"],
                 "contactPoint": {
                   "@type": "ContactPoint",

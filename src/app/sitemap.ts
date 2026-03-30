@@ -3,7 +3,7 @@ import { topicsData } from '@/data/topics';
 import { PYQ_CATALOG } from '@/lib/pyqData';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://your-saathi.vercel.app';
+  const baseUrl = 'https://www.yoursaathi.site';
   const now = new Date();
 
   // Topic pages

@@ -7,11 +7,11 @@ export const metadata: Metadata = {
   title: 'About YourSaathi — AI-Powered Learning Platform for Indian Students',
   description: 'Learn about YourSaathi, India\'s AI-powered quiz and PYQ practice platform. Our mission: democratize quality education for CBSE, JEE, NEET, UPSC students with AI quizzes, previous year questions, and a learn-and-earn reward system.',
   keywords: ['about yoursaathi', 'yoursaathi team', 'AI education platform India', 'learn and earn quiz', 'CBSE quiz platform', 'JEE NEET preparation app'],
-  alternates: { canonical: 'https://your-saathi.vercel.app/about' },
+  alternates: { canonical: 'https://www.yoursaathi.site/about' },
   openGraph: {
     title: 'About YourSaathi — AI Learning Platform for Indian Students',
     description: 'YourSaathi empowers students with AI quizzes, PYQ practice, and a coin reward system. Learn our mission and story.',
-    url: 'https://your-saathi.vercel.app/about',
+    url: 'https://www.yoursaathi.site/about',
     type: 'website',
     images: [{ url: '/og-image.png', width: 1200, height: 630 }],
   },

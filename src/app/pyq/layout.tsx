@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 
-const BASE_URL = 'https://your-saathi.vercel.app';
+const BASE_URL = 'https://www.yoursaathi.site';
 
 export const metadata: Metadata = {
   title: 'PYQ Practice — CBSE, JEE, NEET, UPSC Previous Year Questions',

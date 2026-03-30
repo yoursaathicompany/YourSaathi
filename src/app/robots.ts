@@ -1,7 +1,7 @@
 import { MetadataRoute } from 'next';
 
 export default function robots(): MetadataRoute.Robots {
-  const baseUrl = 'https://your-saathi.vercel.app';
+  const baseUrl = 'https://www.yoursaathi.site';
 
   return {
     rules: [

@@ -1,7 +1,7 @@
 import { MetadataRoute } from 'next';
 
 export default function robots(): MetadataRoute.Robots {
-  const baseUrl = 'https://www.yoursaathi.site';
+  const baseUrl = (process.env.NEXT_PUBLIC_APP_URL || 'https://www.yoursaathi.site').replace(/\/$/, '');
 
   return {
     rules: [

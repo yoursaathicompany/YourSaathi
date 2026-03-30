@@ -3,7 +3,7 @@ import { topicsData } from '@/data/topics';
 import { PYQ_CATALOG } from '@/lib/pyqData';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://www.yoursaathi.site';
+  const baseUrl = (process.env.NEXT_PUBLIC_APP_URL || 'https://www.yoursaathi.site').replace(/\/$/, '');
   const now = new Date();
 
   // Topic pages

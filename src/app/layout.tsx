@@ -24,6 +24,16 @@ const BASE_URL = 'https://www.yoursaathi.site';
 
 export const metadata: Metadata = {
   metadataBase: new URL(BASE_URL),
+  icons: {
+    icon: [
+      { url: '/favicon.ico', sizes: 'any' },
+      { url: '/logo.png', type: 'image/png', sizes: '512x512' },
+    ],
+    apple: [
+      { url: '/logo.png', sizes: '180x180', type: 'image/png' },
+    ],
+    shortcut: '/favicon.ico',
+  },
   title: {
     default: 'YourSaathi — AI Quiz Generator & PYQ Practice for Students',
     template: '%s | YourSaathi',

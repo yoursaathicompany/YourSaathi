@@ -4,6 +4,7 @@ import { useSession } from 'next-auth/react';
 import { motion } from 'framer-motion';
 import { User, Mail, Shield, Coins, Wallet, History, Verified, AlertCircle, ArrowRight } from 'lucide-react';
 import CoinTransactionList from '@/components/CoinTransactionList';
+import PromoCodeModal from '@/components/PromoCodeModal';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 
@@ -159,9 +160,12 @@ export default function ProfilePage() {
                 <span className="text-xl font-bold opacity-70">coins</span>
               </div>
 
-              <Link href="/redeem"> <button className="mt-6 w-full bg-black/10 hover:bg-black/20 text-white font-bold py-3 rounded-2xl transition-all border border-black/5 text-sm">
+              <Link href="/redeem"> <button className="mt-4 w-full bg-black/10 hover:bg-black/20 text-white font-bold py-3 rounded-2xl transition-all border border-black/5 text-sm">
                 Redeem Rewards
               </button> </Link>
+              <div className="mt-3">
+                <PromoCodeModal />
+              </div>
             </div>
           </motion.div>
         </div>

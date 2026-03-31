@@ -1,152 +1,128 @@
+/**
+ * /api/user/signup-bonus
+ *
+ * Legacy shim — now fully delegated to the bonus_offers / offer_claims system.
+ * The SignupBonusModal still calls these endpoints; they read config from the
+ * bonus_offers table (type = 'signup_bonus') instead of hardcoded constants.
+ */
 import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@/lib/auth';
 import { supabaseAdmin } from '@/lib/supabase/server';
 
-const BONUS_AMOUNT = 100;
-const MAX_BONUS_RECIPIENTS = 100;
-
-/**
- * POST /api/user/signup-bonus
- *
- * Awards 100 coins to a newly signed-up user IF:
- *   1. The user has never received a signup bonus before.
- *   2. The total number of signup bonuses awarded is still < 100.
- *
- * Returns:
- *   { granted: true,  coins_awarded: 100, new_balance: N, recipients_so_far: N }
- *   { granted: false, reason: "already_received" | "limit_reached" }
- */
-export async function POST(req: NextRequest) {
-  try {
-    const session = await auth();
-    if (!session?.user?.id) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
-
-    const userId = session.user.id;
-
-    // 1. Check if this user already received a signup bonus
-    const { data: existingBonus } = await supabaseAdmin
-      .from('coin_ledger')
-      .select('id')
-      .eq('user_id', userId)
-      .eq('reference_type', 'signup_bonus')
-      .maybeSingle();
-
-    if (existingBonus) {
-      return NextResponse.json({ granted: false, reason: 'already_received' });
-    }
-
-    // 2. Count total signup bonuses awarded across all users
-    const { count: totalBonuses } = await supabaseAdmin
-      .from('coin_ledger')
-      .select('id', { count: 'exact', head: true })
-      .eq('reference_type', 'signup_bonus');
-
-    if ((totalBonuses ?? 0) >= MAX_BONUS_RECIPIENTS) {
-      return NextResponse.json({ granted: false, reason: 'limit_reached', total: MAX_BONUS_RECIPIENTS });
-    }
-
-    // 3. Fetch current balance
-    const { data: user, error: userErr } = await supabaseAdmin
-      .from('users')
-      .select('coins_balance')
-      .eq('id', userId)
-      .single();
-
-    if (userErr || !user) {
-      return NextResponse.json({ error: 'User not found' }, { status: 404 });
-    }
-
-    const previousBalance = user.coins_balance ?? 0;
-    const newBalance = previousBalance + BONUS_AMOUNT;
-
-    // 4. Update coins_balance
-    const { error: updateErr } = await supabaseAdmin
-      .from('users')
-      .update({ coins_balance: newBalance })
-      .eq('id', userId);
-
-    if (updateErr) {
-      console.error('[signup-bonus] balance update error:', updateErr);
-      return NextResponse.json({ error: 'Failed to update balance' }, { status: 500 });
-    }
-
-    // 5. Record in coin_ledger
-    // NOTE: coin_ledger_type enum only accepts: earned|locked|redeemed|refunded|adjusted
-    // We use type='earned' and reference_type='signup_bonus' so user_wallet_view
-    // counts it correctly in available_balance.
-    const { error: ledgerErr } = await supabaseAdmin
-      .from('coin_ledger')
-      .insert({
-        user_id: userId,
-        type: 'earned',
-        amount: BONUS_AMOUNT,
-        reference_type: 'signup_bonus',
-        note: `Welcome bonus — ${BONUS_AMOUNT} coins for joining YourSaathi (offer for first ${MAX_BONUS_RECIPIENTS} users)`,
-      });
-
-    if (ledgerErr) {
-      console.error('[signup-bonus] ledger insert error:', ledgerErr);
-      // Don't fail the request — balance was already updated in users table
-    }
-
-    return NextResponse.json({
-      granted: true,
-      coins_awarded: BONUS_AMOUNT,
-      new_balance: newBalance,
-      recipients_so_far: (totalBonuses ?? 0) + 1,
-    });
-  } catch (err) {
-    console.error('[signup-bonus] unexpected error:', err);
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
-  }
+// ── helper: get the active signup_bonus offer ─────────────────────────────────
+async function getSignupOffer() {
+  const now = new Date().toISOString();
+  const { data } = await supabaseAdmin
+    .from('bonus_offers')
+    .select('*')
+    .eq('type', 'signup_bonus')
+    .eq('is_active', true)
+    .or(`starts_at.is.null,starts_at.lte.${now}`)
+    .or(`ends_at.is.null,ends_at.gte.${now}`)
+    .order('created_at', { ascending: true })
+    .limit(1)
+    .maybeSingle();
+  return data;
 }
 
-/**
- * GET /api/user/signup-bonus
- * Returns whether the current user is eligible for the signup bonus.
- */
+// ── GET /api/user/signup-bonus ────────────────────────────────────────────────
+// Returns eligibility info for the signup bonus
 export async function GET(req: NextRequest) {
-  try {
-    const session = await auth();
-    if (!session?.user?.id) {
-      return NextResponse.json({ eligible: false, reason: 'unauthenticated' });
-    }
+  const session = await auth();
+  if (!session?.user?.id) {
+    return NextResponse.json({ eligible: false, reason: 'unauthenticated' });
+  }
 
-    const userId = session.user.id;
+  const offer = await getSignupOffer();
+  if (!offer) {
+    return NextResponse.json({ eligible: false, reason: 'limit_reached' });
+  }
 
-    // Check if already received
-    const { data: existingBonus } = await supabaseAdmin
-      .from('coin_ledger')
-      .select('id')
-      .eq('user_id', userId)
-      .eq('reference_type', 'signup_bonus')
-      .maybeSingle();
+  // Already claimed?
+  const { data: claim } = await supabaseAdmin
+    .from('offer_claims')
+    .select('id')
+    .eq('offer_id', offer.id)
+    .eq('user_id', session.user.id)
+    .maybeSingle();
 
-    if (existingBonus) {
-      return NextResponse.json({ eligible: false, reason: 'already_received' });
-    }
+  if (claim) {
+    return NextResponse.json({ eligible: false, reason: 'already_received' });
+  }
 
-    // Count total
-    const { count: totalBonuses } = await supabaseAdmin
-      .from('coin_ledger')
+  // Cap check
+  if (offer.max_recipients != null) {
+    const { count } = await supabaseAdmin
+      .from('offer_claims')
       .select('id', { count: 'exact', head: true })
-      .eq('reference_type', 'signup_bonus');
+      .eq('offer_id', offer.id);
 
-    const remaining = MAX_BONUS_RECIPIENTS - (totalBonuses ?? 0);
-
+    const remaining = offer.max_recipients - (count ?? 0);
     if (remaining <= 0) {
       return NextResponse.json({ eligible: false, reason: 'limit_reached' });
     }
 
     return NextResponse.json({
       eligible: true,
-      bonus_amount: BONUS_AMOUNT,
+      bonus_amount: offer.coin_amount,
       remaining_slots: remaining,
+      modal_title: offer.modal_title,
+      modal_body: offer.modal_body,
     });
-  } catch (err) {
-    console.error('[signup-bonus] GET error:', err);
-    return NextResponse.json({ eligible: false, reason: 'error' });
   }
+
+  return NextResponse.json({
+    eligible: true,
+    bonus_amount: offer.coin_amount,
+    remaining_slots: null,
+    modal_title: offer.modal_title,
+    modal_body: offer.modal_body,
+  });
+}
+
+// ── POST /api/user/signup-bonus ───────────────────────────────────────────────
+// Claims the signup bonus — delegates to the unified offer claim logic
+export async function POST(req: NextRequest) {
+  const session = await auth();
+  if (!session?.user?.id) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+
+  const offer = await getSignupOffer();
+  if (!offer) {
+    return NextResponse.json({ granted: false, reason: 'limit_reached' });
+  }
+
+  // Proxy to the unified claim endpoint
+  const claimRes = await fetch(
+    new URL('/api/user/offers/claim', req.url).toString(),
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        // Forward session cookie so auth() works in the claim route
+        Cookie: req.headers.get('cookie') ?? '',
+      },
+      body: JSON.stringify({ offer_id: offer.id }),
+    }
+  );
+
+  const claimData = await claimRes.json();
+
+  if (!claimRes.ok) {
+    if (claimData.error?.includes('already claimed')) {
+      return NextResponse.json({ granted: false, reason: 'already_received' });
+    }
+    if (claimData.error?.includes('maximum recipients')) {
+      return NextResponse.json({ granted: false, reason: 'limit_reached' });
+    }
+    return NextResponse.json({ granted: false, reason: claimData.error }, { status: claimRes.status });
+  }
+
+  return NextResponse.json({
+    granted: true,
+    coins_awarded: claimData.coins_awarded,
+    new_balance: claimData.new_balance,
+    recipients_so_far: claimData.recipients_so_far,
+  });
 }

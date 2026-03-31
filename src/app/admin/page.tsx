@@ -14,7 +14,8 @@ import {
   Loader2,
   AlertCircle,
   Coins,
-  ArrowRight
+  ArrowRight,
+  Gift,
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -282,6 +283,23 @@ export default function AdminDashboard() {
                </div>
              </div>
              <ArrowRight className="w-4 h-4 text-gray-500 group-hover:text-yellow-400 transition-colors" />
+           </a>
+
+           {/* Offers & Bonuses quick link */}
+           <a
+             href="/admin/offers"
+             className="flex items-center justify-between p-5 glass-panel rounded-2xl border border-purple-500/20 bg-purple-500/5 hover:border-purple-500/40 transition-colors group cursor-pointer"
+           >
+             <div className="flex items-center gap-3">
+               <div className="w-9 h-9 rounded-xl bg-purple-500/20 flex items-center justify-center">
+                 <Gift className="w-5 h-5 text-purple-400" />
+               </div>
+               <div>
+                 <p className="text-sm font-bold text-white">Offers & Bonuses</p>
+                 <p className="text-xs text-gray-500">Manage promo codes & coin offers</p>
+               </div>
+             </div>
+             <ArrowRight className="w-4 h-4 text-gray-500 group-hover:text-purple-400 transition-colors" />
            </a>
         </div>
       </div>

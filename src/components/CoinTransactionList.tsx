@@ -23,6 +23,8 @@ function reasonLabel(reason: string) {
     withdrawal_locked: '🔒 Withdrawal Pending',
     withdrawal_refunded: '↩️ Withdrawal Refunded',
     withdrawal_redeemed: '💸 Withdrawal Paid',
+    offer_claim: '🎁 Bonus Offer',
+    promo_code: '🏷️ Promo Code',
   };
   return map[reason] ?? reason;
 }

@@ -68,7 +68,7 @@ export default function PromoCodeModal({ onClose }: { onClose?: () => void }) {
       <button
         id="promo-code-btn"
         onClick={handleOpen}
-        className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all"
+        className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-white text-sm font-semibold transition-all"
         style={{
           background: 'rgba(168,85,247,0.12)',
           border: '1px solid rgba(168,85,247,0.3)',

@@ -30,7 +30,7 @@ export async function POST(req: NextRequest) {
       .from('coin_ledger')
       .select('id')
       .eq('user_id', userId)
-      .eq('type', 'signup_bonus')
+      .eq('reference_type', 'signup_bonus')
       .maybeSingle();
 
     if (existingBonus) {
@@ -41,7 +41,7 @@ export async function POST(req: NextRequest) {
     const { count: totalBonuses } = await supabaseAdmin
       .from('coin_ledger')
       .select('id', { count: 'exact', head: true })
-      .eq('type', 'signup_bonus');
+      .eq('reference_type', 'signup_bonus');
 
     if ((totalBonuses ?? 0) >= MAX_BONUS_RECIPIENTS) {
       return NextResponse.json({ granted: false, reason: 'limit_reached', total: MAX_BONUS_RECIPIENTS });
@@ -73,18 +73,22 @@ export async function POST(req: NextRequest) {
     }
 
     // 5. Record in coin_ledger
+    // NOTE: coin_ledger_type enum only accepts: earned|locked|redeemed|refunded|adjusted
+    // We use type='earned' and reference_type='signup_bonus' so user_wallet_view
+    // counts it correctly in available_balance.
     const { error: ledgerErr } = await supabaseAdmin
       .from('coin_ledger')
       .insert({
         user_id: userId,
-        type: 'signup_bonus',
+        type: 'earned',
         amount: BONUS_AMOUNT,
-        reference_type: 'signup',
+        reference_type: 'signup_bonus',
         note: `Welcome bonus — ${BONUS_AMOUNT} coins for joining YourSaathi (offer for first ${MAX_BONUS_RECIPIENTS} users)`,
       });
 
     if (ledgerErr) {
-      console.warn('[signup-bonus] ledger insert warning:', ledgerErr);
+      console.error('[signup-bonus] ledger insert error:', ledgerErr);
+      // Don't fail the request — balance was already updated in users table
     }
 
     return NextResponse.json({
@@ -117,7 +121,7 @@ export async function GET(req: NextRequest) {
       .from('coin_ledger')
       .select('id')
       .eq('user_id', userId)
-      .eq('type', 'signup_bonus')
+      .eq('reference_type', 'signup_bonus')
       .maybeSingle();
 
     if (existingBonus) {
@@ -128,7 +132,7 @@ export async function GET(req: NextRequest) {
     const { count: totalBonuses } = await supabaseAdmin
       .from('coin_ledger')
       .select('id', { count: 'exact', head: true })
-      .eq('type', 'signup_bonus');
+      .eq('reference_type', 'signup_bonus');
 
     const remaining = MAX_BONUS_RECIPIENTS - (totalBonuses ?? 0);
 

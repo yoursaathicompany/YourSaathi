@@ -17,6 +17,12 @@ function reasonLabel(reason: string) {
     admin_adjustment: 'Admin Adjustment',
     welcome_bonus: 'Welcome Bonus',
     teacher_graded: 'Teacher Graded',
+    signup_bonus: '🎁 Signup Welcome Bonus',
+    earned: 'Coins Earned',
+    adjusted: 'Admin Adjustment',
+    withdrawal_locked: '🔒 Withdrawal Pending',
+    withdrawal_refunded: '↩️ Withdrawal Refunded',
+    withdrawal_redeemed: '💸 Withdrawal Paid',
   };
   return map[reason] ?? reason;
 }

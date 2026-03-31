@@ -10,14 +10,14 @@ function isAdmin(session: any) {
 // Update any field of an offer
 export async function PATCH(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   const session = await auth();
   if (!isAdmin(session)) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
-  const { id } = params;
+  const { id } = await params;
   const body = await req.json();
 
   // Whitelist updateable fields — never allow changing claimed history
@@ -88,14 +88,14 @@ export async function PATCH(
 // Delete an offer (cascades to offer_claims)
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   const session = await auth();
   if (!isAdmin(session)) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
-  const { id } = params;
+  const { id } = await params;
 
   const { error } = await supabaseAdmin
     .from('bonus_offers')

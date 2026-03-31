@@ -4,6 +4,7 @@ import "./globals.css";
 import Script from "next/script";
 import { SessionProvider } from "@/components/providers/SessionProvider";
 import Navbar from "@/components/Navbar";
+import SignupBonusModal from "@/components/SignupBonusModal";
 
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import Footer from "@/components/Footer";
@@ -119,6 +120,7 @@ export default function RootLayout({
               {children}
             </main>
             <Footer />
+            <SignupBonusModal />
           </SessionProvider>
         </ThemeProvider>
         <script

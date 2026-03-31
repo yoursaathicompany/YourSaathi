@@ -126,6 +126,9 @@ export default function SignupBonusModal() {
           recipients_so_far: data.recipients_so_far,
         });
         setTimeout(() => setShowConfetti(false), 1500);
+
+        // 🔔 Tell the navbar (and profile page) to refresh the wallet balance
+        window.dispatchEvent(new Event('coinBalanceUpdate'));
       } else {
         setBonusState({ status: 'not_eligible', reason: data.reason });
       }

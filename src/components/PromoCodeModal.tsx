@@ -72,7 +72,7 @@ export default function PromoCodeModal({ onClose }: { onClose?: () => void }) {
         style={{
           background: 'rgba(168,85,247,0.12)',
           border: '1px solid rgba(168,85,247,0.3)',
-          color: '#c084fc',
+          color: '#ffffffff',
         }}
       >
         <Tag className="w-4 h-4" />

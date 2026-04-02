@@ -51,10 +51,7 @@ export default function AboutUsPage() {
           0%, 100% { transform: translateY(0px); }
           50% { transform: translateY(-8px); }
         }
-        @keyframes rotate-slow {
-          from { transform: rotate(0deg); }
-          to { transform: rotate(360deg); }
-        }
+
         @keyframes scale-pulse {
           0%, 100% { transform: scale(1); }
           50% { transform: scale(1.05); }
@@ -107,7 +104,6 @@ export default function AboutUsPage() {
         }
         .profile-ring {
           background: linear-gradient(135deg, #a855f7, #ec4899, #a855f7);
-          animation: rotate-slow 4s linear infinite;
         }
         .info-card {
           background: rgba(255,255,255,0.02);

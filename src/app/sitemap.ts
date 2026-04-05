@@ -1,6 +1,7 @@
 import { MetadataRoute } from 'next';
 import { topicsData } from '@/data/topics';
 import { PYQ_CATALOG } from '@/lib/pyqData';
+import { blogPosts } from '@/data/blogData';
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = (process.env.NEXT_PUBLIC_APP_URL || 'https://www.yoursaathi.site').replace(/\/$/, '');
@@ -34,9 +35,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...pyqPages,
 
     // Company pages
-    { url: `${baseUrl}/about`, lastModified: now, changeFrequency: 'monthly', priority: 0.7 },
+    { url: `${baseUrl}/about`,   lastModified: now, changeFrequency: 'monthly', priority: 0.7 },
+    { url: `${baseUrl}/blog`,    lastModified: now, changeFrequency: 'weekly',  priority: 0.8 },
     { url: `${baseUrl}/contact`, lastModified: now, changeFrequency: 'monthly', priority: 0.6 },
-    { url: `${baseUrl}/privacy`, lastModified: now, changeFrequency: 'yearly', priority: 0.4 },
-    { url: `${baseUrl}/terms`, lastModified: now, changeFrequency: 'yearly', priority: 0.4 },
+    { url: `${baseUrl}/privacy`, lastModified: now, changeFrequency: 'yearly',  priority: 0.4 },
+    { url: `${baseUrl}/terms`,   lastModified: now, changeFrequency: 'yearly',  priority: 0.4 },
+
+    // Blog post pages
+    ...blogPosts.map((p) => ({
+      url: `${baseUrl}/blog/${p.slug}`,
+      lastModified: now,
+      changeFrequency: 'monthly' as const,
+      priority: 0.65,
+    })),
   ];
 }

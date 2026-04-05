@@ -13,10 +13,11 @@ const topicLinks = [
 ];
 
 const legalLinks = [
-  { href: '/privacy', label: 'Privacy Policy', icon: Shield },
-  { href: '/terms', label: 'Terms of Service', icon: FileText },
-  { href: '/about', label: 'About Us', icon: Info },
-  { href: '/contact', label: 'Contact Us', icon: Mail },
+  { href: '/blog',    label: 'Blog',            icon: Sparkles },
+  { href: '/privacy', label: 'Privacy Policy',  icon: Shield },
+  { href: '/terms',   label: 'Terms of Service', icon: FileText },
+  { href: '/about',   label: 'About Us',         icon: Info },
+  { href: '/contact', label: 'Contact Us',        icon: Mail },
 ];
 
 export default function Footer() {

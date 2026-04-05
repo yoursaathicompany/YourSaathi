@@ -169,8 +169,8 @@ export default function Navbar() {
           >
             <nav className="flex flex-col px-4 py-4 gap-4 text-sm font-medium text-gray-300">
               <Link href="/" onClick={() => setMobileMenuOpen(false)} className="hover:text-white hover:text-white transition-colors">Home</Link>
-              <Link href="/pyq" onClick={() => setMobileMenuOpen(false)} className="text-purple-400 font-semibold flex items-center gap-2">
-                <GraduationCap className="w-4 h-4" /> PYQ Practice
+              <Link href="/pyq" onClick={() => setMobileMenuOpen(false)} className="hover:text-white transition-colors flex items-center gap-2">
+                PYQ Practice
               </Link>
               <Link href="/blog" onClick={() => setMobileMenuOpen(false)} className="hover:text-white transition-colors flex items-center gap-2">
                 Blog

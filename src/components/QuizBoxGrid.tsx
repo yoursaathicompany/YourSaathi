@@ -1,22 +1,23 @@
 /* eslint-disable */
-'use client';
-
-import { motion } from 'framer-motion';
-import { BrainCircuit, BookOpen, Trophy, Calculator, Beaker, Code2, Globe, Book, Target, Map as MapIcon, Palette, Music, Heart, Briefcase, LucideIcon } from 'lucide-react';
+import {
+  BrainCircuit, BookOpen, Trophy, Calculator, Beaker, Code2,
+  Globe, Book, Target, Map as MapIcon, Palette, Music, Heart,
+  Briefcase, LucideIcon,
+} from 'lucide-react';
 import Link from 'next/link';
 import { topicsData } from '@/data/topics';
 
 const iconMap: Record<string, LucideIcon> = {
-  math: Calculator,
-  science: Beaker,
-  cs: Code2,
-  history: Globe,
-  lit: Book,
-  comp: Target,
-  geo: MapIcon,
-  art: Palette,
-  music: Music,
-  health: Heart,
+  math:     Calculator,
+  science:  Beaker,
+  cs:       Code2,
+  history:  Globe,
+  lit:      Book,
+  comp:     Target,
+  geo:      MapIcon,
+  art:      Palette,
+  music:    Music,
+  health:   Heart,
   business: Briefcase,
 };
 
@@ -24,6 +25,11 @@ interface QuizBoxGridProps {
   searchQuery?: string;
   showAll?: boolean;
 }
+
+// Pure CSS fade-in — zero JS animation overhead, zero INP cost
+const fadeInStyle = (i: number): React.CSSProperties => ({
+  animation: `qbg-fade-up 0.45s ease-out ${i * 60}ms both`,
+});
 
 export default function QuizBoxGrid({ searchQuery = '', showAll = false }: QuizBoxGridProps) {
   const categoriesList = Object.values(topicsData);
@@ -33,32 +39,36 @@ export default function QuizBoxGrid({ searchQuery = '', showAll = false }: QuizB
     cat.desc.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  const displayedCategories = showAll || searchQuery ? filteredCategories : filteredCategories.slice(0, 6);
+  const displayedCategories = showAll || searchQuery
+    ? filteredCategories
+    : filteredCategories.slice(0, 6);
 
   return (
     <>
+      <style>{`
+        @keyframes qbg-fade-up {
+          from { opacity: 0; transform: translateY(16px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
+      `}</style>
+
       {displayedCategories.length === 0 ? (
         <div className="text-center py-12 text-gray-400 bg-white/[0.02] border border-white/5 rounded-2xl w-full">
-          No categories found for "{searchQuery}". Try a different search!
+          No categories found for &ldquo;{searchQuery}&rdquo;. Try a different search!
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-fr">
           {displayedCategories.map((cat, i) => {
             const Icon = iconMap[cat.id] ?? BrainCircuit;
             return (
-              <Link href={`/topics/${cat.id}`} key={cat.id} className="block group">
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: i * 0.1 }}
-                  className="card-hover group cursor-pointer relative overflow-hidden rounded-2xl border border-white/5 bg-white/[0.02] p-6 glass-panel flex flex-col items-start gap-4 h-full"
-                >
+              <Link href={`/topics/${cat.id}`} key={cat.id} className="block group" style={fadeInStyle(i)}>
+                <div className="card-hover group cursor-pointer relative overflow-hidden rounded-2xl border border-white/5 bg-white/[0.02] p-6 glass-panel flex flex-col items-start gap-4 h-full transition-all duration-200 hover:-translate-y-1 hover:border-purple-500/30">
                   <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity translate-x-4 -translate-y-4">
                     <Icon className="w-24 h-24" />
                   </div>
 
                   <div className={`p-3 rounded-xl bg-gradient-to-br ${cat.color} shadow-lg group-hover:scale-110 transition-transform`}>
-                    <Icon className="w-6 h-6 text-white text-gray-900" />
+                    <Icon className="w-6 h-6 text-white" />
                   </div>
 
                   <div className="z-10 mt-2 flex-grow">
@@ -74,7 +84,7 @@ export default function QuizBoxGrid({ searchQuery = '', showAll = false }: QuizB
                       Study Guide <BookOpen className="w-3 h-3 ml-1" />
                     </span>
                   </div>
-                </motion.div>
+                </div>
               </Link>
             );
           })}

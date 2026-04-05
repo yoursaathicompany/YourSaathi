@@ -7,9 +7,10 @@ import BackgroundAnimation from '@/components/BackgroundAnimation';
 import { motion } from 'framer-motion';
 
 export default function Home() {
+  const [inputValue, setInputValue] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
   const [showAll, setShowAll] = useState(false);
-  const [, startTransition] = useTransition();
+  const [isPending, startTransition] = useTransition();
 
   return (
     <>
@@ -90,10 +91,15 @@ export default function Home() {
               <Search className="w-6 h-6 text-gray-500 ml-4" />
               <input
                 type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
+                value={inputValue}
+                onChange={(e) => {
+                  const v = e.target.value;
+                  setInputValue(v);
+                  startTransition(() => setSearchQuery(v));
+                }}
                 placeholder="What do you want to learn today?"
-                className="w-full bg-transparent border-none py-4 px-4 text-lg text-white placeholder-gray-500 focus:outline-none focus:ring-0"
+                aria-label="Search quiz topics"
+                className={`w-full bg-transparent border-none py-4 px-4 text-lg text-white placeholder-gray-500 focus:outline-none focus:ring-0 transition-opacity ${isPending ? 'opacity-70' : 'opacity-100'}`}
               />
               <button className="bg-white text-black font-semibold px-6 py-2 rounded-xl mr-2 hover:bg-gray-200 transition-colors">
                 Search

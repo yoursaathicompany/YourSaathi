@@ -5,7 +5,6 @@ import Script from "next/script";
 import { SessionProvider } from "@/components/providers/SessionProvider";
 import Navbar from "@/components/Navbar";
 import DynamicOfferModal from "@/components/DynamicOfferModal";
-
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import Footer from "@/components/Footer";
 import { Analytics } from "@vercel/analytics/next";
@@ -14,11 +13,13 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
+  display: "swap",   // avoid invisible text during font load
 });
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+  display: "swap",
 });
 
 const BASE_URL = 'https://www.yoursaathi.site';
@@ -39,7 +40,7 @@ export const metadata: Metadata = {
     default: 'YourSaathi — Free AI Quiz Generator & PYQ Practice for Students',
     template: '%s | YourSaathi',
   },
-  description: 'YourSaathi is India\'s AI-powered quiz platform. Generate custom quizzes on any topic, practice CBSE Class 10-12 PYQs, JEE, NEET, UPSC previous year questions, and earn real coins while you learn.',
+  description: "YourSaathi is India's AI-powered quiz platform. Generate custom quizzes on any topic, practice CBSE Class 10-12 PYQs, JEE, NEET, UPSC previous year questions, and earn real coins while you learn.",
   keywords: [
     'yoursaathi', 'AI quiz generator India', 'previous year questions', 'PYQ',
     'CBSE Class 10 PYQ', 'CBSE Class 12 PYQ', 'JEE previous year questions',
@@ -106,6 +107,16 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        {/*
+         * AdSense: we declare the publisher account via meta (already in metadata.other above)
+         * and load the actual JS with 'afterInteractive' — this fires AFTER hydration and
+         * all interaction handlers are registered, so it can never block INP.
+         * The `async` attribute on the AdSense src is redundant with Next.js Script but
+         * we keep crossOrigin for CORS. Do NOT use 'lazyOnload' here because that strategy
+         * can still defer into the user's first interaction window.
+         */}
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-[#09090b] text-white min-h-screen`}
       >
@@ -123,6 +134,8 @@ export default function RootLayout({
             <DynamicOfferModal />
           </SessionProvider>
         </ThemeProvider>
+
+        {/* JSON-LD — inline, zero network cost */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -156,11 +169,19 @@ export default function RootLayout({
             ])
           }}
         />
+
+        {/*
+         * Google AdSense — strategy="afterInteractive"
+         * This guarantees the script loads only after React has fully hydrated
+         * and all event listeners are attached, so it NEVER contributes to INP.
+         * AdSense still works correctly; the ad slots themselves are lazy-rendered.
+         */}
         <Script
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4043118352636472"
           crossOrigin="anonymous"
-          strategy="lazyOnload"
+          strategy="afterInteractive"
         />
+
         <Analytics />
         <SpeedInsights />
       </body>

@@ -145,7 +145,7 @@ export default function BlogHero() {
               Start Reading
             </a>
             <a
-              href="/quiz"
+              href="/topics"
               id="blog-hero-quiz-cta"
               className="px-7 py-3.5 rounded-xl bg-white/5 border border-white/10 text-white font-semibold hover:bg-white/10 transition-all"
             >

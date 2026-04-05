@@ -63,7 +63,7 @@ export default function ShootingStar() {
     // Fire immediately on mount
     fire();
 
-    const iv = setInterval(fire, 120_000);   // 2 minutes
+    const iv = setInterval(fire, 30_000);    // 30 seconds
     return () => clearInterval(iv);
   }, []);
 

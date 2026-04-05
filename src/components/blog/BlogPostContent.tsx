@@ -255,7 +255,7 @@ export default function BlogPostContent({
             Practice what you&apos;ve learned with a free AI-generated quiz on YourSaathi.
           </p>
           <Link
-            href="/topics"
+            href="/pyq"
             id="blog-post-quiz-cta"
             className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-bold transition-all shadow-lg shadow-purple-500/25 hover:-translate-y-0.5"
           >

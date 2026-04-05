@@ -5,6 +5,7 @@ import { Search, Sparkles, TrendingUp } from 'lucide-react';
 import QuizBoxGrid from '@/components/QuizBoxGrid';
 import BackgroundAnimation from '@/components/BackgroundAnimation';
 import StarField from '@/components/StarField';
+import ShootingStar from '@/components/ShootingStar';
 import { motion } from 'framer-motion';
 
 export default function Home() {
@@ -17,6 +18,7 @@ export default function Home() {
     <>
       <BackgroundAnimation />
       <StarField />
+      <ShootingStar />
       <div className="min-h-screen pt-8 pb-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto relative z-0">
 
         {/* ── Hero ── */}

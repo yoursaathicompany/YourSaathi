@@ -173,7 +173,7 @@ export default function Navbar() {
                 <GraduationCap className="w-4 h-4" /> PYQ Practice
               </Link>
               <Link href="/blog" onClick={() => setMobileMenuOpen(false)} className="text-pink-400 flex items-center gap-2">
-                <Sparkles className="w-4 h-4" /> Blog
+                Blog
               </Link>
               <Link href="/about" onClick={() => setMobileMenuOpen(false)} className="hover:text-white hover:text-white transition-colors">About</Link>
               <Link href="/contact" onClick={() => setMobileMenuOpen(false)} className="hover:text-white hover:text-white transition-colors">Contact</Link>

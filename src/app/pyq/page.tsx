@@ -4,7 +4,7 @@ import { useState, useMemo, useTransition } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { GraduationCap, Search, Zap, BookOpen, Trophy, Users, Star } from 'lucide-react';
-import BackgroundAnimation from '@/components/BackgroundAnimation';
+
 import PYQCard from '@/components/PYQCard';
 import { PYQ_CATALOG, LEVEL_LABELS, type PYQLevel } from '@/lib/pyqData';
 
@@ -42,7 +42,6 @@ export default function PYQPage() {
 
   return (
     <>
-      <BackgroundAnimation />
       <div className="min-h-screen pb-24 relative z-0">
 
         {/* ── Hero ─────────────────────────────────────────────────────── */}

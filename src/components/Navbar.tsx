@@ -48,7 +48,7 @@ export default function Navbar() {
         {/* Nav links */}
         <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-gray-400">
           <Link href="/" className="hover:text-white transition-colors">Home</Link>
-          <Link href="/pyq" className="hover:text-white transition-colors text-purple-400 flex items-center gap-1 font-semibold">
+          <Link href="/pyq" className="hover:text-white transition-colors flex items-center gap-1 font-semibold">
             <GraduationCap className="w-3.5 h-3.5" /> PYQ
           </Link>
           <Link href="/blog" className="hover:text-white transition-colors flex items-center gap-1">
@@ -165,14 +165,14 @@ export default function Navbar() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden border-t border-white/10 border-white/5 bg-white/95 bg-[#09090b]/95 backdrop-blur-xl overflow-hidden"
+            className="md:hidden border-t border-white/10 bg-[#09090b]/95 backdrop-blur-xl overflow-hidden"
           >
-            <nav className="flex flex-col px-4 py-4 gap-4 text-sm font-medium text-gray-600 text-gray-300">
+            <nav className="flex flex-col px-4 py-4 gap-4 text-sm font-medium text-gray-300">
               <Link href="/" onClick={() => setMobileMenuOpen(false)} className="hover:text-white hover:text-white transition-colors">Home</Link>
               <Link href="/pyq" onClick={() => setMobileMenuOpen(false)} className="text-purple-400 font-semibold flex items-center gap-2">
                 <GraduationCap className="w-4 h-4" /> PYQ Practice
               </Link>
-              <Link href="/blog" onClick={() => setMobileMenuOpen(false)} className="text-pink-400 flex items-center gap-2">
+              <Link href="/blog" onClick={() => setMobileMenuOpen(false)} className="hover:text-white transition-colors flex items-center gap-2">
                 Blog
               </Link>
               <Link href="/about" onClick={() => setMobileMenuOpen(false)} className="hover:text-white hover:text-white transition-colors">About</Link>

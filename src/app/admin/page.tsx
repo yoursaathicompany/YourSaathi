@@ -18,6 +18,7 @@ import {
   Gift,
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import Link from 'next/link';
 
 export default function AdminDashboard() {
   const [loading, setLoading] = useState(true);
@@ -140,21 +141,28 @@ export default function AdminDashboard() {
       {/* Stats */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
         {[
-          { label: 'Total Users', value: stats.users, icon: Users, color: 'text-blue-400' },
+          { label: 'Total Users', value: stats.users, icon: Users, color: 'text-blue-400', link: '/admin/users' },
           { label: 'Quizzes', value: stats.quizzes, icon: BookOpen, color: 'text-green-400' },
           { label: 'AI Gens', value: stats.generations, icon: BrainCircuit, color: 'text-purple-400' },
           { label: 'Avg Score', value: stats.avgScore, icon: LineChart, color: 'text-rose-400' }
         ].map((stat, i) => {
           const Icon = stat.icon;
-          return (
-            <div key={i} className="glass-panel p-6 rounded-2xl border border-white/10">
+          const content = (
+            <div key={i} className={`glass-panel p-6 rounded-2xl border border-white/10 ${stat.link ? 'hover:border-white/30 transition-colors cursor-pointer group' : ''}`}>
               <div className="flex items-center justify-between mb-2">
-                <Icon className={`w-5 h-5 ${stat.color}`} />
+                <Icon className={`w-5 h-5 ${stat.color} ${stat.link ? 'group-hover:scale-110 transition-transform' : ''}`} />
+                {stat.link && <ArrowRight className="w-4 h-4 text-gray-600 group-hover:text-gray-300 transition-colors" />}
               </div>
               <p className="text-3xl font-bold">{stat.value}</p>
               <p className="text-xs text-gray-500 uppercase tracking-wider font-bold mt-1">{stat.label}</p>
             </div>
           );
+          
+          return stat.link ? (
+            <Link href={stat.link} key={i} className="block hover:scale-[1.02] transition-transform">
+              {content}
+            </Link>
+          ) : content;
         })}
       </div>
 

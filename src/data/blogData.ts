@@ -24,6 +24,32 @@ export const blogCategories = [
 
 export const blogPosts: BlogPost[] = [
   {
+    slug: 'ai-revision-strategy-competitive-exams-2026',
+    title: 'How to Build a Winning Revision Strategy for Competitive Exams with AI',
+    excerpt:
+      'Mastering NEET, JEE, or UPSC requires more than hard work; it requires smart revision. Learn how AI-curated quizzes and targeted flashcards can optimize your study schedule and boost retention.',
+    author: 'YourSaathi Team',
+    date: 'April 6, 2026',
+    readTime: '6 min read',
+    category: 'Study Tips',
+    tags: ['AI learning', 'revision strategy', 'NEET', 'JEE', 'exam prep'],
+    emoji: '🧠',
+    coverImage: '/og-image.png',
+  },
+  {
+    slug: 'learn-to-earn-future-online-education-india',
+    title: 'Learn-to-Earn: The Future of Online Education in India',
+    excerpt:
+      'Is rewarding learning with real money the ultimate motivation tool for Indian students? We explore the learn-to-earn EdTech model, its impact on student engagement, and how YourSaathi is pioneering this shift.',
+    author: 'Sanjay Satya',
+    date: 'April 6, 2026',
+    readTime: '5 min read',
+    category: 'EdTech',
+    tags: ['learn and earn', 'edtech future', 'student motivation', 'India'],
+    emoji: '🇮🇳',
+    coverImage: '/og-image.png',
+  },
+  {
     slug: 'yoursaathi-story-building-ai-quiz-platform',
     title: 'From Frustration to Launch: How YourSaathi Was Born',
     excerpt:

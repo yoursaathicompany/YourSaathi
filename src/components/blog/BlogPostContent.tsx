@@ -5,6 +5,52 @@ import type { BlogPost } from '@/data/blogData';
 
 /* ── Rich article body per slug ─────────────────────────────────────────── */
 const articleBodies: Record<string, React.ReactNode> = {
+  'ai-revision-strategy-competitive-exams-2026': (
+    <>
+      <p>
+        The sheer volume of syllabus for competitive exams like NEET, JEE, and UPSC is overwhelming. Traditional revision strategies often involve frantically re-reading notes or endlessly highlighting textbooks. But there is a better, science-backed way to retain more information in less time: AI-driven active revision.
+      </p>
+      <h2>What is Active Revision?</h2>
+      <p>
+        Active revision means actively simulating exam conditions and retrieving information from memory, rather than passively reviewing it. This strengthens neural pathways. It&apos;s the difference between reading a solution and solving the problem yourself.
+      </p>
+      <h2>How AI Optimizes Your Schedule</h2>
+      <p>
+        Artificial Intelligence takes the guesswork out of <em>what</em> to revise. Instead of following a linear path, AI algorithms analyze your past performance to identify weak spots. On platforms like <strong>YourSaathi</strong>, the AI generates custom quizzes focusing exactly on the concepts you struggle with, ensuring no time is wasted.
+      </p>
+      <h2>Building Your 3-Step Strategy</h2>
+      <ul>
+        <li><strong>Step 1: The Initial Assessment.</strong> Take a comprehensive diagnostic test to let the AI baseline your knowledge.</li>
+        <li><strong>Step 2: Spaced Repetition Drill.</strong> Use the AI-generated daily quizzes to hit your weak areas at optimal intervals.</li>
+        <li><strong>Step 3: PYQ Mastery.</strong> Integrate Previous Year Questions to understand exam patterns, a feature natively supported by the YourSaathi engine.</li>
+      </ul>
+      <p>
+        Stop relying entirely on your intuition for revision. Let AI analyze your data to help you study smarter, not just harder.
+      </p>
+    </>
+  ),
+  'learn-to-earn-future-online-education-india': (
+    <>
+      <p>
+        Student engagement is the biggest challenge in online education today. Drop-off rates for traditional online courses regularly exceed 80%. But what if we could align intrinsic motivation (wanting to learn) with extrinsic rewards (earning real value)? Welcome to the <strong>Learn-to-Earn</strong> model.
+      </p>
+      <h2>The Problem with Traditional EdTech</h2>
+      <p>
+        Most platforms treat students purely as consumers. You pay a hefty subscription fee, and the burden of motivation falls entirely on you. In a distraction-filled world, this model is failing the majority of Indian students who study independently.
+      </p>
+      <h2>Flipping the Script</h2>
+      <p>
+        The learn-to-earn model paradigm flips this dynamic. On platforms like <strong>YourSaathi</strong>, students earn tangible rewards—coins that can be redeemed for cash—simply by consistently demonstrating knowledge and answering questions correctly.
+      </p>
+      <h2>Why It Works in India</h2>
+      <p>
+        For millions of students in India, the cost of education tools is a barrier. A learn-to-earn approach democratizes access. It turns study time into a potentially rewarding venture, offsetting data costs or micro-expenses, while fundamentally keeping the student engaged in the curriculum. 
+      </p>
+      <p>
+        By incentivizing the daily habit of learning, we aren&apos;t just giving students a platform—we are giving them a reason to show up every single day. The future of EdTech in India is not just accessible; it is rewarding.
+      </p>
+    </>
+  ),
   'yoursaathi-story-building-ai-quiz-platform': (
     <>
       <p>

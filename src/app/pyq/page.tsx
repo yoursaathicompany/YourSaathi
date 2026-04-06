@@ -23,7 +23,7 @@ const STATS = [
   { icon: BookOpen, label: 'PYQ Questions', value: '10,000+' },
   { icon: Trophy, label: 'Exams Covered', value: '8+' },
   { icon: Users, label: 'Students Practicing', value: '50K+' },
-  { icon: Star, label: 'Years of Papers', value: '7+' },
+  { icon: Star, label: 'Years of Papers', value: '10+' },
 ];
 
 export default function PYQPage() {

@@ -310,7 +310,7 @@ export default function BlogPage() {
               <h2 className="text-2xl font-black text-white">All Articles</h2>
             </div>
 
-            <BlogGrid posts={regularPosts} categories={blogCategories} />
+            <BlogGrid posts={blogPosts} categories={blogCategories} featuredSlug={featuredPost.slug} />
           </section>
 
           {/* ── Newsletter / CTA ─────────────────────────────────────────── */}

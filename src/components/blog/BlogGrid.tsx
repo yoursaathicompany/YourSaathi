@@ -7,14 +7,18 @@ import type { BlogPost } from '@/data/blogData';
 type Props = {
   posts: BlogPost[];
   categories: string[];
+  featuredSlug?: string;
 };
 
-export default function BlogGrid({ posts, categories }: Props) {
+export default function BlogGrid({ posts, categories, featuredSlug }: Props) {
   const [activeCategory, setActiveCategory] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
 
   const filtered = useMemo(() => {
     return posts.filter((p) => {
+      // Hide featured post from grid only if viewing 'All' and no search
+      if (activeCategory === 'All' && !searchQuery && p.slug === featuredSlug) return false;
+      
       const matchCat = activeCategory === 'All' || p.category === activeCategory;
       const q = searchQuery.toLowerCase();
       const matchSearch =

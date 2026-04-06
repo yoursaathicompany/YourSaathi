@@ -1,18 +1,31 @@
 'use client';
 
-import { useState, useTransition } from 'react';
+import { useState, useTransition, useEffect } from 'react';
 import { Search, Sparkles, TrendingUp } from 'lucide-react';
 import QuizBoxGrid from '@/components/QuizBoxGrid';
 import BackgroundAnimation from '@/components/BackgroundAnimation';
 import StarField from '@/components/StarField';
 import ShootingStar from '@/components/ShootingStar';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 
 export default function Home() {
   const [inputValue, setInputValue] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
   const [showAll, setShowAll] = useState(false);
   const [isPending, startTransition] = useTransition();
+
+  const slogans = [
+    ['Earn', 'Money'],
+    ['Build', 'Yourself']
+  ];
+  const [sloganIndex, setSloganIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setSloganIndex(prev => (prev + 1) % slogans.length);
+    }, 3000);
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <>
@@ -35,36 +48,38 @@ export default function Home() {
           </motion.div>
 
           <motion.h1
-            variants={{
-              hidden: { opacity: 0 },
-              visible: { opacity: 1, transition: { staggerChildren: 0.15, delayChildren: 0.1 } },
-            }}
-            initial="hidden"
-            animate="visible"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
             className="text-5xl md:text-7xl font-extrabold tracking-tight flex flex-col items-center gap-2 sm:gap-4"
           >
-            <div className="overflow-hidden flex gap-3 md:gap-4 flex-wrap justify-center">
-              {['Earn', 'Money'].map((word, i) => (
-                <motion.span
-                  key={`word1-${i}`}
-                  variants={{
-                    hidden: { y: '100%', opacity: 0, rotateX: -45, filter: 'blur(8px)' },
-                    visible: { y: 0, opacity: 1, rotateX: 0, filter: 'blur(0px)', transition: { type: 'spring', damping: 12, stiffness: 100 } },
-                  }}
-                  className="inline-block text-white"
+            <div className="overflow-hidden flex gap-3 md:gap-4 flex-wrap justify-center min-h-[1.2rem] pb-2">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={sloganIndex}
+                  className="flex gap-3 md:gap-4 flex-wrap justify-center"
                 >
-                  {word}
-                </motion.span>
-              ))}
+                  {slogans[sloganIndex].map((word, i) => (
+                    <motion.span
+                      key={`slogan-${sloganIndex}-${i}`}
+                      initial={{ y: '100%', opacity: 0, rotateX: -45, filter: 'blur(8px)' }}
+                      animate={{ y: 0, opacity: 1, rotateX: 0, filter: 'blur(0px)' }}
+                      exit={{ y: '-100%', opacity: 0, rotateX: 45, filter: 'blur(8px)' }}
+                      transition={{ type: 'spring', damping: 12, stiffness: 100, delay: i * 0.15 }}
+                      className="inline-block text-white"
+                    >
+                      {word}
+                    </motion.span>
+                  ))}
+                </motion.div>
+              </AnimatePresence>
             </div>
             <div className="overflow-hidden flex gap-3 md:gap-4 flex-wrap justify-center mt-[-0.2em]">
               {['By', 'Practicing', 'Quizzes'].map((word, i) => (
                 <motion.span
                   key={`word2-${i}`}
-                  variants={{
-                    hidden: { y: '100%', opacity: 0, rotateX: -45, filter: 'blur(8px)' },
-                    visible: { y: 0, opacity: 1, rotateX: 0, filter: 'blur(0px)', transition: { type: 'spring', damping: 12, stiffness: 100 } },
-                  }}
+                  initial={{ y: '100%', opacity: 0, rotateX: -45, filter: 'blur(8px)' }}
+                  animate={{ y: 0, opacity: 1, rotateX: 0, filter: 'blur(0px)' }}
+                  transition={{ type: 'spring', damping: 12, stiffness: 100, delay: 0.3 + i * 0.15 }}
                   className="inline-block gradient-text"
                 >
                   {word}

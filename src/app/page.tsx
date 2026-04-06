@@ -44,7 +44,7 @@ export default function Home() {
             className="text-5xl md:text-7xl font-extrabold tracking-tight flex flex-col items-center gap-2 sm:gap-4"
           >
             <div className="overflow-hidden flex gap-3 md:gap-4 flex-wrap justify-center">
-              {['Build', 'Yourself'].map((word, i) => (
+              {['Earn', 'Money'].map((word, i) => (
                 <motion.span
                   key={`word1-${i}`}
                   variants={{

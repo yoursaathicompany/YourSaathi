@@ -65,7 +65,13 @@ export default function Home() {
                       animate={{ y: 0, opacity: 1, rotateX: 0, filter: 'blur(0px)' }}
                       exit={{ y: '-100%', opacity: 0, rotateX: 45, filter: 'blur(8px)' }}
                       transition={{ type: 'spring', damping: 12, stiffness: 100, delay: i * 0.15 }}
-                      className="inline-block text-white"
+                      className="inline-block"
+                      style={i === 0 ? {
+                        background: 'linear-gradient(135deg, #8b5cf6, #a78bfa)',
+                        WebkitBackgroundClip: 'text',
+                        WebkitTextFillColor: 'transparent',
+                        backgroundClip: 'text',
+                      } : { color: '#ffffff' }}
                     >
                       {word}
                     </motion.span>

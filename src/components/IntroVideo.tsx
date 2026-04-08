@@ -204,6 +204,7 @@ export default function IntroVideo() {
   const sceneTimersRef = useRef<ReturnType<typeof setTimeout>[]>([]);
   const synthRef = useRef<SpeechSynthesis | null>(null);
   const muteRef = useRef(false);
+  const voiceIdxRef = useRef(0);   // tracks which utterance is next in the chain
 
   /* ── decide whether to show ── */
   useEffect(() => {
@@ -245,24 +246,42 @@ export default function IntroVideo() {
     }
   }, []);  // eslint-disable-line react-hooks/exhaustive-deps
 
-  /* ── speak a scene's voiceover ── */
-  const speakScene = useCallback((scene: Scene) => {
+  /* ── build a preferred voice once ── */
+  const getVoice = useCallback(() => {
+    if (!synthRef.current) return undefined;
+    const voices = synthRef.current.getVoices();
+    return (
+      voices.find(v => /en[-_](IN|US|GB)/i.test(v.lang) && v.name.toLowerCase().includes('google')) ||
+      voices.find(v => /en[-_](IN|US|GB)/i.test(v.lang)) ||
+      voices[0]
+    );
+  }, []);
+
+  /* ── speak all scenes as a chained queue (no cancel between scenes) ── */
+  const speakFromIndex = useCallback((startIdx: number) => {
     if (!synthRef.current || muteRef.current) return;
     const synth = synthRef.current;
-    synth.cancel();
-    const utt = new SpeechSynthesisUtterance(scene.voice);
-    utt.rate = 1.05;
-    utt.pitch = 1.0;
-    utt.volume = 1;
-    // prefer a good English voice
-    const voices = synth.getVoices();
-    const preferred = voices.find(v =>
-      /en[-_](IN|US|GB)/i.test(v.lang) && v.name.toLowerCase().includes('google')
-    ) || voices.find(v => /en[-_](IN|US|GB)/i.test(v.lang))
-      || voices[0];
-    if (preferred) utt.voice = preferred;
-    synth.speak(utt);
-  }, []);
+    synth.cancel();  // only cancel once at the very start
+
+    const preferred = getVoice();
+
+    const speakNext = (idx: number) => {
+      if (idx >= SCENES.length || muteRef.current) return;
+      voiceIdxRef.current = idx;
+      const utt = new SpeechSynthesisUtterance(SCENES[idx].voice);
+      utt.rate = 0.97;   // slightly slower = clearer, less likely to be clipped
+      utt.pitch = 1.0;
+      utt.volume = 1;
+      if (preferred) utt.voice = preferred;
+      // On end → speak next scene's phrase automatically (NO cancel in between)
+      utt.onend = () => speakNext(idx + 1);
+      // onerror fallback (some browsers fire error on cancel; guard against loops)
+      utt.onerror = (e) => { if (e.error !== 'canceled') speakNext(idx + 1); };
+      synth.speak(utt);
+    };
+
+    speakNext(startIdx);
+  }, [getVoice]);
 
   /* ── start playback ── */
   const startPlay = useCallback(() => {
@@ -270,15 +289,14 @@ export default function IntroVideo() {
     setPlaying(true);
     setElapsed(0);
     setSceneIdx(0);
+    voiceIdxRef.current = 0;
     startTimeRef.current = performance.now();
     rafRef.current = requestAnimationFrame(tick);
 
-    // Schedule a speak call at each scene's startMs
+    // Speak all lines in a continuous chain — visuals advance independently
     sceneTimersRef.current.forEach(clearTimeout);
-    sceneTimersRef.current = SCENES.map(scene =>
-      setTimeout(() => speakScene(scene), scene.startMs)
-    );
-  }, [playing, tick, speakScene]);
+    speakFromIndex(0);
+  }, [playing, tick, speakFromIndex]);
 
   /* ── auto-start once visible & voices ready ── */
   useEffect(() => {
@@ -309,6 +327,7 @@ export default function IntroVideo() {
     setExiting(true);
     cancelAnimationFrame(rafRef.current);
     sceneTimersRef.current.forEach(clearTimeout);
+    muteRef.current = true;  // prevent onerror from re-triggering speakNext
     synthRef.current?.cancel();
     setTimeout(() => setVisible(false), 700);
   }, []);
@@ -320,9 +339,8 @@ export default function IntroVideo() {
     if (next) {
       synthRef.current?.cancel();
     } else if (playing) {
-      // re-speak current scene
-      const currentScene = SCENES[sceneIdx];
-      speakScene(currentScene);
+      // Resume chain from the scene currently on screen
+      speakFromIndex(voiceIdxRef.current);
     }
   };
 

@@ -7,6 +7,7 @@ import Navbar from "@/components/Navbar";
 import DynamicOfferModal from "@/components/DynamicOfferModal";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import Footer from "@/components/Footer";
+import IntroVideo from "@/components/IntroVideo";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
@@ -126,6 +127,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <SessionProvider>
+            <IntroVideo />
             <Navbar />
             <main>
               {children}

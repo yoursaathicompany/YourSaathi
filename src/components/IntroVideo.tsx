@@ -306,7 +306,9 @@ export default function IntroVideo() {
         if (e.error !== 'canceled' && !muteRef.current) setTimeout(() => speakAt(idx + 1), 350);
       };
 
-      synth.speak(utt);
+      // synth is guaranteed non-null here (checked at top of speakChain)
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      synth!.speak(utt);
     }
 
     speakAt(fromIdx);

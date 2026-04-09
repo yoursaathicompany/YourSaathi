@@ -21,11 +21,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title: `Module ${mod.number}: ${mod.title} — ML/AI Course | YourSaathi`,
     description: mod.objective.join(' '),
     keywords: mod.tags,
-    alternates: { canonical: `https://www.yoursaathi.site/courses/${slug}` },
+    alternates: { canonical: `https://www.yoursaathi.site/courses/ml-ai/${slug}` },
     openGraph: {
       title: `Module ${mod.number}: ${mod.title} — YourSaathi`,
       description: mod.objective[0],
-      url: `https://www.yoursaathi.site/courses/${slug}`,
+      url: `https://www.yoursaathi.site/courses/ml-ai/${slug}`,
       type: 'article',
       images: [{ url: '/og-image.png', width: 1200, height: 630, alt: `${mod.title} — YourSaathi` }],
     },
@@ -108,8 +108,8 @@ export default async function CourseModulePage({ params }: Props) {
           <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             {/* Breadcrumb */}
             <nav className="flex items-center gap-2 text-sm text-gray-500 mb-8" aria-label="Breadcrumb">
-              <Link href="/courses" className="hover:text-purple-400 transition-colors">
-                Courses
+              <Link href="/courses/ml-ai" className="hover:text-purple-400 transition-colors">
+                ML &amp; AI Course
               </Link>
               <span>/</span>
               <span className="text-gray-300">Module {mod.number}</span>
@@ -346,7 +346,7 @@ export default async function CourseModulePage({ params }: Props) {
           <nav className="flex items-center justify-between pt-8 border-t border-white/8" aria-label="Module navigation">
             {prevMod ? (
               <Link
-                href={`/courses/${prevMod.slug}`}
+                href={`/courses/ml-ai/${prevMod.slug}`}
                 id={`nav-prev-module-${prevMod.number}`}
                 className="group flex items-center gap-3 text-sm text-gray-400 hover:text-white transition-colors"
               >
@@ -358,7 +358,7 @@ export default async function CourseModulePage({ params }: Props) {
               </Link>
             ) : (
               <Link
-                href="/courses"
+                href="/courses/ml-ai"
                 id="nav-back-to-courses"
                 className="group flex items-center gap-3 text-sm text-gray-400 hover:text-white transition-colors"
               >
@@ -369,7 +369,7 @@ export default async function CourseModulePage({ params }: Props) {
 
             {nextMod ? (
               <Link
-                href={`/courses/${nextMod.slug}`}
+                href={`/courses/ml-ai/${nextMod.slug}`}
                 id={`nav-next-module-${nextMod.number}`}
                 className="group flex items-center gap-3 text-sm text-gray-400 hover:text-white transition-colors text-right"
               >
@@ -381,7 +381,7 @@ export default async function CourseModulePage({ params }: Props) {
               </Link>
             ) : (
               <Link
-                href="/courses"
+                href="/courses/ml-ai"
                 id="nav-completed-courses"
                 className="group flex items-center gap-3 text-sm font-semibold text-green-400 hover:text-green-300 transition-colors"
               >

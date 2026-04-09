@@ -1,308 +1,124 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
-import { courseModules, courseMetadata } from '@/data/courseData';
-import CourseHero from '@/components/courses/CourseHero';
 
 export const metadata: Metadata = {
-  title: 'Python ML & AI Course (Beginner → Advanced) — YourSaathi',
-  description:
-    'Learn Machine Learning & AI from scratch. Our free, beginner-friendly 4-module Python course takes you from zero to production — covering Supervised Learning, Neural Networks, NLP, and Computer Vision.',
-  keywords: [
-    'python machine learning course for beginners',
-    'AI course India',
-    'deep learning tutorial beginners',
-    'NLP transformers course',
-    'computer vision python',
-    'learn machine learning from scratch',
-    'free ML course for beginners India',
-    'scikit-learn tensorflow tutorial',
-    'BERT fine-tuning',
-    'yoursaathi courses',
-  ],
+  title: 'Courses & Bootcamps — YourSaathi',
+  description: 'Explore our professional and beginner-friendly courses in Machine Learning, AI, Animation, and CGI. Level up your career with YourSaathi.',
   alternates: { canonical: 'https://www.yoursaathi.site/courses' },
-  openGraph: {
-    title: 'Advanced Python: ML & AI Course — YourSaathi',
-    description:
-      'A free, comprehensive 4-module course covering Supervised Learning, Deep Learning, NLP, and Computer Vision. Production-grade Python code.',
-    url: 'https://www.yoursaathi.site/courses',
-    type: 'website',
-    images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'YourSaathi ML/AI Course' }],
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'Advanced Python: ML & AI Course — YourSaathi',
-    description:
-      '4 modules, real projects, zero fluff. Master ML & AI with production-grade Python code.',
-    images: ['/og-image.png'],
-  },
 };
 
-const jsonLd = {
-  '@context': 'https://schema.org',
-  '@type': 'Course',
-  name: courseMetadata.title,
-  description: courseMetadata.description,
-  provider: {
-    '@type': 'Organization',
-    name: 'YourSaathi',
-    url: 'https://www.yoursaathi.site',
-  },
-  hasCourseInstance: courseModules.map((m) => ({
-    '@type': 'CourseInstance',
-    name: `Module ${m.number}: ${m.title}`,
-    description: m.subtitle,
-    courseMode: 'online',
-    isAccessibleForFree: true,
-  })),
-};
-
-export default function CoursesPage() {
+export default function CoursesHubPage() {
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-      />
-
-      {/* Page-scoped animations */}
       <style>{`
-        @keyframes course-fade-up {
-          from { opacity: 0; transform: translateY(24px); }
+        @keyframes hub-fade {
+          from { opacity: 0; transform: translateY(20px); }
           to   { opacity: 1; transform: translateY(0); }
         }
-        @keyframes course-float {
+        @keyframes hub-float {
           0%, 100% { transform: translateY(0); }
-          50%       { transform: translateY(-8px); }
+          50%      { transform: translateY(-8px); }
         }
-        @keyframes course-shimmer {
-          0%   { background-position: -200% center; }
-          100% { background-position:  200% center; }
+        .hub-fade { animation: hub-fade 0.7s ease-out forwards; }
+        .course-card {
+          transition: transform 0.4s cubic-bezier(0.22,1,0.36,1), 
+                      box-shadow 0.4s ease, border-color 0.4s ease;
         }
-        .course-fade-up { animation: course-fade-up 0.7s ease-out forwards; }
-        .course-float   { animation: course-float 4s ease-in-out infinite; }
-        .course-shimmer {
-          background: linear-gradient(90deg, transparent, rgba(255,255,255,0.04), transparent);
-          background-size: 200% auto;
-          animation: course-shimmer 3s linear infinite;
+        .course-card:hover {
+          transform: translateY(-8px) scale(1.02);
         }
-        .module-card {
-          transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
-        }
-        .module-card:hover {
-          transform: translateY(-6px);
-          box-shadow: 0 24px 60px rgba(168,85,247,0.15);
-          border-color: rgba(168,85,247,0.4);
-        }
-        .delay-100 { animation-delay: 0.10s; opacity: 0; }
-        .delay-200 { animation-delay: 0.20s; opacity: 0; }
-        .delay-300 { animation-delay: 0.30s; opacity: 0; }
-        .delay-400 { animation-delay: 0.40s; opacity: 0; }
+        .ml-card:hover { border-color: rgba(168,85,247,0.5); box-shadow: 0 30px 60px rgba(168,85,247,0.15); }
+        .anim-card:hover { border-color: rgba(244,63,94,0.5); box-shadow: 0 30px 60px rgba(244,63,94,0.15); }
       `}</style>
 
-      <div className="min-h-screen">
-        <CourseHero />
+      <div className="min-h-screen pt-24 pb-20 relative overflow-hidden">
+        {/* Background Gradients */}
+        <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
+          <div className="absolute top-10 left-1/4 w-[500px] h-[500px] bg-purple-600/10 rounded-full blur-[120px]" />
+          <div className="absolute bottom-10 right-1/4 w-[400px] h-[400px] bg-rose-600/10 rounded-full blur-[120px]" />
+        </div>
 
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
-          {/* ── Prerequisites ─────────────────────────────── */}
-          <section className="mb-16 course-fade-up">
-            <div className="rounded-2xl border border-white/8 bg-[#0e0e12] p-6 sm:p-8">
-              <h2 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
-                <span className="text-xl">📋</span> Prerequisites &amp; Setup
-              </h2>
-              <div className="grid sm:grid-cols-2 gap-6">
-                <div>
-                  <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-3">
-                    You&apos;ll Need
-                  </h3>
-                  <ul className="space-y-2">
-                    {courseMetadata.prerequisites.map((p) => (
-                      <li key={p} className="flex items-center gap-2 text-sm text-gray-300">
-                        <span className="w-1.5 h-1.5 rounded-full bg-purple-500 flex-shrink-0" />
-                        {p}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                <div>
-                  <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-3">
-                    Install All Libraries
-                  </h3>
-                  <div className="rounded-xl bg-black/40 border border-white/5 p-4 font-mono text-sm text-green-400 overflow-x-auto">
-                    <span className="text-gray-600">$</span> pip install -r requirements.txt
-                  </div>
-                  <p className="text-xs text-gray-600 mt-2">
-                    Or: <code className="text-gray-500">pip install numpy pandas scikit-learn tensorflow matplotlib</code>
-                  </p>
-                </div>
-              </div>
-            </div>
-          </section>
+        <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16 hub-fade">
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-white leading-tight mb-4 tracking-tight">
+              Level Up Your <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-400 via-pink-500 to-rose-500">Skills</span>
+            </h1>
+            <p className="text-lg text-gray-400 max-w-2xl mx-auto">
+              Choose your path. From writing your first machine learning model in Python to rendering cinematic shots in Unreal Engine 5.
+            </p>
+          </div>
 
-          {/* ── Module Cards ──────────────────────────────── */}
-          <section>
-            <div className="flex items-center gap-3 mb-8 course-fade-up">
-              <div className="w-1 h-8 rounded-full bg-gradient-to-b from-purple-500 to-pink-500" />
-              <h2 className="text-2xl font-black text-white">Course Modules</h2>
-              <span className="text-sm text-gray-600 ml-auto hidden sm:block">
-                {courseModules.length} Modules · {courseMetadata.estimatedHours}
-              </span>
-            </div>
-
-            <div className="grid gap-6">
-              {courseModules.map((mod, idx) => (
-                <Link
-                  key={mod.slug}
-                  href={`/courses/${mod.slug}`}
-                  id={`course-module-${mod.slug}`}
-                  className={`module-card group block rounded-2xl bg-[#0e0e12] border border-white/8 overflow-hidden course-fade-up delay-${(idx + 1) * 100}`}
-                  aria-label={`Module ${mod.number}: ${mod.title}`}
-                >
-                  <div className="grid md:grid-cols-[200px_1fr] gap-0">
-                    {/* Left — Emoji + gradient */}
-                    <div
-                      className={`relative h-32 md:h-auto bg-gradient-to-br ${mod.color.replace('from-', 'from-').replace('to-', 'to-')}/10 flex items-center justify-center overflow-hidden`}
-                      style={{
-                        background: `linear-gradient(135deg, ${
-                          mod.number === 1 ? 'rgba(59,130,246,0.1)' :
-                          mod.number === 2 ? 'rgba(168,85,247,0.1)' :
-                          mod.number === 3 ? 'rgba(16,185,129,0.1)' :
-                          'rgba(245,158,11,0.1)'
-                        }, rgba(0,0,0,0))`,
-                      }}
-                    >
-                      <span className="text-6xl group-hover:scale-110 transition-transform duration-500 select-none course-float">
-                        {mod.emoji}
-                      </span>
-                      <div className="absolute inset-0 course-shimmer opacity-0 group-hover:opacity-100 transition-opacity" />
-                      {/* Module number */}
-                      <span className="absolute top-3 left-3 text-xs font-black px-2.5 py-1 rounded-lg bg-white/10 border border-white/10 text-white/80">
-                        Module {mod.number}
-                      </span>
-                    </div>
-
-                    {/* Right — Content */}
-                    <div className="p-6 sm:p-8 flex flex-col justify-between">
-                      <div>
-                        <div className="flex flex-wrap gap-2 mb-3">
-                          <span className="text-xs px-2.5 py-1 rounded-lg bg-white/5 border border-white/8 text-gray-500">
-                            {mod.difficulty}
-                          </span>
-                          <span className="text-xs px-2.5 py-1 rounded-lg bg-white/5 border border-white/8 text-gray-500">
-                            {mod.estimatedHours}
-                          </span>
-                        </div>
-                        <h3 className="text-xl sm:text-2xl font-black text-white leading-tight mb-2 group-hover:text-purple-300 transition-colors">
-                          {mod.title}
-                          <span className="text-gray-500 font-semibold text-base sm:text-lg ml-2">
-                            — {mod.subtitle}
-                          </span>
-                        </h3>
-                        <ul className="space-y-1.5 mb-4">
-                          {mod.objective.slice(0, 2).map((obj) => (
-                            <li key={obj} className="flex gap-2 text-sm text-gray-400">
-                              <span className="text-green-500 flex-shrink-0 mt-0.5">✓</span>
-                              <span className="line-clamp-1">{obj}</span>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-
-                      <div className="flex items-center justify-between pt-4 border-t border-white/5">
-                        <div className="flex flex-wrap gap-1.5">
-                          {mod.tags.slice(0, 4).map((tag) => (
-                            <span
-                              key={tag}
-                              className="text-xs px-2 py-0.5 rounded-md bg-white/5 border border-white/8 text-gray-500"
-                            >
-                              {tag}
-                            </span>
-                          ))}
-                        </div>
-                        <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-purple-400 flex-shrink-0">
-                          Start Module <span className="group-hover:translate-x-1 transition-transform">→</span>
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </Link>
-              ))}
-            </div>
-          </section>
-
-          {/* ── requirements.txt download ────────────────── */}
-          <section className="mt-16 course-fade-up delay-400">
-            <div className="rounded-2xl p-[1px] bg-gradient-to-r from-purple-500 via-pink-500 to-purple-500">
-              <div className="rounded-2xl bg-[#0d0d10] p-8 sm:p-10 text-center relative overflow-hidden">
-                <div className="absolute top-0 right-0 w-80 h-80 bg-purple-600/8 rounded-full blur-3xl pointer-events-none" />
-                <div className="relative">
-                  <span className="text-4xl block mb-4 course-float">📦</span>
-                  <h2 className="text-2xl sm:text-3xl font-black text-white mb-3">
-                    requirements.txt
-                  </h2>
-                  <p className="text-gray-400 mb-6 max-w-lg mx-auto">
-                    Install every library you need for all 4 modules with a single command.
-                  </p>
-                  <div className="max-w-md mx-auto rounded-xl bg-black/50 border border-white/10 p-4 font-mono text-sm text-left text-gray-300 overflow-x-auto mb-6">
-                    <pre className="whitespace-pre-wrap">{`pip install numpy pandas scikit-learn \\
-  tensorflow matplotlib seaborn nltk \\
-  transformers torch torchvision \\
-  opencv-python Pillow tqdm`}</pre>
-                  </div>
-                  <p className="text-xs text-gray-600">
-                    💡 Pro tip: Use a virtual environment — <code className="text-gray-500">python -m venv ml_env &amp;&amp; source ml_env/bin/activate</code>
-                  </p>
-                </div>
-              </div>
-            </div>
-          </section>
-
-          {/* ── More Courses ────────────────────────────── */}
-          <section className="mt-16 course-fade-up delay-400">
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-1 h-8 rounded-full bg-gradient-to-b from-rose-500 to-orange-500" />
-              <h2 className="text-2xl font-black text-white">Explore More Courses</h2>
-            </div>
-            <Link
-              href="/courses/animation"
-              id="explore-animation-course"
-              className="group block rounded-2xl bg-[#0e0e12] border border-white/8 overflow-hidden module-card"
-            >
-              <div className="grid md:grid-cols-[200px_1fr] gap-0">
-                <div
-                  className="relative h-32 md:h-auto flex items-center justify-center overflow-hidden"
-                  style={{ background: 'linear-gradient(135deg, rgba(244,63,94,0.1), rgba(249,115,22,0.06), rgba(0,0,0,0))' }}
-                >
-                  <span className="text-6xl group-hover:scale-110 transition-transform duration-500 select-none course-float">
-                    🎬
+          <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+            {/* ML & AI Course Box */}
+            <Link href="/courses/ml-ai" className="course-card ml-card group block rounded-3xl bg-[#0e0e12] border border-white/10 overflow-hidden hub-fade" style={{ animationDelay: '0.1s', opacity: 0 }}>
+              <div className="h-48 relative flex items-center justify-center overflow-hidden bg-gradient-to-br from-purple-500/10 to-blue-500/10">
+                <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10" />
+                <span className="text-7xl group-hover:scale-110 transition-transform duration-500 shadow-sm" style={{ animation: 'hub-float 4s ease-in-out infinite' }}>
+                  🤖
+                </span>
+                <div className="absolute bottom-4 left-4 flex gap-2">
+                  <span className="px-3 py-1 rounded-full bg-black/50 backdrop-blur-md border border-white/10 text-xs font-bold text-purple-300">
+                    4 Modules
                   </span>
-                  <span className="absolute top-3 left-3 text-xs font-black px-2.5 py-1 rounded-lg bg-rose-500/20 border border-rose-500/30 text-rose-300">
-                    NEW
+                  <span className="px-3 py-1 rounded-full bg-black/50 backdrop-blur-md border border-white/10 text-xs font-bold text-blue-300">
+                    Beginner to Advanced
                   </span>
                 </div>
-                <div className="p-6 sm:p-8 flex flex-col justify-center">
-                  <h3 className="text-xl sm:text-2xl font-black text-white leading-tight mb-2 group-hover:text-rose-300 transition-colors">
-                    Animation &amp; CGI Pipeline
-                    <span className="text-gray-500 font-semibold text-base sm:text-lg ml-2">
-                      — Studio-Grade Course
-                    </span>
-                  </h3>
-                  <p className="text-sm text-gray-400 mb-4 line-clamp-2">
-                    Master the professional animation pipeline — from 2D principles to real-time rendering in Unreal Engine 5. Covers Maya, Blender, Houdini, and UE5.
-                  </p>
-                  <div className="flex items-center justify-between">
-                    <div className="flex flex-wrap gap-1.5">
-                      {['2D Animation', 'Rigging', 'VFX', 'Unreal Engine 5'].map((tag) => (
-                        <span key={tag} className="text-xs px-2 py-0.5 rounded-md bg-white/5 border border-white/8 text-gray-500">{tag}</span>
-                      ))}
-                    </div>
-                    <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-rose-400 flex-shrink-0">
-                      Explore <span className="group-hover:translate-x-1 transition-transform">→</span>
-                    </span>
+              </div>
+              <div className="p-8">
+                <h2 className="text-2xl font-black text-white mb-3 group-hover:text-purple-400 transition-colors">
+                  Python ML &amp; AI
+                </h2>
+                <p className="text-gray-400 text-sm leading-relaxed mb-6 h-16">
+                  Master Supervised Learning, Neural Networks, Computer Vision, and full-stack AI deployment. Write production-grade code.
+                </p>
+                <div className="flex items-center justify-between">
+                  <div className="flex gap-2">
+                    <span className="text-xs px-2 py-1 rounded bg-white/5 text-gray-500">Python</span>
+                    <span className="text-xs px-2 py-1 rounded bg-white/5 text-gray-500">TensorFlow</span>
                   </div>
+                  <span className="text-sm font-bold text-purple-400 flex items-center gap-1 group-hover:gap-2 transition-all">
+                    Start Learning <span>→</span>
+                  </span>
                 </div>
               </div>
             </Link>
-          </section>
+
+            {/* Animation & CGI Course Box */}
+            <Link href="/courses/animation" className="course-card anim-card group block rounded-3xl bg-[#0e0e12] border border-white/10 overflow-hidden hub-fade" style={{ animationDelay: '0.2s', opacity: 0 }}>
+              <div className="h-48 relative flex items-center justify-center overflow-hidden bg-gradient-to-br from-rose-500/10 to-orange-500/10">
+                <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10" />
+                <span className="text-7xl group-hover:scale-110 transition-transform duration-500 shadow-sm" style={{ animation: 'hub-float 4.5s ease-in-out infinite' }}>
+                  🎬
+                </span>
+                <div className="absolute bottom-4 left-4 flex gap-2">
+                  <span className="px-3 py-1 rounded-full bg-black/50 backdrop-blur-md border border-white/10 text-xs font-bold text-rose-300">
+                    4 Modules
+                  </span>
+                  <span className="px-3 py-1 rounded-full bg-black/50 backdrop-blur-md border border-white/10 text-xs font-bold text-orange-300">
+                    Studio Pipeline
+                  </span>
+                </div>
+              </div>
+              <div className="p-8">
+                <h2 className="text-2xl font-black text-white mb-3 group-hover:text-rose-400 transition-colors">
+                  Animation &amp; CGI Pipeline
+                </h2>
+                <p className="text-gray-400 text-sm leading-relaxed mb-6 h-16">
+                  From traditional 2D principles to full 3D rigging, VFX simulations, and real-time cinematic rendering in Unreal Engine 5.
+                </p>
+                <div className="flex items-center justify-between">
+                  <div className="flex gap-2">
+                    <span className="text-xs px-2 py-1 rounded bg-white/5 text-gray-500">Blender</span>
+                    <span className="text-xs px-2 py-1 rounded bg-white/5 text-gray-500">UE5</span>
+                  </div>
+                  <span className="text-sm font-bold text-rose-400 flex items-center gap-1 group-hover:gap-2 transition-all">
+                    Start Learning <span>→</span>
+                  </span>
+                </div>
+              </div>
+            </Link>
+          </div>
         </div>
       </div>
     </>

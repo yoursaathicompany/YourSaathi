@@ -296,7 +296,7 @@ export default function AnimationCoursePage() {
               href="/courses"
               className="inline-flex items-center gap-2 text-sm font-semibold text-gray-400 hover:text-white transition-colors"
             >
-              <span>←</span> View ML &amp; AI Course
+              <span>←</span> View All Courses
             </Link>
           </section>
         </div>

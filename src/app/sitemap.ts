@@ -3,6 +3,7 @@ import { topicsData } from '@/data/topics';
 import { PYQ_CATALOG } from '@/lib/pyqData';
 import { blogPosts } from '@/data/blogData';
 import { courseModules } from '@/data/courseData';
+import { animationCourseModules } from '@/data/animationCourseData';
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = (process.env.NEXT_PUBLIC_APP_URL || 'https://www.yoursaathi.site').replace(/\/$/, '');
@@ -50,10 +51,19 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.65,
     })),
 
-    // Course pages
+    // Course pages — ML & AI
     { url: `${baseUrl}/courses`, lastModified: now, changeFrequency: 'weekly', priority: 0.85 },
     ...courseModules.map((m) => ({
       url: `${baseUrl}/courses/${m.slug}`,
+      lastModified: now,
+      changeFrequency: 'monthly' as const,
+      priority: 0.75,
+    })),
+
+    // Course pages — Animation & CGI
+    { url: `${baseUrl}/courses/animation`, lastModified: now, changeFrequency: 'weekly', priority: 0.85 },
+    ...animationCourseModules.map((m) => ({
+      url: `${baseUrl}/courses/animation/${m.slug}`,
       lastModified: now,
       changeFrequency: 'monthly' as const,
       priority: 0.75,

@@ -255,6 +255,54 @@ export default function CoursesPage() {
               </div>
             </div>
           </section>
+
+          {/* ── More Courses ────────────────────────────── */}
+          <section className="mt-16 course-fade-up delay-400">
+            <div className="flex items-center gap-3 mb-6">
+              <div className="w-1 h-8 rounded-full bg-gradient-to-b from-rose-500 to-orange-500" />
+              <h2 className="text-2xl font-black text-white">Explore More Courses</h2>
+            </div>
+            <Link
+              href="/courses/animation"
+              id="explore-animation-course"
+              className="group block rounded-2xl bg-[#0e0e12] border border-white/8 overflow-hidden module-card"
+            >
+              <div className="grid md:grid-cols-[200px_1fr] gap-0">
+                <div
+                  className="relative h-32 md:h-auto flex items-center justify-center overflow-hidden"
+                  style={{ background: 'linear-gradient(135deg, rgba(244,63,94,0.1), rgba(249,115,22,0.06), rgba(0,0,0,0))' }}
+                >
+                  <span className="text-6xl group-hover:scale-110 transition-transform duration-500 select-none course-float">
+                    🎬
+                  </span>
+                  <span className="absolute top-3 left-3 text-xs font-black px-2.5 py-1 rounded-lg bg-rose-500/20 border border-rose-500/30 text-rose-300">
+                    NEW
+                  </span>
+                </div>
+                <div className="p-6 sm:p-8 flex flex-col justify-center">
+                  <h3 className="text-xl sm:text-2xl font-black text-white leading-tight mb-2 group-hover:text-rose-300 transition-colors">
+                    Animation &amp; CGI Pipeline
+                    <span className="text-gray-500 font-semibold text-base sm:text-lg ml-2">
+                      — Studio-Grade Course
+                    </span>
+                  </h3>
+                  <p className="text-sm text-gray-400 mb-4 line-clamp-2">
+                    Master the professional animation pipeline — from 2D principles to real-time rendering in Unreal Engine 5. Covers Maya, Blender, Houdini, and UE5.
+                  </p>
+                  <div className="flex items-center justify-between">
+                    <div className="flex flex-wrap gap-1.5">
+                      {['2D Animation', 'Rigging', 'VFX', 'Unreal Engine 5'].map((tag) => (
+                        <span key={tag} className="text-xs px-2 py-0.5 rounded-md bg-white/5 border border-white/8 text-gray-500">{tag}</span>
+                      ))}
+                    </div>
+                    <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-rose-400 flex-shrink-0">
+                      Explore <span className="group-hover:translate-x-1 transition-transform">→</span>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </Link>
+          </section>
         </div>
       </div>
     </>

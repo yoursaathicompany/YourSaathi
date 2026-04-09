@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { useSession, signOut } from 'next-auth/react';
 import { useState, useEffect } from 'react';
-import { Sparkles, LogOut, User, Settings, Shield, Menu, X, Coins, History, GraduationCap } from 'lucide-react';
+import { Sparkles, LogOut, User, Settings, Shield, Menu, X, Coins, History, GraduationCap, BookOpen } from 'lucide-react';
 import CoinWalletHeader from './CoinWalletHeader';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -53,6 +53,9 @@ export default function Navbar() {
           </Link>
           <Link href="/blog" className="hover:text-white transition-colors flex items-center gap-1">
             Blog
+          </Link>
+          <Link href="/courses" className="hover:text-white transition-colors flex items-center gap-1">
+            <BookOpen className="w-3.5 h-3.5" /> Courses
           </Link>
           <Link href="/about" className="hover:text-white transition-colors">About</Link>
           <Link href="/contact" className="hover:text-white transition-colors">Contact</Link>
@@ -174,6 +177,9 @@ export default function Navbar() {
               </Link>
               <Link href="/blog" onClick={() => setMobileMenuOpen(false)} className="hover:text-white transition-colors flex items-center gap-2">
                 Blog
+              </Link>
+              <Link href="/courses" onClick={() => setMobileMenuOpen(false)} className="hover:text-white transition-colors flex items-center gap-2">
+                <BookOpen className="w-4 h-4" /> Courses
               </Link>
               <Link href="/about" onClick={() => setMobileMenuOpen(false)} className="hover:text-white hover:text-white transition-colors">About</Link>
               <Link href="/contact" onClick={() => setMobileMenuOpen(false)} className="hover:text-white hover:text-white transition-colors">Contact</Link>

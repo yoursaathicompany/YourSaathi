@@ -2,6 +2,7 @@ import { MetadataRoute } from 'next';
 import { topicsData } from '@/data/topics';
 import { PYQ_CATALOG } from '@/lib/pyqData';
 import { blogPosts } from '@/data/blogData';
+import { courseModules } from '@/data/courseData';
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = (process.env.NEXT_PUBLIC_APP_URL || 'https://www.yoursaathi.site').replace(/\/$/, '');
@@ -47,6 +48,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: now,
       changeFrequency: 'monthly' as const,
       priority: 0.65,
+    })),
+
+    // Course pages
+    { url: `${baseUrl}/courses`, lastModified: now, changeFrequency: 'weekly', priority: 0.85 },
+    ...courseModules.map((m) => ({
+      url: `${baseUrl}/courses/${m.slug}`,
+      lastModified: now,
+      changeFrequency: 'monthly' as const,
+      priority: 0.75,
     })),
   ];
 }
